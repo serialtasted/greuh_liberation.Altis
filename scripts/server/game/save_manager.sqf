@@ -1,3 +1,11 @@
+//******************************************************************
+//WARNING /!\ - ONLY UNCOMMENT TO RESET GAME IN EDITOR!!!!!!!!!
+//
+//GRLIB_param_wipe_savegame_1 = 1;GRLIB_param_wipe_savegame_2 = 1;GRLIB_build_first_fob=true;
+//
+//WARNING /!\ - ONLY UNCOMMENT TO RESET GAME IN EDITOR!!!!!!!!!
+//******************************************************************
+
 if ( !(isNil "GRLIB_param_wipe_savegame_1") && !(isNil "GRLIB_param_wipe_savegame_2") ) then {
 	if ( GRLIB_param_wipe_savegame_1 == 1 && GRLIB_param_wipe_savegame_2 == 1 ) then {
 		profileNamespace setVariable [ GRLIB_save_key,nil ];
@@ -59,7 +67,7 @@ _classnames_to_save_blu = [];
 	_classnames_to_save_blu pushback (_x select 0);
 } foreach (static_vehicles + air_vehicles + heavy_vehicles + light_vehicles + support_vehicles);
 
-_classnames_to_save = _classnames_to_save + _classnames_to_save_blu + all_hostile_classnames;
+_classnames_to_save = _classnames_to_save + _classnames_to_save_blu + all_hostile_classnames + AmmoFactory_allclasses;
 
 trigger_server_save = false;
 greuh_liberation_savegame = profileNamespace getVariable GRLIB_save_key;
@@ -127,7 +135,7 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 	if ( count greuh_liberation_savegame > 12 ) then {
 		GRLIB_permissions = greuh_liberation_savegame select 12;
 	};
-
+	
 	_correct_fobs = [];
 	{
 		_next_fob = _x;
@@ -151,27 +159,31 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 			if ( count _x > 3 ) then {
 				_hascrew = _x select 3;
 			};
+			
+			_vectorup = _x select 4;
+			if ( isNil { _vectorup select 1 }) then {
+				_vectorup = [0,0,1];
+			};
+			
 			_nextbuilding = _nextclass createVehicle _nextpos;
-			_nextbuilding setVectorUp [0,0,1];
-			_nextbuilding setpos _nextpos;
-			_nextbuilding setdir _nextdir;
-			_nextbuilding setVectorUp [0,0,1];
-			_nextbuilding setpos _nextpos;
+			_nextbuilding setPosATL _nextpos;
 			_nextbuilding setdir _nextdir;
 			_nextbuilding setdamage 0;
+			
 			if ( _hascrew ) then {
 				createVehicleCrew _nextbuilding;
 			};
+			
+			_nextbuilding setVectorUp _vectorup;
 
 			if ( !(_nextclass in no_kill_handler_classnames ) ) then {
 				_nextbuilding addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
 			};
-
+			
 			if ( _nextclass in all_hostile_classnames ) then {
 				_nextbuilding setVariable [ "GRLIB_captured", 1, true ];
 			};
 		};
-
 	} foreach buildings_to_save;
 
 	setDate [date_year, date_month, date_day, time_of_day, date select 4];
@@ -212,6 +224,8 @@ while { true } do {
 		sleep 0.3;
 		trigger_server_save || GRLIB_endgame == 1;
 	};
+	
+	diag_log "-- SAVING GAME --";
 
 	if ( GRLIB_endgame == 1 ) then {
 		profileNamespace setVariable [ GRLIB_save_key, nil ];
@@ -221,7 +235,7 @@ while { true } do {
 
 		trigger_server_save = false;
 		buildings_to_save = [];
-
+		
 		_all_buildings = [];
 		{
 			_fobpos = _x;
@@ -230,23 +244,47 @@ while { true } do {
 				( alive _x) &&
 				( speed _x < 5 ) &&
 				( isNull  attachedTo _x ) &&
-				(((getpos _x) select 2) < 10 )
+				(((getPos _x) select 2) < 10 )
  				} ] call BIS_fnc_conditionalSelect;
 
 			_all_buildings = _all_buildings + _nextbuildings;
 		} foreach GRLIB_all_fobs;
+		
+		{
+			if ( _x in sectors_military ) then {
+				_sectorpos = markerpos _x;
+				_nextbuildings = [ _sectorpos nearobjects (GRLIB_capture_size * 2), {
+					((typeof _x) in AmmoFactory_allclasses ) &&
+					( alive _x) &&
+					( speed _x < 5 ) &&
+					( isNull  attachedTo _x ) &&
+					(((getPos _x) select 2) < 10 )
+					} ] call BIS_fnc_conditionalSelect;
 
+				_all_buildings = _all_buildings + _nextbuildings;
+			};
+		} foreach blufor_sectors;
+		
 		{
 			_nextclass = typeof _x;
-			_nextpos = [(getpos _x) select 0, (getpos _x) select 1, 0];
+			
+			_nextpos = [];
+			if ( _nextclass in light_objects ) then {
+				_nextpos = [(getPosATL _x) select 0, (getPosATL _x) select 1, (getPosATL _x) select 2];
+			} else {
+				_nextpos = [(getPosATL _x) select 0, (getPosATL _x) select 1, 0];
+			};
+			
 			_nextdir = getdir _x;
 			_hascrew = false;
+			_vectorup = vectorUp _x;
+			
 			if ( _nextclass in _classnames_to_save_blu ) then {
 				if ( ( { !isPlayer _x } count (crew _x) ) > 0 ) then {
 					_hascrew = true;
 				};
 			};
-			buildings_to_save pushback [ _nextclass,_nextpos,_nextdir,_hascrew ];
+			buildings_to_save pushback [ _nextclass,_nextpos,_nextdir,_hascrew,_vectorup ];
 		} foreach _all_buildings;
 
 		time_of_day = date select 3;
@@ -285,11 +323,14 @@ while { true } do {
 			_stats pushback stats_fobs_lost;
 			_stats pushback stats_readiness_earned;
 
-			greuh_liberation_savegame = [ blufor_sectors, GRLIB_all_fobs, buildings_to_save, time_of_day, round combat_readiness, date select 0, date select 1, date select 2, round resources_ammo, _stats,
+			greuh_liberation_savegame = [ blufor_sectors, GRLIB_all_fobs, buildings_to_save, time_of_day,round combat_readiness, date select 0, date select 1, date select 2, round resources_ammo, _stats,
 			[ round infantry_weight, round armor_weight, round air_weight ], GRLIB_vehicle_to_military_base_links, GRLIB_permissions ];
 
 			profileNamespace setVariable [ GRLIB_save_key, greuh_liberation_savegame ];
 			saveProfileNamespace;
 		};
 	};
+	
+	diag_log "** GAME SAVED **";
+	systemChat "** GAME SAVED **";
 };

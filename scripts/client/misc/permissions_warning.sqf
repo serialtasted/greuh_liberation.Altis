@@ -1,6 +1,6 @@
 if ( GRLIB_permissions_param ) then {
 
-	waitUntil { !(isNil "GRLIB_permissions") };
+	/*waitUntil { !(isNil "GRLIB_permissions") };
 
 	sleep 5;
 
@@ -9,6 +9,6 @@ if ( GRLIB_permissions_param ) then {
 		sleep 5;
 	};
 
-	hintSilent "";
+	hintSilent "";*/
 
 };

@@ -1,36 +1,56 @@
-respawn = 3;
-respawndelay = 5;
-disabledAI = true;
-
-enableDebugConsole = 1;
-allowFunctionsLog = 0;
-
-loadScreen="res\liberation.jpg";
-onLoadMission = $STR_MISSION_TITLE;
-author = "[GREUH] Zbug, [GREUH] McKeewa";
-onLoadName = $STR_MISSION_TITLE;
-
-joinUnassigned = 0;
-
 class Header
 {
 	gameType = CTI;
 	minPlayers = 1;
-	maxPlayers = 41;
+	maxPlayers = 31;
 };
 
-#include "GREUH\UI\GREUH_interface.hpp"
-#include "ui\liberation_interface.hpp"
-#include "ui\liberation_notifications.hpp"
-#include "ui\mission_params.hpp"
+loadScreen="res\liberation.jpg";
+onLoadMission = $STR_MISSION_TITLE;
+author = "[GREUH] Zbug, [GREUH] McKeewa, Serialtasted";
+onLoadName = $STR_MISSION_TITLE;
 
-class CfgDebriefing
-{
-	class End1
-	{
-		title =	$STR_SORRY;
-		subtitle = "";
-		description = $STR_COMMANDER_NOT_AUTHORIZED;
-		pictureBackground = "";
-	};
+//------------------------- Misc
+
+disableChannels[] = {0,1,2,6};							// 0 = Global, 1 = Side, 2 = Command, 3 = Group, 4 = Vehicle, 5 = Direct, 6 = System. Admin/server/BattlEye can still use Global. 
+disabledAI = 1;											// No AI in playable units
+aiKills = 0; 											// disable scorelist for AI players
+enableItemsDropping = 0; 								// disabled with 0
+joinUnassigned = 0;										// 0 = players forced into role on join
+showUAVFeed = 1;										// Enables/Disables the UAV Feed. Zeus-related.
+enableDebugConsole = 1;
+allowFunctionsLog = 0;
+
+showCompass = true;
+showWatch = true;
+showGPS = false;
+showMap = true;
+showRadio = false;
+
+//------------------------- Respawn
+Respawn = 3;											// 0 = none. 1 = bird. 2 = instant where died. 3 = base or respawn_west marker. 4 = respawn with team, or bird. 5 = into AI or bird.
+RespawnDelay = 30;										// Delay prior to respawn
+RespawnButton = 0;
+
+//------------------------- Includes / Functions
+
+// Original includes
+#include "ui\liberation_interface.hpp"
+
+// PTr includes
+#include "LT\LTmenu.hpp"
+#include "data\CFG_ace_settings.hpp"
+#include "CS\CSmenu.hpp"
+
+class Params {
+	#include "data\CFG_params.hpp"
+};
+
+class CfgNotifications {
+	#include "data\CFG_notifications.hpp"
+};
+
+class CfgFunctions {
+	#include "data\CFG_functions.hpp"
+	#include "LT\cfgfunctions.hpp"
 };

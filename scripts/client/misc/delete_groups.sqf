@@ -12,4 +12,4 @@ while { true } do {
 		sleep 0.1;
 	} foreach allGroups;
 	sleep 5;
-};
+}

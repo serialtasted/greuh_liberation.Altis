@@ -1,3 +1,16 @@
+//------------------------------------------------ Initialize groups arrays
+missionNamespace setVariable ["Alpha_Members", [], true];
+missionNamespace setVariable ["Bravo_Members", [], true];
+missionNamespace setVariable ["Charlie_Members", [], true];
+
+missionNamespace setVariable ["ElComandante", [], true];
+missionNamespace setVariable ["Pilot_Members", [], true];
+missionNamespace setVariable ["Crew_Members", [], true];
+
+//------------------------------------------------ Event handlers
+addMissionEventHandler ['HandleDisconnect',{[_this select 0] spawn F_handleDisconnected;}];
+
+//------------------------------------------------ Other stuff
 [] call compileFinal preprocessFileLineNumbers "scripts\loadouts\init_loadouts.sqf";
 
 // AI

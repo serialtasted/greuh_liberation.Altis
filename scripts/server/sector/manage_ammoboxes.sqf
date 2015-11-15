@@ -24,6 +24,7 @@ if ( !( _sector in GRLIB_military_sectors_already_activated )) then {
 		};
 
 		_newbox = _spawnclass createVehicle _spawnpos;
+		_newbox setVariable ["ace_cargo_size", -1];
 		_newbox setpos _spawnpos;
 		_newbox setdir (random 360);
 		clearWeaponCargoGlobal _newbox;

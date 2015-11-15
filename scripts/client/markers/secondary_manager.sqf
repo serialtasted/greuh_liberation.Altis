@@ -1,5 +1,3 @@
-sleep 30;
-
 private [ "_secondary_marker", "_secondary_marker_zone" ];
 
 waitUntil {

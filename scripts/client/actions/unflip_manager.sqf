@@ -4,8 +4,7 @@ _unflippable_vehicles = [];
 veh_action_distance = 10;
 
 while { true } do {
-
-	if ( [ player, 5 ] call F_fetchPermission ) then {
+	//if ( [ player, 5 ] call F_fetchPermission ) then {
 
 		_detected_vehicles = [ (getpos player) nearEntities [["Tank","APC","IFV","Car"], veh_action_distance] , { (count crew _x) == 0 && ((locked _x == 0 || locked _x == 1)) && (_x distance lhd > 1000) } ] call BIS_fnc_conditionalSelect;
 
@@ -42,10 +41,10 @@ while { true } do {
 
 		sleep 3;
 
-	} else {
+	/*} else {
 		{
 			(_x select 0) removeAction (_x select 1);
 			_unflippable_vehicles = _unflippable_vehicles - [ _x ];
 		} foreach _unflippable_vehicles;
-	};
+	};*/
 };

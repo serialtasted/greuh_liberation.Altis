@@ -18,3 +18,4 @@ remote_call_switchmove = compileFinal preprocessFileLineNumbers "scripts\client\
 [] spawn compileFinal preprocessFileLineNumbers "scripts\shared\scan_skill.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\shared\diagnostics.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\shared\manage_weather.sqf";
+[] call compileFinal preprocessFileLineNumbers "scripts\shared\configFunctions.sqf";

@@ -38,7 +38,7 @@ while { dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 
 	if ( buildtype == 7 ) then {
 		_build_list = [];
-		while { count _build_list < (count (build_lists select buildtype)) - 2 } do {
+		while { count _build_list < (count (build_lists select buildtype)) - 3 } do {
 			_build_list pushback ((build_lists select buildtype) select (count _build_list));
 		};
 	};
@@ -64,6 +64,21 @@ while { dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 				};
 				if ( _classnamevar == FOB_truck_typename ) then {
 					_entrytext = localize "STR_FOBTRUCK";
+				};
+				if ( _classnamevar == Medical_typename ) then {
+					_entrytext = localize "STR_MEDICAL_FACILITY";
+				};
+				if ( _classnamevar == Repair_typename ) then {
+					_entrytext = localize "STR_REPAIR_FACILITY";
+				};
+				if ( _classnamevar == Build_helper_typename ) then {
+					_entrytext = localize "STR_BUILD_HELPER";
+				};
+				if ( _classnamevar == AmmoFactory_solarBox_typename ) then {
+					_entrytext = localize "STR_SOLAR_BOX";
+				};
+				if ( _classnamevar == AmmoFactory_generatorBox_typename ) then {
+					_entrytext = localize "STR_GENERATOR_BOX";
 				};
 				((findDisplay 5501) displayCtrl (110)) lnbAddRow [ _entrytext, format [ "%1" ,_x select 1], format [ "%1" ,_x select 2], format [ "%1" ,_x select 3]];
 

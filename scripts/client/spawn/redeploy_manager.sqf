@@ -1,8 +1,4 @@
 choiceslist = [];
-fullmap = 0;
-_old_fullmap = 0;
-_standard_map_pos = [];
-_frame_pos = [];
 
 GRLIB_force_redeploy = false;
 
@@ -27,11 +23,8 @@ if ( GRLIB_isAtlasPresent ) then {
 while { true } do {
 	waitUntil {
 		sleep 0.1;
-		( GRLIB_force_redeploy || (player distance (getmarkerpos "respawn_west") < 50) ) && vehicle player == player && alive player && !dialog && howtoplay == 0
+		( GRLIB_force_redeploy || (player distance (getmarkerpos "respawn_west") < 30) ) && vehicle player == player && alive player && !dialog && howtoplay == 0
 	};
-
-	fullmap = 0;
-	_old_fullmap = 0;
 
 	GRLIB_force_redeploy = false;
 
@@ -57,36 +50,21 @@ while { true } do {
 
 	((findDisplay 5201) displayCtrl 201) ctrlAddEventHandler [ "mouseButtonDblClick" , { deploy = 1; } ];
 
-	_standard_map_pos = ctrlPosition ((findDisplay 5201) displayCtrl 251);
-	_frame_pos = ctrlPosition ((findDisplay 5201) displayCtrl 198);
-
-	_saved_loadouts = profileNamespace getVariable "bis_fnc_saveInventory_data";
-	_loadouts_data = [];
-	_counter = 0;
-	if ( !isNil "_saved_loadouts" ) then {
-		{
-			if ( _counter % 2 == 0 ) then {
-				_loadouts_data pushback _x;
-			};
-			_counter = _counter + 1;
-		} foreach _saved_loadouts;
-	};
-
-	lbAdd [ 203, "--"] ;
-	{ lbAdd [ 203, _x ]; } foreach _loadouts_data;
-	lbSetCurSel [ 203, 0 ];
-
-	while { dialog && alive player && deploy == 0} do {
+	while { dialog && alive player && deploy == 0 } do {
 		choiceslist = [ [ _basenamestr, getpos lhd ] ];
-
-		for [{_idx=0},{_idx < count GRLIB_all_fobs},{_idx=_idx+1}] do {
-			choiceslist = choiceslist + [[format [ "FOB %1 - %2", (military_alphabet select _idx),mapGridPosition (GRLIB_all_fobs select _idx) ],GRLIB_all_fobs select _idx]];
+		
+		if ( PARAMS_AllowFOBDeploy == 1 || count allPlayers <= 5 ) then {
+			for [{_idx=0},{_idx < count GRLIB_all_fobs},{_idx=_idx+1}] do {
+				choiceslist = choiceslist + [[format [ "FOB %1 - %2", (military_alphabet select _idx),mapGridPosition (GRLIB_all_fobs select _idx) ],GRLIB_all_fobs select _idx]];
+			};
 		};
 
 		_respawn_trucks = call F_getMobileRespawns;
-
-		for [ {_idx=0},{_idx < count _respawn_trucks},{_idx=_idx+1} ] do {
-			choiceslist = choiceslist + [[format [ "%1 - %2", localize "STR_RESPAWN_TRUCK",mapGridPosition (getpos (_respawn_trucks select _idx)) ],getpos (_respawn_trucks select _idx),(_respawn_trucks select _idx)]];
+		
+		if ( PARAMS_AllowMobileDeploy == 1 || count allPlayers <= 3 ) then {
+			for [ {_idx=0},{_idx < count _respawn_trucks},{_idx=_idx+1} ] do {
+				choiceslist = choiceslist + [[format [ "%1 - %2", localize "STR_RESPAWN_TRUCK",mapGridPosition (getpos (_respawn_trucks select _idx)) ],getpos (_respawn_trucks select _idx),(_respawn_trucks select _idx)]];
+			};
 		};
 
 		lbClear 201;
@@ -100,10 +78,7 @@ while { true } do {
 
 		if ( lbCurSel 201 != _oldsel ) then {
 			_oldsel = lbCurSel 201;
-			_objectpos = [0,0,0];
-			if ( dialog ) then {
-				_objectpos = ((choiceslist select _oldsel) select 1);
-			};
+			_objectpos = ((choiceslist select _oldsel) select 1);
 			if ( surfaceIsWater _objectpos) then {
 				respawn_object setposasl [_objectpos select 0, _objectpos select 1, 15];
 			} else {
@@ -112,12 +87,10 @@ while { true } do {
 			_startdist = 120;
 			_enddist = 120;
 			_alti = 35;
-			if ( dialog ) then {
-				if (((choiceslist select (lbCurSel 201)) select 0) == "BLUFOR LHD") then {
-					_startdist = 200;
-					_enddist = 300;
-					_alti = 30;
-				};
+			if (((choiceslist select (lbCurSel 201)) select 0) == "BLUFOR LHD") then {
+				_startdist = 200;
+				_enddist = 300;
+				_alti = 30;
 			};
 
 			"spawn_marker" setMarkerPosLocal (getpos respawn_object);
@@ -131,22 +104,11 @@ while { true } do {
 			respawn_camera camSetPos [(getpos respawn_object select 0) - 70, (getpos respawn_object select 1) - _enddist, (getpos respawn_object select 2) + _alti];
 			respawn_camera camcommit 90;
 		};
-
-		if ( _old_fullmap != fullmap ) then {
-			_old_fullmap = fullmap;
-			if ( fullmap % 2 == 1 ) then {
-				((findDisplay 5201) displayCtrl 251) ctrlSetPosition [ (_frame_pos select 0) + (_frame_pos select 2), (_frame_pos select 1), (0.6 * safezoneW), (_frame_pos select 3)];
-			} else {
-				((findDisplay 5201) displayCtrl 251) ctrlSetPosition _standard_map_pos;
-			};
-			((findDisplay 5201) displayCtrl 251) ctrlCommit 0.2;
-
-		};
-
-		uiSleep 0.1;
+		
+		sleep 0.1;
 	};
-
-	if (dialog && deploy == 1) then {
+	
+	if (deploy == 1) then {
 		_idxchoice = lbCurSel 201;
 		_spawn_str = (choiceslist select _idxchoice) select 0;
 
@@ -161,20 +123,18 @@ while { true } do {
 				player setpos [((_destpos select 0) + 5) - (random 10),((_destpos select 1) + 5) - (random 10),0];
 			};
 		};
-
-		if ( (lbCurSel 203) > 0 ) then {
-			[ player, [ profileNamespace, _loadouts_data select ((lbCurSel 203) - 1) ] ] call bis_fnc_loadInventory;
-		};
 	};
-
-	respawn_camera cameraEffect ["Terminate","back"];
-	camDestroy respawn_camera;
-	deleteVehicle respawn_object;
-	camUseNVG false;
-	"spawn_marker" setMarkerPosLocal markers_reset;
-
+	
 	if (dialog) then {
 		closeDialog 0;
+	};
+
+	if (!dialog || !alive player || deploy == 1) then {
+		respawn_camera cameraEffect ["Terminate","back"];
+		camDestroy respawn_camera;
+		deleteVehicle respawn_object;
+		camUseNVG false;
+		"spawn_marker" setMarkerPosLocal markers_reset;
 	};
 
 	if (alive player && deploy == 1) then {

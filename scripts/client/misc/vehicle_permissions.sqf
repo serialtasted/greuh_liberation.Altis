@@ -11,7 +11,7 @@ while { true } do {
 	};
 
 	waitUntil { sleep 0.2;
-		(vehicle player != player) &&  ( (vehicle player ) getCargoIndex player ) < 0  && isTouchingGround (vehicle player) && !((vehicle player ) isKindOf "ParachuteBase")
+		(vehicle player != player) && ( ( (vehicle player ) getCargoIndex player ) < 0 );
 	};
 
 	if ( (vehicle player ) isKindOf "Tank" ) then {
@@ -20,7 +20,7 @@ while { true } do {
 			hint localize "STR_PERMISSION_NO_ARMOR";
 		};
 	} else {
-		if ( (vehicle player ) isKindOf "Air" ) then {
+		if ( (vehicle player ) isKindOf "Air" && ( driver (vehicle player ) == player || (vehicle player ) turretUnit [0] == player ) && !((vehicle player ) isKindOf "ParachuteBase") ) then {
 			if ( ! (  [ player, 2 ] call F_fetchPermission ) ) then {
 				_doeject = true;
 				hint localize "STR_PERMISSION_NO_AIR";
