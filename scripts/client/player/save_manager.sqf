@@ -9,7 +9,7 @@ if ( !(isNil "GRLIB_param_wipe_savegame_1") && !(isNil "GRLIB_param_wipe_savegam
 //profileNamespace setVariable [ GRLIB_client_key,nil ];
 //saveProfileNamespace;
 
-private [ "_arsenalfile", "_damage" ];
+private [ "_arsenalfile", "_damageHead", "_damageBody", "_damageRArm", "_damageLArm", "_damageRLeg", "_damageLLeg" ];
 
 player_class = "";
 player_position = [];
@@ -20,7 +20,12 @@ player_team = "PTr_alpha";
 player_stance = "";
 player_damage = [0,0,0,0,0,0];
 
-_damage = 0;
+_damageHead = 0;
+_damageBody = 0;
+_damageRArm = 0;
+_damageLArm = 0;
+_damageRLeg = 0;
+_damageLLeg = 0;
 
 forceclassmanager = false;
 
@@ -59,38 +64,38 @@ if ( !isNil "greuh_liberation_client" ) then {
 	
 	// set damage head
 	player spawn {
-		_damage = (player getHitPointDamage "HitHead") + (player_damage select 0);
-		[player, "head", _damage, ObjNull, "unknown", -1] call ace_medical_fnc_handleDamage;
+		_damageHead = (player getHitPointDamage "HitHead") + (player_damage select 0);
+		[player, "head", _damageHead, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
 	};
 	
 	// set damage body
 	player spawn {
-		_damage = (player getHitPointDamage "HitBody") + (player_damage select 1);
-		[player, "body", _damage, ObjNull, "unknown", -1] call ace_medical_fnc_handleDamage;
+		_damageBody = (player getHitPointDamage "HitBody") + (player_damage select 1);
+		[player, "body", _damageBody, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
 	};
 	
 	// set damage right arm
 	player spawn {
-		_damage = (player getHitPointDamage "HitRightArm") + (player_damage select 2);
-		[player, "arm_r", _damage, ObjNull, "unknown", -1] call ace_medical_fnc_handleDamage;
+		_damageRArm = (player getHitPointDamage "HitRightArm") + (player_damage select 2);
+		[player, "hand_r", _damageRArm, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
 	};
 	
 	// set damage left arm
 	player spawn {
-		_damage = (player getHitPointDamage "HitLeftArm") + (player_damage select 3);
-		[player, "arm_l", _damage, ObjNull, "unknown", -1] call ace_medical_fnc_handleDamage;
+		_damageLArm = (player getHitPointDamage "HitLeftArm") + (player_damage select 3);
+		[player, "hand_l", _damageLArm, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
 	};
 	
 	// set damage right leg
 	player spawn {
-		_damage = (player getHitPointDamage "HitRightLeg") + (player_damage select 4);
-		[player, "leg_r", _damage, ObjNull, "unknown", -1] call ace_medical_fnc_handleDamage;
+		_damageRLeg = (player getHitPointDamage "HitRightLeg") + (player_damage select 4);
+		[player, "leg_r", _damageRLeg, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
 	};
 	
 	// set damage left leg
 	player spawn {
-		_damage = (player getHitPointDamage "HitLeftLeg") + (player_damage select 5);
-		[player, "leg_l", _damage, ObjNull, "unknown", -1] call ace_medical_fnc_handleDamage;
+		_damageLLeg = (player getHitPointDamage "HitLeftLeg") + (player_damage select 5);
+		[player, "leg_l", _damageLLeg, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
 	};
 	
 	if ( player_isunconscious ) then {

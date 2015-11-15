@@ -1,28 +1,8 @@
-/*
-	Class to go:
-	#1:-----Assault
-	#2:-----Grenadier
-	#3:-----Medic
-	#4:-----Engineer
-	#5:-----Rifleman AT
-	#6:-----Rifleman AA
-	#7:-----Auto-Rifleman
-	#8:-----JTAC
-	#9:-----Marksman
-	#10:----Sniper / Spotter
-	#11:----Pilot
-	#12:----Crew
-	#13:----Fire Support Offices
-	#14:----BLANK SLOT
-*/
-
-private [ "_arsenalfile", "_customclasses", "_customclassesCT", "_customclassesDT", "_currentclass", "_oldclass", "_actionsAdded", "_oldteam" ];
+private [ "_arsenalfile", "_customclassesCT", "_currentclass", "_oldclass", "_actionsAdded", "_defaultTeam" ];
 
 _customclassesCT = [ "pilot", "crew", "commander" ];
-_customclassesDT = [ "medic", "engineer", "jtac", "fso" ];
-_customclasses = _customclassesCT + _customclassesDT;
 _actionsAdded = false;
-_oldteam = "";
+_defaultTeam = "";
 
 changing_class = false;
 
@@ -41,17 +21,11 @@ while {true} do {
 	_oldclass = player getVariable ["St_class", "assault"];
 	
 	if ( _oldclass in _customclassesCT ) then {
-		_oldteam = "PTr_alpha"; // defaults team if in custom team
-	} else {
-		_oldteam = player getVariable ["St_team", "PTr_alpha"]; // keeps same team
+		_defaultTeam = "PTr_alpha"; // defaults team if in custom team
 	};
 	
 	if ( classtogo != "" ) then {
 		player setVariable ["St_class", classtogo, true];
-		
-		if ( classtogo in _customclasses || _oldclass in _customclasses ) then {
-			[] call compileFinal preprocessFileLineNumbers "scripts\client\classes\change_player.sqf";
-		};
 		
 		_arsenalfile = "scripts\client\classes\arsenal\" +  classtogo + "_US.sqf";
 		[] call compileFinal preprocessFileLineNumbers _arsenalfile;
@@ -82,10 +56,6 @@ while {true} do {
 		classtogo = "";
 	} else {
 		player setVariable ["St_class", player_class, true];
-	
-		if ( player_class in _customclasses ) then {
-			[] call compileFinal preprocessFileLineNumbers "scripts\client\classes\change_player.sqf";
-		};
 		
 		_arsenalfile = "scripts\client\classes\arsenal\" +  player_class + "_US.sqf";
 		[] call compileFinal preprocessFileLineNumbers _arsenalfile;
@@ -97,6 +67,19 @@ while {true} do {
 	
 	_currentclass = player getVariable ["St_class", "assault"];
 	
+	player setVariable ["Ace_medical_medicClass", 0];
+	player setVariable ["ACE_IsEngineer", 0];
+	
+	switch ( _currentclass ) do {
+		case "medic": {
+			player setVariable ["ACE_medical_medicClass", 1];
+		};
+		case "engineer": {
+			player setVariable ["ACE_IsEngineer", 1];
+		};
+		default {};
+	};
+	
 	if ( _actionsAdded ) then {
 		if ( _currentclass isEqualTo "commander" ) then {
 			["PTr_commander"] call F_setPlayerTeam;
@@ -107,8 +90,8 @@ while {true} do {
 		if ( _currentclass isEqualTo "pilot" ) then {
 			["PTr_pilot"] call F_setPlayerTeam;
 		};
-		if ( !(_currentclass in _customclassesCT) && (_currentclass in _customclassesDT || _oldclass in _customclasses) ) then { 
-			[_oldteam] call F_setPlayerTeam;
+		if ( !(_currentclass in _customclassesCT) && _oldclass in _customclassesCT ) then { 
+			[_defaultTeam] call F_setPlayerTeam;
 		};
 	} else {
 		[player_team] call F_setPlayerTeam;
@@ -120,7 +103,7 @@ while {true} do {
 		[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\delete_groups.sqf";
 	};
 	
-	if ( !_actionsAdded || (_currentclass in _customclasses || _oldclass in _customclasses) ) then {
+	if ( !_actionsAdded ) then {
 		_actionsAdded = true;
 		[] call compileFinal preprocessFileLineNumbers "scripts\client\player\ace3_actions.sqf";
 		[] spawn compileFinal preprocessFileLineNumbers "scripts\misc\pilotCheck.sqf";
@@ -130,5 +113,6 @@ while {true} do {
 	_msg = format ["You have chosen %1 as your class. Good luck on the battlefield, Soldier!", toUpper(_currentclass)];
 	titleText [_msg, "PLAIN DOWN"];
 	changing_class = false;
+	
 };
 
