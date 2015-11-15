@@ -8,7 +8,7 @@
 
 Altis has fallen to the CSAT forces, and it is up to you to take it back. Embark with your teammates on a persistent campaign that will span several weeks of real time to liberate all the major cities of the island.
 * Experience a massive CTI campaign with over 150 different capturable settlements across the entire island,
-* Cooperate with 0 to 40 other players, with a commander role and recruitable AI troops to fill the gaps,
+* Cooperate with 0 to 31 other players, with a commander role and recruitable AI troops to fill the gaps,
 * Buy troops and vehicles using three different types of resources,
 * Build the FOB of your dreams with an ingame "what you see is what you get" system,
 * Fight aggressive and cunning hostile forces who react and adapt to your actions,
