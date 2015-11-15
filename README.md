@@ -1,8 +1,8 @@
 ![Liberation](http://i.imgur.com/bcWRxMT.png)
 
-# Liberation for Arma 3
+# Liberation for Arma 3 by [GreuhZbug](https://github.com/GreuhZbug/greuh_liberation.Altis)
 
-## Current version : 0.914
+## Current version : 0.914 (PTr Edition)
 
 ## Overview
 
@@ -16,19 +16,38 @@ Altis has fallen to the CSAT forces, and it is up to you to take it back. Embark
 * Accomplish meaningful secondary objectives that will benefit your progression,
 * Never lose your progress with the built-in server-side save system.
 
-## Media
+## Key features of this version
 
-[Gameplay footage](https://www.youtube.com/watch?v=1nigtUpZqcA)
+I have done a lot of work on this mission trying to fill some realistic gaps that I felt. This version of the mission is dependent on some addons, check the list bellow.
+* Heavly integrated with ACE 3 (no modules, all done with scripts and configs),
+* Class selector. You can change class during game when near a FOB,
+* Class restrictions. Only pilots can fly and crew members can operate a tank,
+* Weapons and items restrictions for each class,
+* Player persistency (position, direction, stand, ace medical status, class, loadout),
+* Better object handling when placing. You can place lighter objects on top of buildings,
+* Ammo Factories to produce resources,
+* Pushback sript for planes by Jack Ost,
+* Integrated [TAA] Realistic Repair by [TAA]Jérôme with ACE 3 repair system,
+* Integrated and heavly modified version of TFAR radio handler script by SENSEI,
+* Pre-made squads with radio settings,
+* And way more things!! Seriously, there's a lot of changes on this version.
 
-[Quick start tutorial](https://www.youtube.com/watch?v=jC9sk7AzHAY)
+## Addon dependencies
 
-## Follow the development
+* ACE 3
+* ATLAS LHD (still optional, but recommended)
+* FHQ Accessories
+* JNS Skycranes
+* F/A-18 Super Hornet (optional, also recommended)
+* MRT Accessory Functions
+* RDS Static Weapons
+* RH Pistols
+* RHS AFRF and USF
+* Task Force Radio
+* TRYK Uniforms
+* United States Air Force
 
-### [BIS Forums](https://forums.bistudio.com/topic/183734-mpcti-coop-liberation-beta/)
+## Links
+
+### [Original Mission on BIS Forums](https://forums.bistudio.com/topic/183734-mpcti-coop-liberation-beta/)
 Discussion about the mission on the official forums.
-
-### [Twitter](https://twitter.com/PsychoticFrog1)
-New releases will be posted on my twitter, if some people still use that :P
-
-### [Trello](https://trello.com/b/FfUXrHn1/liberation-dev)
-You can follow the progress and see the upcoming features on Trello. If you create an account (for free) you can comment and vote, so feel free to help us prioritize the upcoming features ;)
