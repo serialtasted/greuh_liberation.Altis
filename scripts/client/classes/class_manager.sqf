@@ -20,6 +20,17 @@ while {true} do {
 	changing_class = true;
 	_oldclass = player getVariable ["St_class", "assault"];
 	
+	// remove unit loadout
+	removeAllWeapons player;
+	removeAllItems player;
+	removeAllAssignedItems player;
+	removeUniform player;
+	removeVest player;
+	removeBackpack player;
+	removeHeadgear player;
+	removeGoggles player;
+	
+	// change to new class
 	if ( _oldclass in _customclassesCT ) then {
 		_defaultTeam = "PTr_alpha"; // defaults team if in custom team
 	};
