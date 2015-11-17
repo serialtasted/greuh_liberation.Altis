@@ -78,12 +78,12 @@ while {true} do {
 	
 	_currentclass = player getVariable ["St_class", "assault"];
 	
-	player setVariable ["Ace_medical_medicClass", 0];
+	player setVariable ["Ace_medical_medicClass", 1];
 	player setVariable ["ACE_IsEngineer", 0];
 	
 	switch ( _currentclass ) do {
 		case "medic": {
-			player setVariable ["ACE_medical_medicClass", 1];
+			player setVariable ["ACE_medical_medicClass", 2];
 		};
 		case "engineer": {
 			player setVariable ["ACE_IsEngineer", 1];

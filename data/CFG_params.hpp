@@ -8,23 +8,23 @@ class spacer1 {
 };
 class Unitcap{
 	title = $STR_PARAMS_UNITCAP;
-	values[] = {0.5,0.75,1,1.25,1.5,2};
+	values[] = {50,75,100,125,150,200};
 	texts[] = {$STR_PARAMS_UNITCAP1,$STR_PARAMS_UNITCAP2,$STR_PARAMS_UNITCAP3,$STR_PARAMS_UNITCAP4,$STR_PARAMS_UNITCAP5,$STR_PARAMS_UNITCAP6};
-	default = 1;
+	default = 125;
 	paramCode = "";
 };
 class Difficulty {
 	title = $STR_PARAMS_DIFFICULTY;
-	values[] = { 0.5, 0.75, 1, 1.25, 1.5, 2, 4, 10 };
+	values[] = { 50, 75, 100, 125, 150, 200, 400, 1000 };
 	texts[] = { $STR_PARAMS_DIFFICULTY1, $STR_PARAMS_DIFFICULTY2, $STR_PARAMS_DIFFICULTY3, $STR_PARAMS_DIFFICULTY4, $STR_PARAMS_DIFFICULTY5, $STR_PARAMS_DIFFICULTY6, $STR_PARAMS_DIFFICULTY7, $STR_PARAMS_DIFFICULTY8 };
-	default = 2;
+	default = 400;
 	paramCode = "";
 };
 class Aggressivity{
 	title = $STR_AGGRESSIVITY_PARAM;
-	values[] = {0.25,0.5,1,2,4};
+	values[] = {25,50,100,200,400};
 	texts[] = {$STR_AGGRESSIVITY_PARAM0, $STR_AGGRESSIVITY_PARAM1,$STR_AGGRESSIVITY_PARAM2,$STR_AGGRESSIVITY_PARAM3,$STR_AGGRESSIVITY_PARAM4};
-	default = 2;
+	default = 200;
 	paramCode = "";
 };
 class AdaptToPlayercount{
@@ -38,7 +38,7 @@ class DayDuration {
 	title = $STR_PARAMS_DAYDURATION;
 	values[] = { 48, 24, 16, 12, 9.6, 8, 6.8, 6, 4.8, 4, 3, 2.4, 2, 1.6, 1, 0.66, 0.5, 0.375, 0.25, 0.1875, 0.125, 0.11 };
 	texts[] = { "0.5", "1", "1.5", "2", "2.5", "3","3.5","4","5","6","8","10","12","15","24","36","48","64","96","128","192","240" };
-	default = 6;
+	default = 4;
 	paramCode = "";
 };
 class ShorterNights {
@@ -59,7 +59,7 @@ class ResourcesMultiplier {
 	title = $STR_PARAMS_RESOURCESMULTIPLIER;
 	values[] = { 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 5, 10, 20, 50 };
 	texts[] = { "x0.25", "x0.5", "x0.75", "x1", "x1.25","x1.5","x2","x3","x5","x10","x20","x50" };
-	default = 1.25;
+	default = 1;
 	paramCode = "";
 };
 class Fatigue {
@@ -71,9 +71,9 @@ class Fatigue {
 };
 class Civilians{
 	title = $STR_PARAMS_CIVILIANS;
-	values[] = {0,0.5,1,2};
+	values[] = {0,50,100,200};
 	texts[] = {$STR_PARAMS_CIVILIANS1,$STR_PARAMS_CIVILIANS2,$STR_PARAMS_CIVILIANS3,$STR_PARAMS_CIVILIANS4};
-	default = 0;
+	default = 100;
 	paramCode = "";
 };
 class TeamkillPenalty{
@@ -169,9 +169,9 @@ class param17 {
 };
 class param18 {
    title = "Personal Aid Kit Usage *";
-   values[] = {0,1};
-   texts[] = {"Anyone","Medic Only"};
-   default = 1;
+   values[] = {0,1,2};
+   texts[] = {"Anyone","Medic Only","Doctor Only"};
+   default = 2;
    paramCode = "ace_medical_medicSetting_PAK = %1;";
 };
 class param19 {
@@ -197,9 +197,9 @@ class param21 {
 };
 class param22 {
    title = "Surgical Kit Usage *";
-   values[] = {0,1};
-   texts[] = {"Anyone","Medic Only"};
-   default = 1;
+   values[] = {0,1,2};
+   texts[] = {"Anyone","Medic Only","Doctor Only"};
+   default = 2;
    paramCode = "ace_medical_medicSetting_SurgicalKit = %1;";
 };
 class param23 {

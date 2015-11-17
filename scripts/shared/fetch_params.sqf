@@ -1,14 +1,13 @@
 if ( isMultiplayer ) then {
-	GRLIB_difficulty_modifier = ["Difficulty",1] call bis_fnc_getParamValue;
+	GRLIB_difficulty_modifier = ( (["Difficulty",1] call bis_fnc_getParamValue) / 100 );
 	GRLIB_time_factor = ["DayDuration",12] call bis_fnc_getParamValue;
 	GRLIB_resources_multiplier = ["ResourcesMultiplier",1] call bis_fnc_getParamValue;
 	GRLIB_fatigue = ["Fatigue",1] call bis_fnc_getParamValue;
-	GRLIB_revive = ["Revive",3] call bis_fnc_getParamValue;
 	GRLIB_introduction = ["Introduction",1] call bis_fnc_getParamValue;
 	GRLIB_deployment_cinematic = ["DeploymentCinematic",1] call bis_fnc_getParamValue;
-	GRLIB_unitcap = ["Unitcap",1] call bis_fnc_getParamValue;
+	GRLIB_unitcap = ( (["Unitcap",1] call bis_fnc_getParamValue) / 100 );
 	GRLIB_adaptive_opfor = ["AdaptToPlayercount",1] call bis_fnc_getParamValue;
-	GRLIB_civilian_activity = ["Civilians",1] call bis_fnc_getParamValue;
+	GRLIB_civilian_activity = ( (["Civilians",1] call bis_fnc_getParamValue) / 100 );
 	GRLIB_teamkill_penalty = ["TeamkillPenalty",0] call bis_fnc_getParamValue;
 	GRLIB_build_first_fob = ["FirstFob",0] call bis_fnc_getParamValue;
 	GRLIB_param_wipe_savegame_1 = ["WipeSave1",0] call bis_fnc_getParamValue;
@@ -17,7 +16,7 @@ if ( isMultiplayer ) then {
 	GRLIB_permissions_param = ["Permissions",1] call bis_fnc_getParamValue;
 	GRLIB_halo_param = ["HaloJump",1] call bis_fnc_getParamValue;
 	GRLIB_cleanup_vehicles = ["CleanupVehicles",2] call bis_fnc_getParamValue;
-	GRLIB_csat_aggressivity = ["Aggressivity",1] call bis_fnc_getParamValue;
+	GRLIB_csat_aggressivity = ( (["Aggressivity",1] call bis_fnc_getParamValue) / 100 );
 	GRLIB_weather_param = ["Weather",3] call bis_fnc_getParamValue;
 	GRLIB_shorter_nights = ["ShorterNights",0] call bis_fnc_getParamValue;
 } else {
@@ -25,7 +24,6 @@ if ( isMultiplayer ) then {
 	GRLIB_time_factor = 12;
 	GRLIB_resources_multiplier = 1;
 	GRLIB_fatigue = 1;
-	GRLIB_revive = 3;
 	GRLIB_introduction = 0;
 	GRLIB_deployment_cinematic = 0;
 	GRLIB_adaptive_opfor = 1;
