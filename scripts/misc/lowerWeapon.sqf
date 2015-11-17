@@ -13,7 +13,7 @@ if ( isNil "greuh_liberation_client" ) then {
 while { true } do {
 	_oldvehicle = vehicle player;
 	waitUntil { vehicle player != _oldvehicle };
-	if ( vehicle player == player && alive player && !surfaceIsWater position player ) then {
+	if ( vehicle player == player && alive player && !surfaceIsWater position player && !(_oldvehicle isKindOf "StaticWeapon") ) then {
 		if ( primaryWeapon player != "" ) then {
 			player playMove "AmovPercMstpSrasWrflDnon_AmovPercMstpSlowWrflDnon";
 			waitUntil { animationState player != "AmovPercMstpSrasWrflDnon_AmovPercMstpSlowWrflDnon" };
