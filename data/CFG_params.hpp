@@ -17,7 +17,7 @@ class Difficulty {
 	title = $STR_PARAMS_DIFFICULTY;
 	values[] = { 50, 75, 100, 125, 150, 200, 400, 1000 };
 	texts[] = { $STR_PARAMS_DIFFICULTY1, $STR_PARAMS_DIFFICULTY2, $STR_PARAMS_DIFFICULTY3, $STR_PARAMS_DIFFICULTY4, $STR_PARAMS_DIFFICULTY5, $STR_PARAMS_DIFFICULTY6, $STR_PARAMS_DIFFICULTY7, $STR_PARAMS_DIFFICULTY8 };
-	default = 400;
+	default = 200;
 	paramCode = "";
 };
 class Aggressivity{
@@ -73,7 +73,7 @@ class Civilians{
 	title = $STR_PARAMS_CIVILIANS;
 	values[] = {0,50,100,200};
 	texts[] = {$STR_PARAMS_CIVILIANS1,$STR_PARAMS_CIVILIANS2,$STR_PARAMS_CIVILIANS3,$STR_PARAMS_CIVILIANS4};
-	default = 100;
+	default = 50;
 	paramCode = "";
 };
 class TeamkillPenalty{
