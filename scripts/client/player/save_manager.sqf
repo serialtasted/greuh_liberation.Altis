@@ -131,7 +131,7 @@ while { true } do {
 	
 	diag_log "-- SAVING CLIENT --";
 	
-	if ( player getVariable "ACE_isUnconscious" ) then { "SmokeShellOrange" createVehicle position player; };
+	if ( player getVariable "ACE_isUnconscious" ) then { "SmokeShellOrange" createVehicle [(getPosATL player) select 0, (getPosATL player) select 1, (getPosATL player) select 2]; };
 	
 	if ( GRLIB_endgame == 1 ) then {
 		profileNamespace setVariable [ GRLIB_client_key, nil ];
