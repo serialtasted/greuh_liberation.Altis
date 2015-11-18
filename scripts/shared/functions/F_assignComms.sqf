@@ -1,5 +1,5 @@
 _supportNet = [ "sniper", "jtac", "pilot", "crew", "fso", "commander" ];
-_playerclass = player getVariable ["St_class", "assault"];
+_playerclass = ( player getVariable ["St_class", ""] );
 
 // set comm net variable
 call {

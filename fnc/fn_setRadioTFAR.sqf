@@ -41,7 +41,7 @@ if ( player getvariable ["SEN_commNet",""] isEqualTo "support" ) exitWith {
 	[(call TFAR_fnc_activeSwRadio), SEN_tfar_add_sw] call TFAR_fnc_setAdditionalSwChannel;
 	[(call TFAR_fnc_ActiveSWRadio), tf_default_radioVolume] call TFAR_fnc_setSwVolume;
 	
-	if ( player getvariable ["St_class",""] != "pilot" && player getvariable ["St_class",""] != "crew" ) then {
+	if ( (player getvariable ["St_class",""]) != "pilot" && (player getvariable ["St_class",""]) != "crew" ) then {
 		_bItems = backpackItems player;
 		removeBackpack player;
 		player addbackpack SEN_TFAR_LR;
