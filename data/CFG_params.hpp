@@ -64,8 +64,15 @@ class ResourcesMultiplier {
 };
 class Fatigue {
 	title = $STR_PARAMS_FATIGUE;
-	values[] = { 0, 0.5, 0.66, 1, 1.5, 2 };
-	texts[] = { $STR_PARAMS_DISABLED, $STR_PARAMS_FATIGUE1, $STR_PARAMS_FATIGUE2, $STR_PARAMS_FATIGUE3, $STR_PARAMS_FATIGUE4, $STR_PARAMS_ENABLED };
+	values[] = { 0, 1 };
+	texts[] = { $STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED };
+	default = 0;
+	paramCode = "";
+};
+class AmmoBounties{
+	title = $STR_AMMO_BOUNTIES;
+	values[] = {1,0};
+	texts[] = { $STR_PARAMS_ENABLED, $STR_PARAMS_DISABLED };
 	default = 1;
 	paramCode = "";
 };
@@ -73,7 +80,7 @@ class Civilians{
 	title = $STR_PARAMS_CIVILIANS;
 	values[] = {0,50,100,200};
 	texts[] = {$STR_PARAMS_CIVILIANS1,$STR_PARAMS_CIVILIANS2,$STR_PARAMS_CIVILIANS3,$STR_PARAMS_CIVILIANS4};
-	default = 50;
+	default = 0;
 	paramCode = "";
 };
 class TeamkillPenalty{

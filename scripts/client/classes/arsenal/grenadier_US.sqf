@@ -392,6 +392,7 @@ arsenal_items = [
 	"ACE_Flashlight_XL50",
 	
 	//ACE basic medical items
+	"ACE_fieldDressing",
 	"ACE_elasticBandage",
 	"ACE_morphine",
 	

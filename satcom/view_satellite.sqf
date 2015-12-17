@@ -26,7 +26,4 @@ ppEffectDestroy PXS_ppColor;
 ppEffectDestroy PXS_ppInversion;
 ppEffectDestroy PXS_ppGrain;
 
-PXS_ppGrain = ppEffectCreate ["filmGrain",2005];
-PXS_ppGrain ppEffectEnable true;
-PXS_ppGrain ppEffectAdjust [0.02,1,1,0,1];
-PXS_ppGrain ppEffectCommit 0;
+[2] call PXS_adjustCamera;

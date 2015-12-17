@@ -41,6 +41,7 @@ RespawnButton = 0;
 #include "LT\LTmenu.hpp"
 #include "data\CFG_ace_settings.hpp"
 #include "CS\CSmenu.hpp"
+#include "satcom\init_interface.hpp"
 
 class Params {
 	#include "data\CFG_params.hpp"

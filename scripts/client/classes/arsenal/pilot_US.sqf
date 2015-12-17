@@ -52,6 +52,7 @@ arsenal_items = [
 	
 	"ACE_microDAGR",
 	
+	"ACE_fieldDressing",
 	"ACE_elasticBandage",
 	"ACE_morphine"
 ];

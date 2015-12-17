@@ -138,14 +138,14 @@ diag_log format ["-- You joined squad %1", groupId( group player )];
 _unitrank = str([] call F_getPlayerRank);
 
 switch ( _unitrank ) do {
-	case '1': {_unitrank = "private"}; 
-	case '2': {_unitrank = "corporal"};
-	case '3': {_unitrank = "sergeant"};
-	case '4': {_unitrank = "lieutenant"};
-	case '5': {_unitrank = "captain"};
-	case '6': {_unitrank = "major"};
-	case '7': {_unitrank = "colonel"};
-	default {_unitrank = "private"};
+	case '1': {_unitrank = "PRIVATE"}; 
+	case '2': {_unitrank = "CORPORAL"};
+	case '3': {_unitrank = "SERGEANT"};
+	case '4': {_unitrank = "LIEUTENANT"};
+	case '5': {_unitrank = "CAPTAIN"};
+	case '6': {_unitrank = "MAJOR"};
+	case '7': {_unitrank = "COLONEL"};
+	default {_unitrank = "PRIVATE"};
 };
 
 player setRank _unitrank;

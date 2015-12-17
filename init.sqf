@@ -41,4 +41,4 @@ enableRadio false;
 [] call compileFinal preprocessFileLineNumbers "LT\init.sqf";
 [] call compileFinal preprocessFileLineNumbers "scripts\misc\intLight.sqf";
 [] call compileFinal preprocessFileLineNumbers "scripts\misc\repair\TAA_init.sqf";
-[] call compileFinal preprocessFileLineNumbers "scripts\misc\zlt_fastrope.sqf";
+[] call compileFinal preprocessFileLineNumbers "satcom\init_satellite.sqf";

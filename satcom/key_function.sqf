@@ -78,7 +78,7 @@ if (!(_return)) then
 		//case 78://Num +
 		case ((({_x in _pressedButtonArray} count (actionKeys "ZoomIn")) > 0) || (({_x in _pressedButtonArray} count (actionKeys "MoveDown")) > 0)):
 		{
-			if ((PXS_SatelliteZoom + (0.02 * FACTOR)) <= 47) then
+			if ((PXS_SatelliteZoom + (0.02 * FACTOR)) <= 37) then
 			{
 				PXS_SatelliteFOV = PXS_SatelliteFOV - (0.0005 * FACTOR);
 				PXS_SatelliteZoom = PXS_SatelliteZoom + (0.02 * FACTOR);

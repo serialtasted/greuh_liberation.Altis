@@ -26,7 +26,7 @@ while { true } do {
 				hint localize "STR_PERMISSION_NO_AIR";
 			};
 		} else {
-			if ( ! (  [ player, 0 ] call F_fetchPermission ) ) then {
+			if ( ! (  [ player, 0 ] call F_fetchPermission ) && !((vehicle player ) isKindOf "ParachuteBase") ) then {
 				_doeject = true;
 				hint localize "STR_PERMISSION_NO_LIGHT";
 			};

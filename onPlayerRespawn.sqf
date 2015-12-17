@@ -1,1 +1,0 @@
-[] call F_assignComms;

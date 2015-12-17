@@ -13,7 +13,7 @@ private ["_unitName","_unitTeam","_bItems"];
 {player unlinkItem _x} forEach (player call TFAR_fnc_radiosList);
 
 _unitName = name player;
-_unitTeam = player getVariable "St_team";
+_unitTeam = player getVariable ["St_team", "PTr_alpha"];
 _friendlyTeamName = "";
 
 switch ( _unitTeam ) do {

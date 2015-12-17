@@ -10,7 +10,7 @@ _status = [_x, 1, true] call BIS_fnc_param;
 
 if (_status) then {
 	_unit removeAction PXS_action;
-	PXS_action = _unit addAction ["Switch on satellite view","pxs_satcom_a3\start_satellite.sqf"];
+	PXS_action = _unit addAction ["Switch on satellite view","satcom\start_satellite.sqf"];
 	hint "SATCOM system is connected.";
 } else {
 	_unit removeAction PXS_action;

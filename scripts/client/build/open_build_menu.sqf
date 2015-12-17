@@ -127,6 +127,10 @@ while { dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 
 	_selected_item = lbCurSel 110;
 	_affordable = false;
+	_squad_full = false;
+	if ((buildtype == 1) && (count (units group player) >= 10)) then {
+		_squad_full = true;
+	};
 	_linked = false;
 	_linked_unlocked = true;
 	_base_link = "";
@@ -157,8 +161,8 @@ while { dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 		};
 	};
 
-	ctrlEnable [ 120, _affordable && _linked_unlocked ];
-	ctrlEnable [ 121, _affordable_crew && _linked_unlocked];
+	ctrlEnable [ 120, _affordable && _linked_unlocked && !(_squad_full) ];
+	ctrlEnable [ 121, _affordable_crew && _linked_unlocked ];
 
 	ctrlSetText [131, format [ "%1 : %2/%3" , localize "STR_MANPOWER" , (floor resources_infantry), infantry_cap]] ;
 	ctrlSetText [132, format [ "%1 : %2" , localize "STR_AMMO" , (floor resources_ammo)] ];

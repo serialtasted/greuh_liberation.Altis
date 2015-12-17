@@ -20,6 +20,12 @@ while {true} do {
 	changing_class = true;
 	_oldclass = player getVariable ["St_class", "assault"];
 	
+	// set stamina and adjust aim coef
+	if ( !GRLIB_fatigue ) then {
+		player enableStamina false;
+	};
+	player setCustomAimCoef 0.25;
+	
 	// remove unit loadout
 	removeAllWeapons player;
 	removeAllItems player;
@@ -120,6 +126,9 @@ while {true} do {
 		[] spawn compileFinal preprocessFileLineNumbers "scripts\misc\pilotCheck.sqf";
 		[] spawn compileFinal preprocessFileLineNumbers "scripts\misc\lowerWeapon.sqf";
 	};
+	
+	// assign radio and frequencies
+	[] call F_assignComms;
 	
 	_msg = format ["You have chosen %1 as your class. Good luck on the battlefield, Soldier!", toUpper(_currentclass)];
 	titleText [_msg, "PLAIN DOWN"];

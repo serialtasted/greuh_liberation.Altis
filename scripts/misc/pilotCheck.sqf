@@ -1,14 +1,10 @@
-_aircraft_nocopilot = ["B_Heli_Light_01_F","B_Heli_Light_01_armed_F","RHS_UH60M","JNS_Skycrane_Medical_BLU_Grey","RHS_CH_47F","USAF_CV22","B_Heli_Attack_01_F","RHS_AH1Z_wd_GS","RHS_AH64D_wd","JS_JC_FA18F","USAF_C17","USAF_C130J","USAF_C130J_Cargo","JNS_Skycrane_BLU_Grey"];
+_aircraft_nocopilot = ["B_Heli_Light_01_F","B_Heli_Light_01_armed_F","RHS_UH60M","JNS_Skycrane_Medical_BLU_Grey","RHS_CH_47F","USAF_CV22","B_Heli_Attack_01_F","RHS_AH1Z_wd_GS","RHS_AH64D_wd","JS_JC_FA18F","USAF_C17","USAF_C130J","USAF_C130J_Cargo","JNS_Skycrane_BLU_Grey","MELB_MH6M","MELB_AH6M_L"];
 
 while { true } do {
 	waitUntil { alive player };
-
-	waitUntil { sleep 0.2;
-		vehicle player == player
-	};
 	
 	waitUntil { sleep 0.2;
-		(vehicle player != player) && ( ( (vehicle player ) getCargoIndex player ) < 0 );
+		(vehicle player != player) && ( ( ( vehicle player ) getCargoIndex player ) < 0 )
 	};
 	
 	_iampilot = false;

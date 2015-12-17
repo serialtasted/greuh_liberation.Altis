@@ -17,6 +17,7 @@ huron_typename = "JNS_Skycrane_BLU_Grey";
 ammobox_b_typename = "Box_NATO_AmmoVeh_F";
 ammobox_o_typename = "Box_East_AmmoVeh_F";
 opfor_ammobox_transport = "rhs_gaz66_ammo_vdv";
+SatBox_typename = "Land_DataTerminal_01_F";
 
 AmmoFactory_truck_typename = ["B_Truck_01_ammo_F","rhsusf_m113_usarmy_supply"];
 AmmoFactory_box_typename = "B_Slingload_01_Ammo_F";
@@ -26,9 +27,12 @@ AmmoFactory_solar_typename = "Land_SolarPanel_2_F";
 AmmoFactory_generatorBox_typename = "CargoNet_01_box_F";
 AmmoFactory_generator_typename = "Land_PowerGenerator_F";
 
-AmmoFactory_allclasses = [AmmoFactory_device_typename,AmmoFactory_solar_typename,AmmoFactory_generator_typename];
+GRLIB_intel_table = "Land_CampingTable_small_F";
+GRLIB_intel_chair = "Land_CampingChair_V2_F";
+GRLIB_intel_file = "Land_File1_F";
+GRLIB_intel_laptop = "Land_Laptop_device_F";
 
-pilot_type = ["rhsusf_airforce_pilot"];
+AmmoFactory_allclasses = [AmmoFactory_device_typename,AmmoFactory_solar_typename,AmmoFactory_generator_typename];
 
 infantry_units = [
 ["rhsusf_army_ucp_rifleman",2,0,0],
@@ -51,7 +55,9 @@ light_vehicles = [
 ["rhsusf_m1025_w",0,0,2],
 ["rhsusf_m1025_w_m2",0,10,2],
 ["rhsusf_m1025_w_mk19",0,20,2],
-["rhsusf_m998_w_4dr",0,0,2],
+["rhsusf_m998_w_2dr_halftop",0,0,2],
+["rhsusf_m998_w_4dr_halftop",0,0,2],
+["B_MRAP_01_F",0,0,4],
 ["fsf_fnk_norm_ce",0,0,3],
 ["greuh_fnk_norm_ce",0,0,3],
 ["fsf_fnk_hmg_ce",0,10,3],
@@ -81,8 +87,8 @@ heavy_vehicles = [
 ];
 
 air_vehicles = [
-["B_Heli_Light_01_F",0,0,10],
-["B_Heli_Light_01_armed_F",0,30,10],
+["MELB_MH6M",0,0,10],
+["MELB_AH6M_L",0,30,10],
 ["greuh_aw159_t",0,0,12],
 ["greuh_aw159_a",0,50,12],
 ["RHS_UH60M",0,25,12],
@@ -175,7 +181,8 @@ buildings = [
 ["ACE_Track",0,0,0],
 ["Land_MetalBarrel_F",0,0,1],
 ["FlexibleTank_01_forest_F",0,0,1],
-["Land_CanisterFuel_F",0,0,0]
+["Land_CanisterFuel_F",0,0,0],
+[SatBox_typename,0,0,0]
 ];
 
 support_vehicles = [
@@ -205,6 +212,8 @@ support_vehicles = [
 // Vehicles unlocked by military base control
 elite_vehicles = ["B_UGV_01_rcws_F","Steve_MBT_Kuma","B_MBT_01_TUSK_F","Burnes_FV4034_01","B_MBT_01_arty_F","B_MBT_01_mlrs_F","B_Heli_Attack_01_F","RHS_AH1Z_wd_GS","H_RAH66","RHS_AH64D_wd","B_Plane_CAS_01_F","JS_JC_FA18E","JS_JC_FA18F","B_UAV_02_F","B_UAV_02_CAS_F","greuh_pandur_wdld","RHS_M2A3_BUSKIII_wd","usaf_f22","USAF_F35A","usaf_kc135","USAF_C17","USAF_C130J","USAF_C130J_Cargo","USAF_E3"];
 
+original_resistance = [ "B_G_Soldier_SL_F","B_G_Soldier_A_F","B_G_Soldier_AR_F","B_G_medic_F","B_G_engineer_F","B_G_Soldier_exp_F","B_G_Soldier_GL_F","B_G_Soldier_M_F","B_G_Soldier_F","B_G_Soldier_LAT_F","B_G_Soldier_lite_F","b_g_soldier_unarmed_f","B_G_Sharpshooter_F","b_g_survivor_F","B_G_Soldier_TL_F"];
+
 // Vehicles and buildings for specific actions and inventories
 ammo_vehicles = [ "B_Truck_01_ammo_F","B_Slingload_01_Ammo_F","JNS_Skycrane_Pod_Ammo_BLU_Black","rhsusf_m113_usarmy_supply" ];
 fuel_vehicles = [ "B_Truck_01_fuel_F","C_Van_01_fuel_F","B_Slingload_01_Fuel_F" ];
@@ -214,11 +223,11 @@ fuel_cannister = [ "Land_CanisterFuel_F" ];
 repair_container = [ "B_Slingload_01_Repair_F" ];
 
 disable_damage = [ "Land_BarGate_F","CamoNet_BLUFOR_open_F","CamoNet_BLUFOR_big_F","RoadBarrier_F","RoadCone_F","RoadCone_L_F" ];
-carryable_objects = [ "Land_PortableLight_single_F","Land_PortableLight_double_F","Land_BagFence_Long_F","Land_BagFence_Round_F","Land_BagFence_Short_F","RoadBarrier_F","RoadCone_F","RoadCone_L_F","Land_Camping_Light_F","Land_MetalCase_01_large_F","Land_MetalCase_01_medium_F","Land_MetalCase_01_small_F","MapBoard_altis_F","Land_ChairPlastic_F","Land_CampingChair_V1_F","Land_CampingChair_V2_F","Land_CampingTable_F" ];
+carryable_objects = [ "Land_PortableLight_single_F","Land_PortableLight_double_F","Land_BagFence_Long_F","Land_BagFence_Round_F","Land_BagFence_Short_F","RoadBarrier_F","RoadCone_F","RoadCone_L_F","Land_Camping_Light_F","Land_MetalCase_01_large_F","Land_MetalCase_01_medium_F","Land_MetalCase_01_small_F","MapBoard_altis_F","Land_ChairPlastic_F","Land_CampingChair_V1_F","Land_CampingChair_V2_F","Land_CampingTable_F","Land_DataTerminal_01_F" ];
 draggable_objects = [ "Land_MetalBarrel_F","FlexibleTank_01_forest_F" ];
 
 // Objects that can be lifted
-light_objects = [ "RHS_M2StaticMG_MiniTripod_WD","RHS_M2StaticMG_WD","RHS_MK19_TriPod_WD","RDS_M252_RHS_OCP","RDS_TOW_TriPod_RHS_UCP","B_SearchLight","Land_BagBunker_Large_F","Land_BagBunker_Small_F","Land_BagFence_Long_F","Land_BagFence_Round_F","Land_BagFence_Short_F","RoadBarrier_F","RoadCone_F","RoadCone_L_F","Land_Camping_Light_F","Land_PortableLight_single_F","Land_PortableLight_double_F","Flag_NATO_F","Land_ChairPlastic_F","ACE_Wheel ACE_Track","Land_MetalBarrel_F","FlexibleTank_01_forest_F","Land_CanisterFuel_F" ];
+light_objects = carryable_objects + draggable_objects + [ "RHS_M2StaticMG_MiniTripod_WD","RHS_M2StaticMG_WD","RHS_MK19_TriPod_WD","RDS_M252_RHS_OCP","RDS_TOW_TriPod_RHS_UCP","B_SearchLight","Flag_NATO_F","ACE_Wheel","ACE_Track" ];
 
 // Pre-made squads for the commander build menu
 blufor_squad_inf_light = [ "rhsusf_army_ucp_squadleader","rhsusf_army_ucp_grenadier","rhsusf_army_ucp_autorifleman","rhsusf_army_ucp_grenadier","rhsusf_army_ucp_medic","rhsusf_army_ucp_rifleman_m590","rhsusf_army_ucp_rifleman","rhsusf_army_ucp_rifleman"];
@@ -318,6 +327,7 @@ all_hostile_classnames = (land_vehicles_classnames + opfor_air + opfor_choppers 
 air_vehicles_classnames = opfor_choppers;
 { air_vehicles_classnames pushback (_x select 0); } foreach air_vehicles;
 markers_reset = [99999,99999,0];
+zeropos = [0,0,0];
 squads_names = [ localize "STR_LIGHT_RIFLE_SQUAD", localize "STR_RIFLE_SQUAD", localize "STR_AT_SQUAD", localize "STR_AA_SQUAD" ];
 boats_names = [ "B_Boat_Transport_01_F","ffaa_ar_lcm","ffaa_ar_supercat" ];
 

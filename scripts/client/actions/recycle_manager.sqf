@@ -12,19 +12,26 @@ _building_classnames = [];
 {
 	_building_classnames pushBack ( _x select 0 );
 } foreach (buildings);
-_building_classnames = _building_classnames + [ Arsenal_typename, "B_Slingload_01_Cargo_F", "B_Slingload_01_Repair_F", "B_Slingload_01_Fuel_F", "B_Slingload_01_Ammo_F", ammobox_b_typename, ammobox_o_typename ];
+_building_classnames = _building_classnames + [ "B_supplyCrate_F", "B_Slingload_01_Cargo_F", "B_Slingload_01_Repair_F", "B_Slingload_01_Fuel_F", "B_Slingload_01_Ammo_F", ammobox_b_typename, ammobox_o_typename ];
 
 waitUntil { sleep 1; !isNil "GRLIB_all_fobs" };
 
 while { true } do {
+
 	waitUntil { sleep 1; count GRLIB_all_fobs > 0 };
 	waitUntil { sleep 1; ( player distance ( [] call F_getNearestFob)) < (2 * GRLIB_fob_range) };
 
 	if (  [ player, 4 ] call F_fetchPermission ) then {
 
 		_detected_vehicles = 	[ (getpos player) nearObjects veh_action_distance ,
-							{ (((typeof _x in _recycleable_classnames ) && ((count crew _x) == 0 || (typeof _x) in uavs)  && ((locked _x == 0 || locked _x == 1))) || ( typeof _x in _building_classnames )) &&
-							(alive _x) && (_x distance lhd > 1000) && (_x distance ( [] call F_getNearestFob) < GRLIB_fob_range ) } ]
+							{
+								(((typeof _x in _recycleable_classnames ) &&
+								((count crew _x) == 0 || (typeof _x) in uavs) &&
+								((locked _x == 0 || locked _x == 1))) || ( typeof _x in _building_classnames )) &&
+								(alive _x) &&
+								(_x distance lhd > 1000) &&
+								(_x distance ( [] call F_getNearestFob) < GRLIB_fob_range ) &&
+								( getObjectType _x >= 8 ) } ]
 							call BIS_fnc_conditionalSelect;
 
 		{

@@ -5,14 +5,14 @@ _type = _this select 0;
 // PP effects
 if (_type == 1) then
 {
-ppEffectDestroy PXS_ppGrain;
+	ppEffectDestroy PXS_ppGrain;
 };
 
 if (_type == 2) then
 {
 	PXS_ppGrain = ppEffectCreate ["filmGrain",2005];
 	PXS_ppGrain ppEffectEnable true;
-	PXS_ppGrain ppEffectAdjust [0.02,1,1,0,1];
+	PXS_ppGrain ppEffectAdjust [0.06,-0.1,0.1,0.02,3];
 	PXS_ppGrain ppEffectCommit 0;
 };
 
