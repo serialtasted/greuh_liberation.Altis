@@ -65,43 +65,43 @@ if ( !isNil "greuh_liberation_client" ) then {
 	// set damage head
 	player spawn {
 		_damageHead = (player getHitPointDamage "HitHead") + (player_damage select 0);
-		[player, "head", _damageHead, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
+		[player, _damageHead, "head" , "bullet"] call ace_medical_fnc_addDamageToUnit;
 	};
 	
 	// set damage body
 	player spawn {
 		_damageBody = (player getHitPointDamage "HitBody") + (player_damage select 1);
-		[player, "body", _damageBody, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
+		[player, _damageBody, "body" , "bullet"] call ace_medical_fnc_addDamageToUnit;
 	};
 	
 	// set damage right arm
 	player spawn {
 		_damageRArm = (player getHitPointDamage "HitRightArm") + (player_damage select 2);
-		[player, "hand_r", _damageRArm, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
+		[player, _damageRArm, "hand_r" , "bullet"] call ace_medical_fnc_addDamageToUnit;
 	};
 	
 	// set damage left arm
 	player spawn {
 		_damageLArm = (player getHitPointDamage "HitLeftArm") + (player_damage select 3);
-		[player, "hand_l", _damageLArm, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
+		[player, _damageLArm, "hand_l" , "bullet"] call ace_medical_fnc_addDamageToUnit;
 	};
 	
 	// set damage right leg
 	player spawn {
 		_damageRLeg = (player getHitPointDamage "HitRightLeg") + (player_damage select 4);
-		[player, "leg_r", _damageRLeg, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
+		[player, _damageRLeg, "leg_r" , "bullet"] call ace_medical_fnc_addDamageToUnit;
 	};
 	
 	// set damage left leg
 	player spawn {
 		_damageLLeg = (player getHitPointDamage "HitLeftLeg") + (player_damage select 5);
-		[player, "leg_l", _damageLLeg, ObjNull, "bullet", -1] call ace_medical_fnc_handleDamage;
+		[player, _damageLLeg, "leg_l" , "bullet"] call ace_medical_fnc_addDamageToUnit;
 	};
 	
 	if ( player_isunconscious ) then {
 		player spawn {
-			[player, true, 300] call ace_medical_fnc_setUnconscious;
-			sleep 300;
+			[player, true, 600] call ace_medical_fnc_setUnconscious;
+			sleep 600;
 			[player, false] call ace_medical_fnc_setUnconscious;
 			trigger_client_save = true;
 		};
@@ -126,12 +126,10 @@ client_is_loaded = true;
 while { true } do {
 	waitUntil {
 		sleep 0.3;
-		trigger_client_save || GRLIB_endgame == 1 || player getVariable ["ACE_isUnconscious", false]
+		trigger_client_save || GRLIB_endgame == 1
 	};
 	
 	diag_log "-- SAVING CLIENT --";
-	
-	if ( player getVariable "ACE_isUnconscious" ) then { "SmokeShellOrange" createVehicle [(getPosATL player) select 0, (getPosATL player) select 1, (getPosATL player) select 2]; };
 	
 	if ( GRLIB_endgame == 1 ) then {
 		profileNamespace setVariable [ GRLIB_client_key, nil ];

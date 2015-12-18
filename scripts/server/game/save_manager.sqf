@@ -178,7 +178,7 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 			};
 			
 			_nextbuilding = _nextclass createVehicle _nextpos;
-			_nextbuilding setPosATL [_nextpos select 0, _nextpos select 1, _nextpos select 2];
+			_nextbuilding setPosATL _nextpos;
 			_nextbuilding setdir _nextdir;
 			_nextbuilding setdamage 0;
 			

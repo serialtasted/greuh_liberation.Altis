@@ -76,10 +76,11 @@ write_credit_line = compileFinal preprocessFileLineNumbers "scripts\client\ui\wr
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\synchronise_vars.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\update_comms.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\vehicle_permissions.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\player\dead_cam.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\player\save_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\ui\ui_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\ui\tutorial_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\classes\class_manager.sqf";
-[] spawn compileFinal preprocessFileLineNumbers "scripts\client\player\save_manager.sqf";
 
 player addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
 
