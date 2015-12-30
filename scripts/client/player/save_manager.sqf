@@ -55,6 +55,16 @@ if ( !isNil "greuh_liberation_client" ) then {
 	player setDir player_direction;
 	player playMove player_stance;
 	
+	if ( player_class isEqualTo "commander" ) then {
+		{
+			_playerclass = _x getVariable ["St_class", "assault"];
+			
+			if ( _playerclass isEqualTo "commander" && _x != player ) then {
+				classtogo = "assault";
+			};
+		} forEach allPlayers;
+	};
+	
 	forceclassmanager = true;
 	
 	waitUntil { sleep 0.2; !forceclassmanager };
@@ -115,7 +125,7 @@ if ( !isNil "greuh_liberation_client" ) then {
 	titleFadeOut 4;
 	"dynamicBlur" ppEffectEnable true; // enables ppeffect
 	"dynamicBlur" ppEffectAdjust [0]; // enables normal vision
-	"dynamicBlur" ppEffectCommit 3; // time it takes to normal
+	"dynamicBlur" ppEffectCommit 2; // time it takes to normal
 };
 
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\spawn\redeploy_manager.sqf";
@@ -154,16 +164,16 @@ while { true } do {
 		player_stance = animationState player;
 		
 		player_damage = [
-		(player getHitPointDamage "HitHead"),
-		(player getHitPointDamage "HitBody"),
-		(player getHitPointDamage "HitRightArm"),
-		(player getHitPointDamage "HitLeftArm"),
-		(player getHitPointDamage "HitRightLeg"),
-		(player getHitPointDamage "HitLeftLeg")
+			(player getHitPointDamage "HitHead"),
+			(player getHitPointDamage "HitBody"),
+			(player getHitPointDamage "HitRightArm"),
+			(player getHitPointDamage "HitLeftArm"),
+			(player getHitPointDamage "HitRightLeg"),
+			(player getHitPointDamage "HitLeftLeg")
 		];
 		
 		//------------------------------------------------------------------------------------
-		greuh_liberation_saveclient = [player_class,player_position,player_direction,player_inventory,player_isunconscious,player_team,player_stance,player_damage];
+		greuh_liberation_saveclient = [ player_class,player_position,player_direction,player_inventory,player_isunconscious,player_team,player_stance,player_damage ];
 		
 		profileNamespace setVariable [ GRLIB_client_key, greuh_liberation_saveclient ];
 		saveProfileNamespace;

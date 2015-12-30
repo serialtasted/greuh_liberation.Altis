@@ -13,6 +13,7 @@ if ( isMultiplayer ) then {
 	GRLIB_build_first_fob = ["FirstFob",0] call bis_fnc_getParamValue;
 	GRLIB_param_wipe_savegame_1 = ["WipeSave1",0] call bis_fnc_getParamValue;
 	GRLIB_param_wipe_savegame_2 = ["WipeSave2",0] call bis_fnc_getParamValue;
+	GRLIB_param_resetelite = ["ResetEliteVehs",0] call bis_fnc_getParamValue;
 	GRLIB_passive_income = ["PassiveIncome",0] call bis_fnc_getParamValue;
 	GRLIB_permissions_param = ["Permissions",1] call bis_fnc_getParamValue;
 	GRLIB_halo_param = ["HaloJump",1] call bis_fnc_getParamValue;
@@ -21,7 +22,8 @@ if ( isMultiplayer ) then {
 	GRLIB_csat_aggressivity = ((["Aggressivity",1] call bis_fnc_getParamValue) / 100);
 	GRLIB_weather_param = ["Weather",3] call bis_fnc_getParamValue;
 	GRLIB_shorter_nights = ["ShorterNights",0] call bis_fnc_getParamValue;
-	GRLIB_ammo_bounties = [ "AmmoBounties",0] call bis_fnc_getParamValue;
+	GRLIB_ammo_bounties = ["AmmoBounties",0] call bis_fnc_getParamValue;
+	GRLIB_remote_sensors = ["DisableRemoteSensors",0] call bis_fnc_getParamValue;
 } else {
 	GRLIB_difficulty_modifier = 1;
 	GRLIB_time_factor = 12;
@@ -37,6 +39,7 @@ if ( isMultiplayer ) then {
 	GRLIB_build_first_fob = 0;
 	GRLIB_param_wipe_savegame_1 = 0;
 	GRLIB_param_wipe_savegame_2 = 0;
+	GRLIB_param_resetelite = 0;
 	GRLIB_passive_income = 0;
 	GRLIB_permissions_param = 1;
 	GRLIB_halo_param = 1;
@@ -46,6 +49,14 @@ if ( isMultiplayer ) then {
 	GRLIB_weather_param = 3;
 	GRLIB_shorter_nights = 0;
 	GRLIB_ammo_bounties = 1;
+	GRLIB_remote_sensors = 0;
+	
+	// remove Blufor AI during debug
+ 	{
+ 		if ( (_x != player) && (_x distance (getmarkerpos "respawn_west") < 200 ) ) then {
+ 			deleteVehicle _x;
+ 		};
+ 	} foreach allUnits;
 };
 
 if ( GRLIB_fatigue == 1 ) then { GRLIB_fatigue = true } else { GRLIB_fatigue = false };
@@ -59,3 +70,4 @@ if ( GRLIB_permissions_param == 1 ) then { GRLIB_permissions_param = true } else
 if ( GRLIB_use_whitelist == 1 ) then { GRLIB_use_whitelist = true } else { GRLIB_use_whitelist = false };
 if ( GRLIB_shorter_nights == 1 ) then { GRLIB_shorter_nights = true } else { GRLIB_shorter_nights = false };
 if ( GRLIB_ammo_bounties == 1 ) then { GRLIB_ammo_bounties = true } else { GRLIB_ammo_bounties = false };
+if ( GRLIB_param_resetelite == 1 ) then { GRLIB_param_resetelite = true } else { GRLIB_param_resetelite = false };

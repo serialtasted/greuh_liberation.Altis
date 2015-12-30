@@ -26,8 +26,19 @@ arsenal_weapons = [
 
 arsenal_magazines = [
 	"RH_12Rnd_45cal_usp",
+	
+	// Grenades
+	"rhs_mag_an_m8hc",
+	"rhs_mag_m18_green",
 	"rhs_mag_m18_purple",
-	"ACE_HandFlare_Green"
+	"rhs_mag_m18_red",
+	"rhs_mag_m18_yellow",
+	
+	//ACE grenades
+	"ACE_HandFlare_White",
+	"ACE_HandFlare_Red",
+	"ACE_HandFlare_Green",
+	"ACE_HandFlare_Yellow"
 ];
 
 arsenal_items = [

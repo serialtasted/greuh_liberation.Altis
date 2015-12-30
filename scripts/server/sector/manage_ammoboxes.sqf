@@ -1,8 +1,8 @@
 params [ "_sector" ];
-private [ "_crates_amount", "_spawnpos", "_i", "_spawnclass", "_nearbuildings", "_intel_range", "_building_positions", "_used_positions", "_buildingposition" ];
+private [ "_crates_amount", "_spawnpos", "_i", "_spawnclass", "_nearbuildings", "_intel_range", "_building_positions", "_used_positions", "_buildingposition", "_nbintel", "_compatible_classnames" ];
 
-_intel_range = 100;
-_nbintel = 1 + (floor (random 3));
+_intel_range = 150;
+_nbintel = 2 + (floor (random 3));
 _compatible_classnames = [
 "Land_Cargo_House_V1_F",
 "Land_Cargo_House_V2_F",
@@ -40,11 +40,12 @@ if ( !( _sector in GRLIB_military_sectors_already_activated )) then {
 
 		_spawnpos = zeropos;
 		while { _spawnpos distance zeropos < 1000 } do {
-			_spawnpos =  ( [ ( markerpos _sector), random 50, random 360 ] call BIS_fnc_relPos ) findEmptyPosition [0, 100, 'B_Heli_Transport_01_F'];
+			_spawnpos =  ( [ ( markerpos _sector), random 50, random 360 ] call BIS_fnc_relPos ) findEmptyPosition [10, 100, 'B_Heli_Transport_01_F'];
 			if ( count _spawnpos == 0 ) then { _spawnpos = zeropos; };
 		};
 
 		_newbox = _spawnclass createVehicle _spawnpos;
+		_newbox setVariable ["ace_cargo_size", -1];
 		_newbox setpos _spawnpos;
 		_newbox setdir (random 360);
 		clearWeaponCargoGlobal _newbox;
@@ -66,7 +67,7 @@ if ( !( _sector in GRLIB_military_sectors_already_activated )) then {
 
 		_building_positions = [ _building_positions, { _x select 2 < 2 } ] call BIS_fnc_conditionalSelect;
 
-		if ( count _building_positions >= _nbintel ) then {
+		if ( count _building_positions >= (_nbintel * 4) ) then {
 
 			_used_positions = [];
 

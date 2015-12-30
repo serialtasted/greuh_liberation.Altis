@@ -120,13 +120,13 @@ TAA_Repairman_Actions =
 	
 	add10 = player addAction ["Check Aircraft", "scripts\misc\repair\TAA_repair_handle_action.sqf", ["action_check_air"], 10, true, true, "", "call TAA_Air_statute"];
 	
-	while { true} do 
+	while { true } do 
 	{
 		private ["_vehicle","_detection","_detectionair"];
 		_vehicle = ["B_MRAP_01_F"];
-		_detection = nearestObjects [player, ["Car","Truck","Tank"], 8];
-		_detectionair = nearestObjects [player, ["Air"], 8];
-		if (count _detection > 0 && vehicle player == player) then
+		_detection = nearestObjects [player, ["Car","Truck","Tank"], 5];
+		_detectionair = nearestObjects [player, ["Air"], 5];
+		if (count _detection > 0 && vehicle player == player && Player_class in Class_allowed) then
 		 {    
 
         	if(!add1Exist) then {
@@ -144,7 +144,7 @@ TAA_Repairman_Actions =
 			};
 		};
 		
-		if (count _detectionair > 0 && vehicle player == player) then
+		if (count _detectionair > 0 && vehicle player == player && Player_class in Class_allowed) then
 		{    
 			if(!add10Exist) then {
 				add10 = player addAction ["Check Aircraft", "scripts\misc\repair\TAA_repair_handle_action.sqf", ["action_check_air"], 10, true, true, "", "call TAA_Air_statute"];

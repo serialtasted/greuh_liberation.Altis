@@ -70,6 +70,7 @@ all_arsenal_weapons = [
 	"rhs_weap_M136_hp",
 	"rhs_weap_fim92",
 	"rhs_weap_fgm148",
+	"rhs_weap_smaw",
 
 	"rhs_weap_M590_8RD",
 	"rhs_weap_M590_5RD",
@@ -202,6 +203,8 @@ all_arsenal_magazines = [
 	"rhs_m136_hp_mag",
 	"rhs_fim92_mag",
 	"rhs_fgm148_magazine_AT",
+	"rhs_mag_smaw_HEAA",
+	"rhs_mag_smaw_HEDP",
 
 	//explosives
 	"ATMine_Range_Mag",
@@ -288,6 +291,15 @@ all_arsenal_items = [
 	"U_B_FullGhillie_ard",
 	"U_B_Wetsuit",
 	"V_RebreatherB",
+	
+	//pilot helmets
+	"H_Cap_headphones",
+	"rhsusf_hgu56p",
+	"RHS_jetpilot_usaf",
+	
+	//pilot uniforms
+	"U_B_PilotCoveralls",
+	"U_B_HeliPilotCoveralls",
 	
 	//balaclavas
 	"G_Balaclava_blk",
@@ -592,10 +604,10 @@ if(ace_medical_level == 2) then {
 	all_arsenal_items = all_arsenal_items + _advancedMedicalItems;
 };
 
-/*[missionNamespace, arsenal_items,false,false] call XLA_fnc_addVirtualItemCargo;
-[missionNamespace, arsenal_weapons,false,false] call XLA_fnc_addVirtualWeaponCargo;
-[missionNamespace, arsena_backpacks,false,false] call XLA_fnc_addVirtualBackpackCargo;
-[missionNamespace, arsenal_magazines,false,false] call XLA_fnc_addVirtualMagazineCargo;*/
+/*[missionNamespace, all_arsenal_items,false,false] call XLA_fnc_addVirtualItemCargo;
+[missionNamespace, all_arsenal_weapons,false,false] call XLA_fnc_addVirtualWeaponCargo;
+[missionNamespace, all_arsena_backpacks,false,false] call XLA_fnc_addVirtualBackpackCargo;
+[missionNamespace, all_arsenal_magazines,false,false] call XLA_fnc_addVirtualMagazineCargo;*/
 
 [missionNamespace, all_arsenal_items,false,false] call BIS_fnc_addVirtualItemCargo;
 [missionNamespace, all_arsenal_weapons,false,false] call BIS_fnc_addVirtualWeaponCargo;

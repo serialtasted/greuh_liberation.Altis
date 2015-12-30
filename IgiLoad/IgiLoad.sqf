@@ -92,9 +92,9 @@ if (isnil "IL_Variables") then
 	IL_Para_Light_Add = true;
 	//Smoke and light color
 	IL_Para_Smoke_Default = "SmokeshellGreen";
-	IL_Para_Light_Default = "Chemlight_green";
+	IL_Para_Light_Default = "F_20mm_Green";
 	IL_Para_Smoke_Veh = "SmokeshellBlue";
-	IL_Para_Light_Veh = "Chemlight_blue";
+	IL_Para_Light_Veh = "F_20mm_Green";
 
 	//This allows for loading or unloading, if a player is in the area of loading or copilot
 	IL_Can_Inside = true;
@@ -951,6 +951,7 @@ if (isnil "IL_Procedures") then
 		};
 		if (IL_Para_Light) then
 		{
+			_light setVelocity [0,0,-10];
 			_light attachTo [_cargo,[0,0,2]];
 			detach _light;
 		};
@@ -964,6 +965,7 @@ if (isnil "IL_Procedures") then
 		if (IL_Para_Light_Add) then
 		{
 			_light = [_chemlight_type, _cargo] call IL_Create_And_Attach;
+			_light setVelocity [0,0,-10];
 			_light attachTo [_cargo,[0,0,2]];
 			detach _light;
 		};

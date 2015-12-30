@@ -23,7 +23,6 @@ if ( classtogo != "" ) then {
 	player addWeapon "rhs_weap_m16a4_grip";
 	player addPrimaryWeaponItem "FHQ_acc_LLM01L";
 	player addPrimaryWeaponItem "FHQ_optic_HWS_G33";
-	player addWeapon "rhs_weap_M136_hp";
 	player addWeapon "Binocular";
 	
 };

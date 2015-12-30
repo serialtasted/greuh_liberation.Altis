@@ -134,20 +134,3 @@ sleep 0.1;
 [] call F_assignComms;
 
 diag_log format ["-- You joined squad %1", groupId( group player )];
-
-_unitrank = str([] call F_getPlayerRank);
-
-switch ( _unitrank ) do {
-	case '1': {_unitrank = "PRIVATE"}; 
-	case '2': {_unitrank = "CORPORAL"};
-	case '3': {_unitrank = "SERGEANT"};
-	case '4': {_unitrank = "LIEUTENANT"};
-	case '5': {_unitrank = "CAPTAIN"};
-	case '6': {_unitrank = "MAJOR"};
-	case '7': {_unitrank = "COLONEL"};
-	default {_unitrank = "PRIVATE"};
-};
-
-player setRank _unitrank;
-
-diag_log format ["-- Your rank is %1", _unitrank];

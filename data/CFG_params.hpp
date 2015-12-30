@@ -10,14 +10,14 @@ class Unitcap{
 	title = $STR_PARAMS_UNITCAP;
 	values[] = {50,75,100,125,150,200};
 	texts[] = {$STR_PARAMS_UNITCAP1,$STR_PARAMS_UNITCAP2,$STR_PARAMS_UNITCAP3,$STR_PARAMS_UNITCAP4,$STR_PARAMS_UNITCAP5,$STR_PARAMS_UNITCAP6};
-	default = 100;
+	default = 75;
 	paramCode = "";
 };
 class Difficulty {
 	title = $STR_PARAMS_DIFFICULTY;
-	values[] = { 50, 75, 100, 125, 150, 200, 400, 1000 };
+	values[] = { 50, 75, 100, 150, 200, 300, 400, 1000 };
 	texts[] = { $STR_PARAMS_DIFFICULTY1, $STR_PARAMS_DIFFICULTY2, $STR_PARAMS_DIFFICULTY3, $STR_PARAMS_DIFFICULTY4, $STR_PARAMS_DIFFICULTY5, $STR_PARAMS_DIFFICULTY6, $STR_PARAMS_DIFFICULTY7, $STR_PARAMS_DIFFICULTY8 };
-	default = 200;
+	default = 300;
 	paramCode = "";
 };
 class Aggressivity{
@@ -97,6 +97,13 @@ class PassiveIncome{
 	default = 0;
 	paramCode = "";
 };
+class DisableRemoteSensors{
+ 	title = "Disable Remote Sensors (experimental!)";
+ 	values[] = {0,1,2};
+ 	texts[] = {"No","Disable for clients without local AIs","Disable for all clients"};
+ 	default = 0;
+	paramCode = "";
+ };
 class spacer4 {
    title = "---------------------- Deploy Parameters ----------------------";
    values[] = {1};
@@ -157,7 +164,7 @@ class param15 {
    title = "Advanced Wounds *";
    values[] = {0,1};
    texts[] = {"Off","On"};
-   default = 1;
+   default = 0;
    paramCode = "ace_medical_enableAdvancedWounds = %1;";
 };
 class param16 {
@@ -311,6 +318,13 @@ class WipeSave2{
 	title = $STR_WIPE_TITLE_2;
 	values[] = {0,1};
 	texts[] = {$STR_WIPE_NO,$STR_WIPE_YES};
+	default = 0;
+	paramCode = "";
+};
+class ResetEliteVehs{
+	title = "Reset elite vehicles assignments";
+	values[] = {0,1};
+	texts[] = {$STR_NO,$STR_YES};
 	default = 0;
 	paramCode = "";
 };

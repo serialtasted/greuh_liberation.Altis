@@ -21,9 +21,11 @@ while { true } do {
 	_cam camCommit 1505;
 	
 	player spawn {
-		sleep 420;
-		_dialog = createDialog "St_DeadScreen";
-		waitUntil { dialog };
+		sleep 300;
+		if ( player getVariable ["ACE_isUnconscious", false] ) then {
+			_dialog = createDialog "St_DeadScreen";
+			waitUntil { dialog };
+		};
 	};
 	
 	waitUntil {

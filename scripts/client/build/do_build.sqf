@@ -1,8 +1,9 @@
-private [ "_maxdist", "_truepos", "_price", "_pos", "_grp", "_classname", "_idx", "_unitrank", "_posfob", "_ghost_spot", "_vehicle", "_dist", "_actualdir", "_near_objects", "_near_objects_25", "_allowbis", "_allowcancel" ];
+private [ "_maxdist", "_truepos", "_price", "_pos", "_grp", "_classname", "_idx", "_unitrank", "_posfob", "_ghost_spot", "_vehicle", "_dist", "_actualdir", "_near_objects", "_near_objects_25", "_allowbis", "_allowcancel", "_debug_colisions" ];
 
 build_confirmed = 0;
 _maxdist = GRLIB_fob_range;
 _truepos = [];
+_debug_colisions = false;
 
 GRLIB_preview_spheres = [];
 while { count GRLIB_preview_spheres < 36 } do {
@@ -163,30 +164,24 @@ while { true } do {
 				_near_objects = _near_objects + (_truepos nearobjects [FOB_box_typename, _dist]);
 				_near_objects = _near_objects + (_truepos nearobjects [Arsenal_typename, _dist]);
 
-				_near_objects_25 = (_truepos nearobjects ["AllVehicles", 30]) ;
-				_near_objects_25 = _near_objects_25 + (_truepos nearobjects [FOB_box_typename, 30]);
-				_near_objects_25 = _near_objects_25 + (_truepos nearobjects [Arsenal_typename, 30]);
+				_near_objects_25 = (_truepos nearobjects ["AllVehicles", 50]) ;
+				_near_objects_25 = _near_objects_25 + (_truepos nearobjects [FOB_box_typename, 50]);
+				_near_objects_25 = _near_objects_25 + (_truepos nearobjects [Arsenal_typename, 50]);
 
 				if(	buildtype != 6 && buildtype != 5) then {
 					_near_objects = _near_objects + (_truepos nearobjects ["Static", _dist]);
-					_near_objects_25 = _near_objects_25 + (_truepos nearobjects ["Static", 30]);
+					_near_objects_25 = _near_objects_25 + (_truepos nearobjects ["Static", 50]);
 				};
 
-				_remove_objects = (_truepos nearobjects ["Animal", 30]) + 
-				(_truepos nearobjects ["land_runway_edgelight", 30]) +
-				(_truepos nearobjects ["land_runway_edgelight_blue_f", 30]) +
-				(_truepos nearobjects ["Land_CncBarrier_F", 30]) +
-				(_truepos nearobjects ["Land_CncBarrier_stripes_F", 30]) +
-				(_truepos nearobjects ["Land_HelipadSquare_F", 30]) +
-				(_truepos nearobjects ["Land_HelipadRescue_F", 30]) +
-				(_truepos nearobjects ["RoadBarrier_F", 30]) +
-				(_truepos nearobjects ["RoadCone_F", 30]) + 
-				(_truepos nearobjects ["RoadCone_L_F", 30]) + 
-				(_truepos nearobjects ["ACE_Wheel", 30]) + 
-				(_truepos nearobjects ["ACE_Track", 30]) + 
-				[player, _vehicle] +
-				(_truepos nearobjects ["Sign_Sphere100cm_F", 30]) +
-				(_truepos nearobjects ["TMR_Autorest_Georef", 30]);
+				_remove_objects = [ _truepos nearobjects 50, {
+					private [ "_nextobject", "_isIgnored" ];
+					_isIgnored = false;
+					_nextobject = _x;
+					{
+						if ( _nextobject isKindOf _x || _nextobject == player || _nextobject == _vehicle ) exitWith { _isIgnored = true };
+					} foreach GRLIB_ignore_colisions_when_building;
+					_isIgnored
+				} ] call BIS_fnc_conditionalSelect;
 
 				_near_objects = _near_objects - _remove_objects;
 				_near_objects_25 = _near_objects_25 - _remove_objects;
@@ -236,6 +231,13 @@ while { true } do {
 					build_invalid = 1;
 					if(count _near_objects > 0) then {
 						GRLIB_ui_notif = format [localize "STR_PLACEMENT_IMPOSSIBLE",count _near_objects, round _dist];
+						
+						if (_debug_colisions) then {
+							private [ "_objs_classnames" ];
+							_objs_classnames = [];
+							{ _objs_classnames pushback (typeof _x) } foreach _near_objects;
+							hint format [ "Colisions : %1", _objs_classnames ];
+						};
 					};
 					if( ((surfaceIsWater _truepos) || (surfaceIsWater getPosATL player)) && !(_classname in boats_names)) then {
 						GRLIB_ui_notif = localize "STR_BUILD_ERROR_WATER";
@@ -266,6 +268,10 @@ while { true } do {
 				_vehicle allowDamage false;
 				_vehicle setdir _vehdir;
 				_vehicle setPosATL _truepos;
+				
+				_vehicle setVariable ["truePos", _truepos];
+				_vehicle setVariable ["trueDir", _vehdir];
+				
 				clearWeaponCargoGlobal _vehicle;
 				clearMagazineCargoGlobal _vehicle;
 				clearItemCargoGlobal _vehicle;
@@ -286,21 +292,36 @@ while { true } do {
 					] call BIS_fnc_initVehicle;
 				};
 				
+				if ( _classname == "B_G_Offroad_01_repair_F" ) then {
+					[
+						_vehicle,
+						nil,
+						[
+							"HideDoor1", 0,
+							"HideDoor2", 0,
+							"HideGlass2", 1,
+							"HideDoor3", 0,
+							"Proxy", 0,
+							"Destruct", 0
+						]
+					] call BIS_fnc_initVehicle;
+				};
+				
 				if ( (buildtype == 6 || buildtype == 99 || buildtype == 5) && ((levelmode % 2) == 1) ) then {
 					_vehicle setVectorUp [0,0,1];
 				} else {
-					_vehicle setVectorUp surfaceNormal position _vehicle;
+					_vehicle setVectorUp surfaceNormal _truepos;
 				};
 				
 				if ( (_classname in uavs) || manned ) then {
-					createVehicleCrew _vehicle;
+					[ _vehicle ] call F_forceBluforCrew;
 				};
 
 				/*if ( _classname == FOB_box_typename ) then {
 					[ [_vehicle, 3000 ] , "F_setMass" ] call BIS_fnc_MP;
 				};*/
 				
-				if ( _classname == ammobox_b_typename || _classname == ammobox_o_typename ) then {
+				if ( _classname in  [ ammobox_b_typename, ammobox_o_typename, "B_Slingload_01_Ammo_F","JNS_Skycrane_Pod_Ammo_BLU_Green", "B_Slingload_01_Medevac_F", "JNS_Skycrane_Pod_Medical_BLU_Green", "B_Slingload_01_Fuel_F", "JNS_Skycrane_Pod_Fuel_BLU_Green", "B_Slingload_01_Repair_F", "JNS_Skycrane_Pod_Repair_BLU_Green" ] ) then {
 					_vehicle setVariable ["ace_cargo_size", -1];
 				};
 				
@@ -366,16 +387,16 @@ while { true } do {
 				};
 				
 				if ( _vehicle isKindOf "Plane" ) then {
-					null = [_vehicle] execVM "scripts\misc\pushback.sqf";
+					[_vehicle] execVM "scripts\misc\pushback.sqf";
 				};
 				
 				if ( _vehicle isKindOf "AllVehicles" ) then {
-					null = [_vehicle] execVM "IgiLoad\IgiLoad.sqf";
+					[_vehicle] execVM "IgiLoad\IgiLoad.sqf";
 				};
 				
 				if ( _classname in fuel_cannister ) then {
-					[_vehicle, true, [0.3, 0, 0.3], 90] call ace_dragging_fnc_setCarryable;
-					null = [_vehicle] execVM "scripts\misc\repair\TAA_Database.sqf";
+					[[_vehicle, true, [0.3, 0, 0.3], 90], "ace_dragging_fnc_setCarryable", true, false] call BIS_fnc_MP;
+					[_vehicle] execVM "scripts\misc\repair\TAA_Database.sqf";
 				};
 				
 				if ( _classname in repair_container ) then {
@@ -388,18 +409,16 @@ while { true } do {
 				};
 				
 				if ( _classname in carryable_objects ) then {
-					[_vehicle, true, [0, 1, 0], 180] call ace_dragging_fnc_setCarryable;
-					_vehicle setVariable ["ace_cargo_canLoad", 1];
+					[[_vehicle, true, [0, 1, 0], 180], "ace_dragging_fnc_setCarryable", true, false] call BIS_fnc_MP;
 				};
 				
 				if ( _classname in draggable_objects ) then {
-					[_vehicle, true, [0, 1, 0], 180] call ace_dragging_fnc_setDraggable;
+					[[_vehicle, true, [0, 1, 0], 180], "ace_dragging_fnc_setDraggable", true, false] call BIS_fnc_MP;
 				};
 
 				if (buildtype != 6) then {
 					_vehicle addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
 					{ _x addMPEventHandler ["MPKilled", {_this spawn kill_manager}]; } foreach (crew _vehicle);
-
 				};
 			};
 

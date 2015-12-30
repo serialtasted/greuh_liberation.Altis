@@ -5,6 +5,13 @@ Thanks to Black Puma and  Jimi Vacarians  for the tips !!
 http://www.taa-arma.fr/
 -----------------------------------------------------------------------------------
 Version 1.1 */
+
+waitUntil { !isNil "client_is_loaded" };
+waitUntil { client_is_loaded };
+
+Class_allowed = [ "engineer" ];
+Player_class = player getVariable ["St_class", "assault"];
+
 // Set true to activate the Fuel system , false do the opposite. 
 TAAFuelSystem = true;
 
@@ -19,27 +26,16 @@ if (isDedicated) exitWith {};
 
 [] spawn
 {	
-	waitUntil {player == player};
-	
-	Class_allowed = ["rhsusf_army_ucp_engineer"]; // set the class that can repair vehicle , don't put class that can already repair with the repairs default option. Check https://community.bistudio.com/wiki/Arma_3_Assets 
-						
-	if (typeOf player in  Class_allowed ) then 
-	{
-		[] spawn TAA_Repairman_Actions;
-		sleep 2;
-	};
-	
 	if (TAAFuelSystem) then
 	{
 		[] spawn TAA_Fuel_Containers_Action;
 	};
 	
-	player addEventHandler 
-	[
-		"Respawn", 
-		{ 
-			[] execVM "scripts\misc\repair\TAA_init.sqf";
-		}
-	];
+	[] spawn TAA_Repairman_Actions;
+	sleep 2;
 	
+	while { true } do {
+		waitUntil { alive player && Player_class != player getVariable ["St_class", "assault"] };
+		Player_class = player getVariable ["St_class", "assault"];
+	};
 };

@@ -44,8 +44,11 @@ _notifyExplosives = [
 
 while { true } do {
 	_unitPrimaryWeapon = primaryWeapon player;
+	_unitPrimaryWeaponItems = primaryWeaponItems player;
 	_unitHandgun = handgunWeapon player;
+	_unitHandgunItems = handgunItems player;
 	_unitLauncher = secondaryWeapon player;
+	_unitLauncherItems = secondaryWeaponItems player;
 	_unitMagazines = magazines player;
 	_unitHeadgear = headgear player;
 	_unitUniform = uniform player;
@@ -57,23 +60,48 @@ while { true } do {
 	
 	waitUntil { 
 		sleep 0.5;
+		_pItemsDif = [_unitPrimaryWeaponItems,(primaryWeaponItems player)] call BIS_fnc_areEqual;
+		_hItemsDif = [_unitHandgunItems,(handgunItems player)] call BIS_fnc_areEqual;
+		_sItemsDif = [_unitLauncherItems,(secondaryWeaponItems player)] call BIS_fnc_areEqual;
 		_magazinesDif = [_unitMagazines,(magazines player)] call BIS_fnc_areEqual;
 		_itemsDif = [_unitItems,(items player)] call BIS_fnc_areEqual;
-		(primaryWeapon player != _unitPrimaryWeapon || handgunWeapon player != _unitHandgun || secondaryWeapon player != _unitLauncher || !_magazinesDif || uniform player != _unitUniform || headgear player != _unitHeadgear || vest player != _unitVest || backpack player != _unitBackpack || binocular player != _unitBinocular || !_itemsDif) && !changing_class
+		(primaryWeapon player != _unitPrimaryWeapon || !_pItemsDif || handgunWeapon player != _unitHandgun || !_hItemsDif || secondaryWeapon player != _unitLauncher || !_sItemsDif || !_magazinesDif || uniform player != _unitUniform || headgear player != _unitHeadgear || vest player != _unitVest || backpack player != _unitBackpack || binocular player != _unitBinocular || !_itemsDif) && !changing_class
 	};
 	
 	if ( !( primaryWeapon player in arsenal_weapons ) && primaryWeapon player in all_arsenal_weapons && primaryWeapon player != "" ) then {
 		_msg = format ["%1 is not allowed on your class.", ( (primaryWeapon player) call ISSE_Cfg_Weapons_GetName ) ];
 		player removeWeapon (primaryWeapon player);
 	};
+	{
+		if ( !( _x in arsenal_items ) && _x in all_arsenal_items ) then {
+			_msg = format ["%1 is not allowed on your class.", ( _x call ISSE_Cfg_Items_GetName )];
+			player removePrimaryWeaponItem _x;
+		};
+	} forEach primaryWeaponItems player;
+	
+	
 	if ( !( handgunWeapon player in arsenal_weapons ) && handgunWeapon player in all_arsenal_weapons && handgunWeapon player != "" ) then {
 		_msg = format ["%1 is not allowed on your class.", ( (handgunWeapon player) call ISSE_Cfg_Weapons_GetName ) ];
 		player removeWeapon (handgunWeapon player);
 	};
+	{
+		if ( !( _x in arsenal_items ) && _x in all_arsenal_items ) then {
+			_msg = format ["%1 is not allowed on your class.", ( _x call ISSE_Cfg_Items_GetName )];
+			player removeHandgunItem _x;
+		};
+	} forEach handgunItems player;
+	
 	if ( !( secondaryWeapon player in arsenal_weapons ) && secondaryWeapon player in all_arsenal_weapons && secondaryWeapon player != "" ) then {
 		if ( !( secondaryWeapon player in _usedTubes ) ) then { _msg = format ["%1 is not allowed on your class.", ( (secondaryWeapon player) call ISSE_Cfg_Weapons_GetName ) ]; };
 		player removeWeapon (secondaryWeapon player);
 	};
+	{
+		if ( !( _x in arsenal_items ) && _x in all_arsenal_items ) then {
+			_msg = format ["%1 is not allowed on your class.", ( _x call ISSE_Cfg_Items_GetName )];
+			player removeSecondaryWeaponItem _x;
+		};
+	} forEach secondaryWeaponItems player;
+	
 	{
 		if ( !( _x in arsenal_magazines ) && _x in all_arsenal_magazines ) then {
 			if ( _x in _notifyExplosives ) then { _msg = format ["%1 is not allowed on your class.", ( _x call ISSE_Cfg_Magazine_GetName ) ]; };

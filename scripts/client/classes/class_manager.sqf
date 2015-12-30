@@ -130,6 +130,17 @@ while {true} do {
 	// assign radio and frequencies
 	[] call F_assignComms;
 	
+	// lower weapon
+	if ( primaryWeapon player != "" ) then {
+		player playMove "AmovPercMstpSrasWrflDnon_AmovPercMstpSlowWrflDnon";
+		waitUntil { animationState player != "AmovPercMstpSrasWrflDnon_AmovPercMstpSlowWrflDnon" };
+		player playMove "AmovPercMstpSlowWrflDnon";
+	} else {
+		player playMove "AmovPercMstpSrasWpstDnon_AmovPercMstpSlowWpstDnon";
+		waitUntil { animationState player != "AmovPercMstpSrasWpstDnon_AmovPercMstpSlowWpstDnon" };
+		player playMove "AmovPercMstpSlowWpstDnon";
+	};
+	
 	_msg = format ["You have chosen %1 as your class. Good luck on the battlefield, Soldier!", toUpper(_currentclass)];
 	titleText [_msg, "PLAIN DOWN"];
 	changing_class = false;

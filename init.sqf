@@ -16,6 +16,9 @@ diag_log ["---------------------------------------------------------------------
 [] call compileFinal preprocessfilelinenumbers "scripts\shared\init_shared.sqf";
 diag_log ["------------------------------------------------------------------------------- STEP #8"];
 
+//------------------------------------------------ Initialize whitelist
+[] call compileFinal preprocessFileLineNumbers "whitelist.sqf";
+
 //------------------------------------------------ Initialize server, client and HC
 if (isServer) then {
 	[] call compileFinal preprocessFileLineNumbers "scripts\server\init_server.sqf";
@@ -38,7 +41,8 @@ enableSentences false;
 enableRadio false;
 
 //------------------------------------------------ Misc
+callFireworks = compile preprocessFileLineNumbers "GRAD_fireworks\callFireworks.sqf";
+[] call compileFinal preprocessFileLineNumbers "GRAD_fireworks\fireworks.sqf";
 [] call compileFinal preprocessFileLineNumbers "LT\init.sqf";
 [] call compileFinal preprocessFileLineNumbers "scripts\misc\intLight.sqf";
 [] call compileFinal preprocessFileLineNumbers "scripts\misc\repair\TAA_init.sqf";
-[] call compileFinal preprocessFileLineNumbers "satcom\init_satellite.sqf";

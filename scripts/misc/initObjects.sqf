@@ -26,11 +26,26 @@ waitUntil { !isNil "save_is_loaded" };
 		] call BIS_fnc_initVehicle;
 	};
 	
+	if ( _classname == "B_G_Offroad_01_repair_F" ) then {
+		[
+			_vehicle,
+			nil,
+			[
+				"HideDoor1", 0,
+				"HideDoor2", 0,
+				"HideGlass2", 1,
+				"HideDoor3", 0,
+				"Proxy", 0,
+				"Destruct", 0
+			]
+		] call BIS_fnc_initVehicle;
+	};
+	
 	/*if ( _classname == FOB_box_typename && _isServer ) then {
 		[ [_vehicle, 3000 ] , "F_setMass" ] call BIS_fnc_MP;
 	};*/
 	
-	if ( _classname == ammobox_b_typename || _classname == ammobox_o_typename ) then {
+	if ( _classname in  [ ammobox_b_typename, ammobox_o_typename, "B_Slingload_01_Ammo_F","JNS_Skycrane_Pod_Ammo_BLU_Green", "B_Slingload_01_Medevac_F", "JNS_Skycrane_Pod_Medical_BLU_Green", "B_Slingload_01_Fuel_F", "JNS_Skycrane_Pod_Fuel_BLU_Green", "B_Slingload_01_Repair_F", "JNS_Skycrane_Pod_Repair_BLU_Green" ] ) then {
 		_vehicle setVariable ["ace_cargo_size", -1];
 	};
 	
@@ -91,11 +106,11 @@ waitUntil { !isNil "save_is_loaded" };
 		_vehicle setVariable ["ace_medical_medicClass", 1, true];
 	};
 	
-	if ( _vehicle isKindOf "Plane" && _isServer ) then {
+	if ( _vehicle isKindOf "Plane" && !_isServer ) then {
 		[_vehicle] execVM "scripts\misc\pushback.sqf";
 	};
 	
-	if ( _vehicle isKindOf "AllVehicles" && _isServer ) then {
+	if ( _vehicle isKindOf "AllVehicles" && !_isServer ) then {
 		[_vehicle] execVM "IgiLoad\IgiLoad.sqf";
 	};
 	

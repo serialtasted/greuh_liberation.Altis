@@ -5,8 +5,6 @@ _playerrank = 1;
 
 if ( isNil { name _unit } ) then { _unit = player; };
 
-[] call compileFinal preprocessFileLineNumbers "whitelist.sqf";
-
 {
 	if ( ( ( _x select 1 ) select 0 ) == ( getPlayerUID _unit ) ) then {
 		_playerrank = ( ( _x select 2 ) select 0 );

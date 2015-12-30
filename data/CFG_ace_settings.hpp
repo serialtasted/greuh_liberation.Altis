@@ -215,7 +215,7 @@ class ACE_Settings {
 		force = 1;
 	};
 	class ace_medical_maxReviveTime {
-		value = 1500;
+		value = 3600;
 		typeName = "SCALAR";
 		force = 1;
 	};
@@ -335,7 +335,7 @@ class ACE_Settings {
 		force = 1;
 	};
 	class ace_nametags_playerNamesViewDistance {
-		value = 5;
+		value = 8;
 		typeName = "SCALAR";
 		force = 1;
 	};
@@ -485,7 +485,7 @@ class ACE_Settings {
 		force = 1;
 	};
 	class ace_viewdistance_limitViewDistance {
-		value = 6000;
+		value = 3500;
 		typeName = "SCALAR";
 		force = 1;
 	};

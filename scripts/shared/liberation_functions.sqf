@@ -46,3 +46,6 @@ F_assignComms = compileFinal preprocessFileLineNumbers "scripts\shared\functions
 F_handleDisconnected = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_handleDisconnected.sqf";
 F_rearmVehicle = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_rearmVehicle.sqf";
 F_setFuel = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_setFuel.sqf";
+F_forceBluforCrew = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_forceBluforCrew.sqf";
+F_getCorrectedSectorRange = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getCorrectedSectorRange.sqf";
+F_getLocationName = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getLocationName.sqf";

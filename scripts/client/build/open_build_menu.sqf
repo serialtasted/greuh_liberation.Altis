@@ -38,7 +38,7 @@ while { dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 
 	if ( buildtype == 7 ) then {
 		_build_list = [];
-		while { count _build_list < (count (build_lists select buildtype)) - 3 } do {
+		while { count _build_list < (count (build_lists select buildtype)) - 4 } do {
 			_build_list pushback ((build_lists select buildtype) select (count _build_list));
 		};
 	};

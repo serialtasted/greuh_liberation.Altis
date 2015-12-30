@@ -390,101 +390,67 @@ class LT_MainMenu
 
 	class controls {
 
-		class LoadBtn : VAS_RscButtonMenu
-		{
-			idc = 2401;
-			text = "Load";
-			colorBackground[] = { "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5 };
-			onButtonClick = "[] spawn LT_fnc_loadoutMenu;";
-			x = 0.41; y = 0.30;
-			w = (7.75 / 40);
-			h = (1 / 25);
-		};
-
-		class TransferBtn : VAS_RscButtonMenu
-		{
-			idc = 2402;
-			text = "Transfer";
-			colorBackground[] = { "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5 };
-			onButtonClick = "[] spawn LT_fnc_transferMenu;";
-			x = 0.45; y = 0.35;
-			w = (7.75 / 40);
-			h = (1 / 25);
-		};
-
 		class ArsenalBtn : VAS_RscButtonMenu
 		{
-			idc = 2403;
+			idc = 2401;
 			text = "Arsenal";
 			colorBackground[] = { "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5 };
 			onButtonClick = "closeDialog 0; [] spawn LT_fnc_openArsenal;";
-			x = 0.41; y = 0.40;
+			x = 0.55; y = 0.30;
 			w = (7.75 / 40);
-			h = (1 / 25);
+			h = (2 / 25);
 		};
-
-		class ManageLOsBtn : VAS_RscButtonMenu
+		
+		/*class TransferBtn : VAS_RscButtonMenu
 		{
 			idc = 2404;
-			text = "Manage LOs";
+			text = "Send";
 			colorBackground[] = { "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5 };
-			onButtonClick = "closeDialog 0; [] spawn Lt_fnc_manageLoadouts;";
-			x = 0.45; y = 0.45;
-			w = (7.75 / 40);
+			onButtonClick = "[] spawn LT_fnc_transferMenu;";
+			x = 0.55; y = 0.346;
+			w = (3.855 / 40);
 			h = (1 / 25);
 		};
+		
+		class LoadBtn : VAS_RscButtonMenu
+		{
+			idc = 2405;
+			text = "Load";
+			colorBackground[] = { "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5 };
+			onButtonClick = "[] spawn LT_fnc_loadoutMenu;";
+			x = 0.647; y = 0.346;
+			w = (3.855 / 40);
+			h = (1 / 25);
+		};*/
 
 		class GetRadioBtn : VAS_RscButtonMenu
 		{
-			idc = 2405;
+			idc = 2402;
 			text = "Get Radio";
 			colorBackground[] = { "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5 };
 			onButtonClick = "closeDialog 0; [] spawn St_fnc_setRadioTFAR;";
-			x = 0.41; y = 0.50;
+			x = 0.55; y = 0.40;
 			w = (7.75 / 40);
-			h = (1 / 25);
+			h = (2 / 25);
 		};
 		
 		class ChangeClassBtn : VAS_RscButtonMenu
 		{
-			idc = 2406;
+			idc = 2403;
 			text = "Pick Class";
 			colorBackground[] = { "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5 };
 			onButtonClick = "closeDialog 0; [true] spawn St_fnc_openClassSelector;";
-			x = 0.45; y = 0.55;
+			x = 0.55; y = 0.50;
 			w = (7.75 / 40);
-			h = (1 / 25);
-		};
-
-
-		class AdminServerBtn : VAS_RscButtonMenu
-		{
-			idc = 2407;
-			text = "Check Player";
-			colorBackground[] = { "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5 };
-			onButtonClick = "[] spawn LT_fnc_checkPlayerMenu;";
-			x = 0.31; y = 0.55;
-			w = (7.25 / 40);
-			h = (1 / 25);
+			h = (2 / 25);
 		};
 
 		class ButtonClose : VAS_RscButtonMenu {
 			idc = -1;
-			//shortcuts[] = {0x00050000 + 2};
 			text = "Close";
 			onButtonClick = "closeDialog 0;";
-			x = 0.38;
-			y = 0.7 - (1 / 25);
-			w = (6.25 / 40);
-			h = (1 / 25);
-		};
-
-		class ButtonSaveGear : VAS_RscButtonMenu {
-			idc = -1;
-			text = "Save Gear";
-			onButtonClick = "createDialog ""LT_Save_Diag"";";
-			x = 0.38 + (6.25 / 40) + (1 / 250 / (safezoneW / safezoneH));
-			y = 0.7 - (1 / 25);
+			x = 0.455 + (6.25 / 40) + (1 / 250 / (safezoneW / safezoneH));
+			y = 0.7 - (1.25 / 25);
 			w = (6.25 / 40);
 			h = (1 / 25);
 		};
@@ -495,8 +461,8 @@ class LT_MainMenu
 			idc = -1;
 			text = "LT\images\ammunation.paa";
 
-			x = 0.22;
-			y = 0.075;
+			x = 0.30;
+			y = 0.25;
 			w = 0.25;
 			h = 0.25;
 		};

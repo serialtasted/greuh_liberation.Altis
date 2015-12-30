@@ -16,6 +16,10 @@ _unitName = name player;
 _unitTeam = player getVariable ["St_team", "PTr_alpha"];
 _friendlyTeamName = "";
 
+if (typeOf (unitBackpack player) isEqualTo SEN_TFAR_LR) then {
+	removeBackpack player;
+};
+
 switch ( _unitTeam ) do {
 	case "PTr_alpha": { _friendlyTeamName = "Squad Alpha"; };
 	case "PTr_bravo": { _friendlyTeamName = "Squad Bravo"; };

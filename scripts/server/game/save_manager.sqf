@@ -56,6 +56,7 @@ GRLIB_vehicle_to_military_base_links = [];
 GRLIB_permissions = [];
 ai_groups = [];
 saved_intel_res = 0;
+GRLIB_player_scores = [];
 
 no_kill_handler_classnames = [FOB_typename, huron_typename];
 _classnames_to_save = [FOB_typename, huron_typename];
@@ -130,7 +131,7 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 		air_weight = _weights select 2;
 	};
 
-	if ( count greuh_liberation_savegame > 11 ) then {
+	if ( count greuh_liberation_savegame > 11 && !GRLIB_param_resetelite ) then {
 		GRLIB_vehicle_to_military_base_links = greuh_liberation_savegame select 11;
 	};
 
@@ -145,8 +146,12 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 	if ( count greuh_liberation_savegame > 14 ) then {
 		saved_intel_res = greuh_liberation_savegame select 14;
 	};
+	
+	if ( count greuh_liberation_savegame > 15 ) then {
+ 		GRLIB_player_scores = greuh_liberation_savegame select 15;
+ 	};
 
-	setDate [date_year, date_month, date_day, time_of_day, date select 4];
+	setDate [date_year, date_month, date_day, time_of_day, 0];
 	
 	_correct_fobs = [];
 	{
@@ -179,11 +184,15 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 			
 			_nextbuilding = _nextclass createVehicle _nextpos;
 			_nextbuilding setPosATL _nextpos;
+			_nextbuilding setVariable ["truePos", _nextpos];
 			_nextbuilding setdir _nextdir;
+			_nextbuilding setVariable ["trueDir", _nextdir];
 			_nextbuilding setdamage 0;
 			
+			//TO DO: LOAD VEHICLES
+			
 			if ( _hascrew ) then {
-				createVehicleCrew _nextbuilding;
+				[ _nextbuilding ] call F_forceBluforCrew;
 			};
 			
 			_nextbuilding setVectorUp _vectorup;
@@ -318,69 +327,116 @@ while { true } do {
 		} foreach blufor_sectors;
 		
 		{
-			_nextclass = typeof _x;
+			_building = _x;
+			_nextclass = typeof _building;
 			
-			_nextpos = [];
+			/*_nextpos = [];
 			if ( _nextclass in light_objects ) then {
-				_nextpos = [(getPosATL _x) select 0, (getPosATL _x) select 1, (getPosATL _x) select 2];
+				_nextpos = [(getPosATL _building) select 0, (getPosATL _building) select 1, (getPosATL _building) select 2];
 			} else {
-				_nextpos = [(getPosATL _x) select 0, (getPosATL _x) select 1, 0];
-			};
+				_nextpos = [(getPosATL _building) select 0, (getPosATL _building) select 1, 0];
+			};*/
 			
-			_nextdir = getdir _x;
+			_nextpos = _building getVariable "truePos";
+			_nextdir = _building getVariable "trueDir";
 			_hascrew = false;
-			_vectorup = vectorUp _x;
+			_vectorup = vectorUp _building;
+			
+			_excludemag = [];
+			_vehammo = [];
+			_curmag = "";
+			{
+				_weapon = _x;
+				_rounds = _building ammo _weapon;
+				_mags = 0;
+				_prevmag = "";
+				
+				{
+					_curmag = _x;
+					if ((_curmag isEqualTo _prevmag || _prevmag isEqualTo "") && !(_curmag in _excludemag)) then { _mags = _mags + 1; _prevmag = _curmag; };
+				} forEach magazines _building;
+				
+				_excludemag pushBack _prevmag;
+				_vehammo pushBack [_weapon, _rounds, _mags];
+			} forEach weapons _building;
+			
+			_vehcargoammo = getAmmoCargo _building;
+			_vehfuel = fuel _building;
+			_vehcargofuel = getFuelCargo _building;
+			
+			_vehweaponcargo = getWeaponCargo _building;
+			_vehmagazinecargo = getMagazineCargo _building;
+			_vehbackpackcargo = getBackpackCargo _building;
+			_vehitemcargo = getItemCargo _building;
+			
+			_vehdamage = damage _building;
 			
 			if ( _nextclass in _classnames_to_save_blu ) then {
-				if ( ( { !isPlayer _x } count (crew _x) ) > 0 ) then {
+				if ( ( { !isPlayer _building } count (crew _building) ) > 0 ) then {
 					_hascrew = true;
 				};
 			};
-			buildings_to_save pushback [ _nextclass,_nextpos,_nextdir,_hascrew,_vectorup ];
+			buildings_to_save pushback [ _nextclass,_nextpos,_nextdir,_hascrew,_vectorup,[_vehammo,_vehcargoammo,_vehfuel,_vehcargofuel,_vehweaponcargo,_vehmagazinecargo,_vehbackpackcargo,_vehitemcargo,_vehdamage] ];
 		} foreach _all_buildings;
 
 		time_of_day = date select 3;
 
 		stats_saves_performed = stats_saves_performed + 1;
+		
+		private [ "_newscores", "_knownplayers", "_playerindex", "_nextplayer" ];
+		_knownplayers = [];
+		_newscores = [] + GRLIB_player_scores;
+		{ _knownplayers pushback (_x select 0) } foreach GRLIB_player_scores;
 
-		if ( count GRLIB_all_fobs <= 26 ) then {
+		{
+			_nextplayer = _x;
 
-			_stats = [];
-			_stats pushback stats_opfor_soldiers_killed;
-			_stats pushback stats_opfor_killed_by_players;
-			_stats pushback stats_blufor_soldiers_killed;
-			_stats pushback stats_player_deaths;
-			_stats pushback stats_opfor_vehicles_killed;
-			_stats pushback stats_opfor_vehicles_killed_by_players;
-			_stats pushback stats_blufor_vehicles_killed;
-			_stats pushback stats_blufor_soldiers_recruited;
-			_stats pushback stats_blufor_vehicles_built;
-			_stats pushback stats_civilians_killed;
-			_stats pushback stats_civilians_killed_by_players;
-			_stats pushback stats_sectors_liberated;
-			_stats pushback stats_playtime;
-			_stats pushback stats_spartan_respawns;
-			_stats pushback stats_secondary_objectives;
-			_stats pushback stats_hostile_battlegroups;
-			_stats pushback stats_ieds_detonated;
-			_stats pushback stats_saves_performed;
-			_stats pushback stats_saves_loaded;
-			_stats pushback stats_reinforcements_called;
-			_stats pushback stats_prisonners_captured;
-			_stats pushback stats_blufor_teamkills;
-			_stats pushback stats_vehicles_recycled;
-			_stats pushback stats_ammo_spent;
-			_stats pushback stats_sectors_lost;
-			_stats pushback stats_fobs_built;
-			_stats pushback stats_fobs_lost;
-			_stats pushback stats_readiness_earned;
+			if ( score _nextplayer >= 20 ) then {
+				_playerindex = _knownplayers find (getPlayerUID _nextplayer);
+				if ( _playerindex >= 0 ) then {
+					_newscores set [ _playerindex, [ getPlayerUID _x, score _x] ];
+				} else {
+					_newscores pushback [ getPlayerUID _x, score _x ];
+				};
+			};
+		} foreach allPlayers;
+		GRLIB_player_scores = _newscores;
 
-			greuh_liberation_savegame = [ blufor_sectors, GRLIB_all_fobs, buildings_to_save, time_of_day,round combat_readiness, date select 0, date select 1, date select 2, round resources_ammo, _stats,
-			[ round infantry_weight, round armor_weight, round air_weight ], GRLIB_vehicle_to_military_base_links, GRLIB_permissions, ai_groups, resources_intel ];
+		_stats = [];
+		_stats pushback stats_opfor_soldiers_killed;
+		_stats pushback stats_opfor_killed_by_players;
+		_stats pushback stats_blufor_soldiers_killed;
+		_stats pushback stats_player_deaths;
+		_stats pushback stats_opfor_vehicles_killed;
+		_stats pushback stats_opfor_vehicles_killed_by_players;
+		_stats pushback stats_blufor_vehicles_killed;
+		_stats pushback stats_blufor_soldiers_recruited;
+		_stats pushback stats_blufor_vehicles_built;
+		_stats pushback stats_civilians_killed;
+		_stats pushback stats_civilians_killed_by_players;
+		_stats pushback stats_sectors_liberated;
+		_stats pushback stats_playtime;
+		_stats pushback stats_spartan_respawns;
+		_stats pushback stats_secondary_objectives;
+		_stats pushback stats_hostile_battlegroups;
+		_stats pushback stats_ieds_detonated;
+		_stats pushback stats_saves_performed;
+		_stats pushback stats_saves_loaded;
+		_stats pushback stats_reinforcements_called;
+		_stats pushback stats_prisonners_captured;
+		_stats pushback stats_blufor_teamkills;
+		_stats pushback stats_vehicles_recycled;
+		_stats pushback stats_ammo_spent;
+		_stats pushback stats_sectors_lost;
+		_stats pushback stats_fobs_built;
+		_stats pushback stats_fobs_lost;
+		_stats pushback stats_readiness_earned;
 
-			profileNamespace setVariable [ GRLIB_save_key, greuh_liberation_savegame ];
-			saveProfileNamespace;
-		};
+		greuh_liberation_savegame = [ blufor_sectors, GRLIB_all_fobs, buildings_to_save, time_of_day,round combat_readiness, date select 0, date select 1, date select 2, round resources_ammo, _stats,
+		[ round infantry_weight, round armor_weight, round air_weight ], GRLIB_vehicle_to_military_base_links, GRLIB_permissions, ai_groups, resources_intel, GRLIB_player_scores ];
+
+		profileNamespace setVariable [ GRLIB_save_key, greuh_liberation_savegame ];
+		saveProfileNamespace;
 	};
 	
 	diag_log "** GAME SAVED **";

@@ -12,21 +12,10 @@ if (isDedicated) exitWith {};
 
 [] spawn
 {	
-	waitUntil {player == player};
-	
-					//Explosive Spécialist
-	//_Class_allowed = ["B_soldier_exp_F"]; // set the class that can repair vehicle , don't put class that can already repair with the repairs default option. Check https://community.bistudio.com/wiki/Arma_3_Assets
+	waitUntil { alive player };
 							
-	if (typeOf player in  Class_allowed) then  
+	if (Player_class in Class_allowed) then  
 	{
 		call TAA_Repairman_Actions;	
 	};
-	
-	/*player addEventHandler 
-	[
-		"Respawn", 
-		{ 
-			[] execVM "scripts\misc\repair\TAA_init.sqf";
-		}
-	];*/
 };

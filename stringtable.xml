@@ -2,10 +2,10 @@
         <Project name="Liberation">
                 <Package name="Liberation">
         	<Key ID="STR_MISSION_TITLE">
-        		<Original>Liberation 0.917</Original>
+        		<Original>Liberation 0.919</Original>
         	</Key>
                 <Key ID="STR_MISSION_VERSION">
-                        <Original>v0.917 (PTr Edition)</Original>
+                        <Original>v0.919 (PTr Edition)</Original>
                 </Key>
                 <Key ID="STR_MISSION_DESCRIPTION">
                         <Original>With the power of Freedom and Democracy you shall liberate Altis from the Russian oppression. 'Mérica F**k YEAH!</Original>
@@ -1212,6 +1212,10 @@
                 <Key ID="STR_SECONDARY_IN_PROGRESS">
                         <Original>Secondary mission already in progress</Original>
                         <French>Mission secondaire déjà en cours</French>
+                </Key>
+				<Key ID="STR_NOTIFICATION_INCOMING_TEXT">
+                        <Original>Hostile forces are heading towards %1</Original>
+                        <French>Les forces hostiles se dirigent vers %1</French>
                 </Key>
                 <Key ID="STR_DEPLOY_IN_PROGRESS">
                         <Original>Deployment in progress...</Original>

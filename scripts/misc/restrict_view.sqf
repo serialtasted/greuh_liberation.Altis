@@ -1,3 +1,5 @@
+waitUntil { !isNil "save_is_loaded" };
+
 [{
 	_vehplayer = vehicle player;
 	_allowed = [driver _vehplayer];

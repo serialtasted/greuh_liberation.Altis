@@ -79,6 +79,10 @@ class lib_battlegroup : lib_default_notification
 	color[] = {1,0,0,1};
 	sound = "taskFailed";
 };
+class lib_incoming : lib_battlegroup
+{
+	description = $STR_NOTIFICATION_INCOMING_TEXT;
+};
 class lib_intel : lib_default_notification
 {
 	title = $STR_NOTIFICATION_INTEL_TITLE;

@@ -29,7 +29,7 @@ showRadio = false;
 
 //------------------------- Respawn
 Respawn = 3;											// 0 = none. 1 = bird. 2 = instant where died. 3 = base or respawn_west marker. 4 = respawn with team, or bird. 5 = into AI or bird.
-RespawnDelay = 30;										// Delay prior to respawn
+RespawnDelay = 15;										// Delay prior to respawn
 RespawnButton = 0;
 
 //------------------------- Includes / Functions
@@ -42,7 +42,6 @@ RespawnButton = 0;
 #include "data\CFG_ace_settings.hpp"
 #include "CS\CSmenu.hpp"
 #include "CS\CSdeadscreen.hpp"
-#include "satcom\init_interface.hpp"
 
 class Params {
 	#include "data\CFG_params.hpp"
@@ -55,4 +54,9 @@ class CfgNotifications {
 class CfgFunctions {
 	#include "data\CFG_functions.hpp"
 	#include "LT\cfgfunctions.hpp"
+};
+
+class CfgSounds
+{
+  #include "data\CFG_sounds.hpp"
 };

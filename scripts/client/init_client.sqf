@@ -10,6 +10,24 @@ if((getPlayerUID player) != "_SP_PLAYER_") then {
 	};
 };
 
+// set unit rank
+_unitrank = str([] call F_getPlayerRank);
+
+switch ( _unitrank ) do {
+	case '1': {_unitrank = "PRIVATE"}; 
+	case '2': {_unitrank = "CORPORAL"};
+	case '3': {_unitrank = "SERGEANT"};
+	case '4': {_unitrank = "LIEUTENANT"};
+	case '5': {_unitrank = "CAPTAIN"};
+	case '6': {_unitrank = "MAJOR"};
+	case '7': {_unitrank = "COLONEL"};
+	default {_unitrank = "PRIVATE"};
+};
+
+player setRank _unitrank;
+diag_log format ["-- Your rank is %1", _unitrank];
+
+// handle player id during session
 playableUnitOccupier_PV = player; publicVariableServer "playableUnitOccupier_PV";	
 player addEventHandler ["Respawn", {
 	playableUnitOccupier_PV = _this select 0; publicVariableServer "playableUnitOccupier_PV";
@@ -34,7 +52,6 @@ call St_fnc_setParams;
 [] spawn compileFinal preprocessFileLineNumbers "scripts\misc\restrict_view.sqf";
 
 // carry on...
-//["InitializePlayer", [player, true]] call BIS_fnc_dynamicGroups;
 player enableSimulation true;
 
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\group\group_manager.sqf";
@@ -69,8 +86,11 @@ write_credit_line = compileFinal preprocessFileLineNumbers "scripts\client\ui\wr
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\sector_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\spot_timer.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\broadcast_squad_colors.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\disable_remote_sensors.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\offload_diag.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\permissions_warning.sqf";
+//[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\resupply_manager.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\secondary_jip.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\stay_leader.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\stop_renegade.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\synchronise_vars.sqf";

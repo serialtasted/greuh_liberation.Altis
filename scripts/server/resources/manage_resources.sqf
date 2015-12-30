@@ -7,7 +7,7 @@ resources_ammo = saved_ammo_res;
 resources_intel = saved_intel_res;
 
 while { GRLIB_endgame == 0 } do {
-	_base_tick_period = 6000;
+	_base_tick_period = 4800;
 	
 	if ( count allPlayers > 2 ) then {
 		_blufor_mil_sectors = [];
@@ -20,14 +20,14 @@ while { GRLIB_endgame == 0 } do {
 		
 		_base_tick_period = _base_tick_period / GRLIB_resources_multiplier;
 		
-		if ( _base_tick_period < 300 ) then { _base_tick_period = 300 };
+		if ( _base_tick_period < 900 ) then { _base_tick_period = 900 };
 		
 		sleep _base_tick_period;
 		
 		if ( count _blufor_mil_sectors > 0 ) then {
 			if ( GRLIB_passive_income ) then {
 
-				_ammo_increase = round ( 35 + (random 35));
+				_ammo_increase = round ( 50 + (random 35));
 				resources_ammo = resources_ammo + _ammo_increase;
 
 			} else {
@@ -59,7 +59,7 @@ while { GRLIB_endgame == 0 } do {
 					};
 					
 					if ( _is_solar && _is_device && _is_generator) then {
-						_ammo_increase = _ammo_increase + (round ( 3 + (random 6)) * _solar_multiplier);
+						_ammo_increase = _ammo_increase + (round ( 4 + (random 7)) * _solar_multiplier);
 					};
 					
 					systemChat str _ammo_increase;
@@ -102,7 +102,7 @@ while { GRLIB_endgame == 0 } do {
 				_spawnsector = ( _blufor_mil_sectors call BIS_fnc_selectRandom );
 				_spawnpos = zeropos;
 				while { _spawnpos distance zeropos < 1000 } do {
-					_spawnpos =  ( [ ( markerpos _spawnsector), random 20, random 360 ] call BIS_fnc_relPos ) findEmptyPosition [ 0, 100, 'B_Heli_Transport_01_F' ];
+					_spawnpos =  ( [ ( markerpos _spawnsector), random 50, random 360 ] call BIS_fnc_relPos ) findEmptyPosition [ 10, 100, 'B_Heli_Transport_01_F' ];
 					if ( count _spawnpos == 0 ) then { _spawnpos = zeropos; };
 				};
 

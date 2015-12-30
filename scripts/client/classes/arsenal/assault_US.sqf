@@ -63,6 +63,7 @@ arsenal_weapons = [
 	"rhs_weap_M590_5RD",
 	
 	"rhs_weap_M136_hp",
+	"rhs_weap_smaw",
 	
 	// flares
 	"rhs_weap_rsp30_white",
@@ -119,6 +120,10 @@ arsenal_magazines = [
 	"ACE_HandFlare_Red",
 	"ACE_HandFlare_Green",
 	"ACE_HandFlare_Yellow",
+	
+	//rockets
+	"rhs_mag_smaw_HEAA",
+	"rhs_mag_smaw_HEDP",
 	
 	//handgun magazines
 	"RH_12Rnd_45cal_usp",
