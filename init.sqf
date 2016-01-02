@@ -16,9 +16,6 @@ diag_log ["---------------------------------------------------------------------
 [] call compileFinal preprocessfilelinenumbers "scripts\shared\init_shared.sqf";
 diag_log ["------------------------------------------------------------------------------- STEP #8"];
 
-//------------------------------------------------ Initialize whitelist
-[] call compileFinal preprocessFileLineNumbers "whitelist.sqf";
-
 //------------------------------------------------ Initialize server, client and HC
 if (isServer) then {
 	[] call compileFinal preprocessFileLineNumbers "scripts\server\init_server.sqf";

@@ -3,21 +3,43 @@ if ( [] call F_isAdmin ) then {
 	_action = ["ADM","Admin Actions","",{},{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
 	
-	_action = ["ADM_FORCESAVE","Force Sync","",{trigger_server_save = true; trigger_client_save = true; publicVariable "trigger_server_save"; publicVariable "trigger_client_save"; ["Client settings synced", "hintsilent", true] call BIS_fnc_MP; player spawn {sleep 3; hintsilent "Server settings synced";};},{true}] call ace_interact_menu_fnc_createAction;
-	[player, 1, ["ACE_SelfActions", "ADM"], _action] call ace_interact_menu_fnc_addActionToObject;
-	
-	_action = ["ADM_STARTSHOW","Start Fireworks Show","",{_null = [] execVM "scripts\misc\fireworksShow.sqf"},{true}] call ace_interact_menu_fnc_createAction;
-	[player, 1, ["ACE_SelfActions", "ADM"], _action] call ace_interact_menu_fnc_addActionToObject;
-	
-	if ( GRLIB_permissions_param ) then {
-		_action = ["ADM_PERMS","Player Permissions","",{execVM "scripts\client\commander\open_permissions.sqf";},{true}] call ace_interact_menu_fnc_createAction;
+		// force save
+		_action = ["ADM_FORCESAVE","Force Save","",{trigger_server_save = true; trigger_client_save = true; publicVariable "trigger_server_save"; publicVariable "trigger_client_save"; ["Client settings saved", "hintsilent", true] call BIS_fnc_MP; player spawn {sleep 3; hintsilent "Server settings saved";};},{true}] call ace_interact_menu_fnc_createAction;
 		[player, 1, ["ACE_SelfActions", "ADM"], _action] call ace_interact_menu_fnc_addActionToObject;
-	};
+		
+		// start fireworks
+		_action = ["ADM_STARTSHOW","Start Fireworks Show","",{_null = [] execVM "scripts\misc\fireworksShow.sqf"},{true}] call ace_interact_menu_fnc_createAction;
+		[player, 1, ["ACE_SelfActions", "ADM"], _action] call ace_interact_menu_fnc_addActionToObject;
+		
+		// change time
+		_action = ["ADM_CHANGETIME","Change Time","",{},{true}] call ace_interact_menu_fnc_createAction;
+		[player, 1, ["ACE_SelfActions", "ADM"], _action] call ace_interact_menu_fnc_addActionToObject;
+		
+			// morning
+			_action = ["TIME_MORNING","Set to morning","",{[5,"F_skipTime", true, false, true] spawn BIS_fnc_MP},{true}] call ace_interact_menu_fnc_createAction;
+			[player, 1, ["ACE_SelfActions", "ADM", "ADM_CHANGETIME"], _action] call ace_interact_menu_fnc_addActionToObject;
+			
+			// midday
+			_action = ["TIME_MIDDAY","Set to midday","",{[12,"F_skipTime", true, false, true] spawn BIS_fnc_MP},{true}] call ace_interact_menu_fnc_createAction;
+			[player, 1, ["ACE_SelfActions", "ADM", "ADM_CHANGETIME"], _action] call ace_interact_menu_fnc_addActionToObject;
+			
+			// dusk
+			_action = ["TIME_DUSK","Set to dusk","",{[18,"F_skipTime", true, false, true] spawn BIS_fnc_MP},{true}] call ace_interact_menu_fnc_createAction;
+			[player, 1, ["ACE_SelfActions", "ADM", "ADM_CHANGETIME"], _action] call ace_interact_menu_fnc_addActionToObject;
+			
+			// night
+			_action = ["TIME_NIGHT","Set to night","",{[22,"F_skipTime", true, false, true] spawn BIS_fnc_MP},{true}] call ace_interact_menu_fnc_createAction;
+			[player, 1, ["ACE_SelfActions", "ADM", "ADM_CHANGETIME"], _action] call ace_interact_menu_fnc_addActionToObject;
+	
+		if ( GRLIB_permissions_param ) then {
+			_action = ["ADM_PERMS","Player Permissions","",{execVM "scripts\client\commander\open_permissions.sqf";},{true}] call ace_interact_menu_fnc_createAction;
+			[player, 1, ["ACE_SelfActions", "ADM"], _action] call ace_interact_menu_fnc_addActionToObject;
+		};
 };
 
 // actions *ME*
 _action = ["ME",(name player),"",{},{true}] call ace_interact_menu_fnc_createAction;
 [player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
 
-_action = ["ME_SYNC","Sync Player","",{ if ( vehicle player == player ) then { trigger_client_save = true; hintsilent "Client settings synced"; } else { hintsilent "You can't sync settings when inside a vehicle"; }; },{true}] call ace_interact_menu_fnc_createAction;
-[player, 1, ["ACE_SelfActions", "ME"], _action] call ace_interact_menu_fnc_addActionToObject;
+	_action = ["ME_SYNC","Save Player","",{ if ( vehicle player == player ) then { trigger_client_save = true; hintsilent "Client settings saved"; } else { hintsilent "You can't save when inside a vehicle"; }; },{true}] call ace_interact_menu_fnc_createAction;
+	[player, 1, ["ACE_SelfActions", "ME"], _action] call ace_interact_menu_fnc_addActionToObject;

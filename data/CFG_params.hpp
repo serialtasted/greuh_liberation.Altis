@@ -10,14 +10,14 @@ class Unitcap{
 	title = $STR_PARAMS_UNITCAP;
 	values[] = {50,75,100,125,150,200};
 	texts[] = {$STR_PARAMS_UNITCAP1,$STR_PARAMS_UNITCAP2,$STR_PARAMS_UNITCAP3,$STR_PARAMS_UNITCAP4,$STR_PARAMS_UNITCAP5,$STR_PARAMS_UNITCAP6};
-	default = 75;
+	default = 100;
 	paramCode = "";
 };
 class Difficulty {
 	title = $STR_PARAMS_DIFFICULTY;
-	values[] = { 50, 75, 100, 150, 200, 300, 400, 1000 };
+	values[] = { 50, 75, 100, 125, 150, 200, 400, 1000 };
 	texts[] = { $STR_PARAMS_DIFFICULTY1, $STR_PARAMS_DIFFICULTY2, $STR_PARAMS_DIFFICULTY3, $STR_PARAMS_DIFFICULTY4, $STR_PARAMS_DIFFICULTY5, $STR_PARAMS_DIFFICULTY6, $STR_PARAMS_DIFFICULTY7, $STR_PARAMS_DIFFICULTY8 };
-	default = 300;
+	default = 400;
 	paramCode = "";
 };
 class Aggressivity{
@@ -101,7 +101,7 @@ class DisableRemoteSensors{
  	title = "Disable Remote Sensors (experimental!)";
  	values[] = {0,1,2};
  	texts[] = {"No","Disable for clients without local AIs","Disable for all clients"};
- 	default = 0;
+ 	default = 1;
 	paramCode = "";
  };
 class spacer4 {

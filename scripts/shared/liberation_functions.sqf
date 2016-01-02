@@ -49,3 +49,5 @@ F_setFuel = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_s
 F_forceBluforCrew = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_forceBluforCrew.sqf";
 F_getCorrectedSectorRange = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getCorrectedSectorRange.sqf";
 F_getLocationName = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getLocationName.sqf";
+F_setRank = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_setRank.sqf";
+F_skipTime = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_skipTime.sqf";

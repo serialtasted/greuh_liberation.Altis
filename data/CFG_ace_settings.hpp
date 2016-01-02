@@ -600,7 +600,7 @@ class ACE_Settings {
 		force = 1;
 	};
 	class ace_explosives_ExplodeOnDefuse {
-		value = 1;
+		value = 0;
 		typeName = "BOOL";
 		force = 1;
 	};

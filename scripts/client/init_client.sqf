@@ -1,6 +1,9 @@
 if (!hasInterface) exitWith {}; // headless client exit
 waitUntil { alive player };
 
+// initialize playerRank global var
+playerRank = "";
+
 // TFAR Plugin check
 if((getPlayerUID player) != "_SP_PLAYER_") then {
 	waitUntil {
@@ -9,23 +12,6 @@ if((getPlayerUID player) != "_SP_PLAYER_") then {
 		if ( call TFAR_fnc_isTeamSpeakPluginEnabled ) exitWith { true };
 	};
 };
-
-// set unit rank
-_unitrank = str([] call F_getPlayerRank);
-
-switch ( _unitrank ) do {
-	case '1': {_unitrank = "PRIVATE"}; 
-	case '2': {_unitrank = "CORPORAL"};
-	case '3': {_unitrank = "SERGEANT"};
-	case '4': {_unitrank = "LIEUTENANT"};
-	case '5': {_unitrank = "CAPTAIN"};
-	case '6': {_unitrank = "MAJOR"};
-	case '7': {_unitrank = "COLONEL"};
-	default {_unitrank = "PRIVATE"};
-};
-
-player setRank _unitrank;
-diag_log format ["-- Your rank is %1", _unitrank];
 
 // handle player id during session
 playableUnitOccupier_PV = player; publicVariableServer "playableUnitOccupier_PV";	

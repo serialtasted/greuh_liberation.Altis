@@ -130,6 +130,9 @@ while {true} do {
 	// assign radio and frequencies
 	[] call F_assignComms;
 	
+	// set unit rank
+	[] call F_setRank;
+	
 	// lower weapon
 	if ( primaryWeapon player != "" ) then {
 		player playMove "AmovPercMstpSrasWrflDnon_AmovPercMstpSlowWrflDnon";

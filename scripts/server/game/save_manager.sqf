@@ -168,6 +168,7 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 
 	{
 		_nextclass = _x select 0;
+		_nextpos = [];
 
 		if ( _nextclass in _classnames_to_save ) then {
 			_nextpos = _x select 1;
@@ -330,8 +331,8 @@ while { true } do {
 			_building = _x;
 			_nextclass = typeof _building;
 			
-			/*_nextpos = [];
-			if ( _nextclass in light_objects ) then {
+			_nextpos = [];
+			/*if ( _nextclass in light_objects ) then {
 				_nextpos = [(getPosATL _building) select 0, (getPosATL _building) select 1, (getPosATL _building) select 2];
 			} else {
 				_nextpos = [(getPosATL _building) select 0, (getPosATL _building) select 1, 0];

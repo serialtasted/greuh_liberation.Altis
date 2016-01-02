@@ -5,7 +5,7 @@
 // Available teams: PTr_alpha, PTr_bravo, PTr_charlie
 
 player_data = [
-	[ "Single Player", 	["_SP_PLAYER_"], 		[7], true ],
+	[ "Single Player", 	["_SP_PLAYER_"], 		[3], true ],
 	[ "serialtasted", 	["76561198035670394"], 	[6], true ],
 	[ "Whiplash", 		["76561198080606334"], 	[5], true ],
 	[ "Tiagone_PT", 	["76561197995464883"], 	[6], true ],
