@@ -273,8 +273,8 @@ while { true } do {
 				_vehicle setdir _vehdir;
 				_vehicle setPosATL _truepos;
 				
-				_vehicle setVariable ["truePos", _truepos];
-				_vehicle setVariable ["trueDir", _vehdir];
+				_vehicle setVariable ["truePos", _truepos, true];
+				_vehicle setVariable ["trueDir", _vehdir, true];
 				
 				clearWeaponCargoGlobal _vehicle;
 				clearMagazineCargoGlobal _vehicle;

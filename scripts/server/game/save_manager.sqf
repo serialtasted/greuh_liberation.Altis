@@ -185,9 +185,9 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 			
 			_nextbuilding = _nextclass createVehicle _nextpos;
 			_nextbuilding setPosATL _nextpos;
-			_nextbuilding setVariable ["truePos", _nextpos];
+			_nextbuilding setVariable ["truePos", _nextpos, true];
 			_nextbuilding setdir _nextdir;
-			_nextbuilding setVariable ["trueDir", _nextdir];
+			_nextbuilding setVariable ["trueDir", _nextdir, true];
 			_nextbuilding setdamage 0;
 			
 			//TO DO: LOAD VEHICLES
