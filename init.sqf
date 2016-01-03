@@ -1,4 +1,8 @@
 enableSaving [ false, false ];
+
+//------------------------------------------------ Initialize whitelist
+[] call compileFinal preprocessFileLineNumbers "whitelist.sqf";
+
 diag_log ["------------------------------------------------------------------------------- STEP #1"];
 [] call compileFinal preprocessFileLineNumbers "scripts\shared\atlas_manager.sqf";
 diag_log ["------------------------------------------------------------------------------- STEP #2"];

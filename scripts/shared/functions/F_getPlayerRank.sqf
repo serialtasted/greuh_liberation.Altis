@@ -1,23 +1,14 @@
 params [ "_source" ];
 private [ "_uidvar", "_playerrank" ];
 
-waitUntil { !isNil "save_is_loaded" };
+_playerrank = 0;
 
-if ( isNil "GRLIB_permissions_cache" ) then { GRLIB_permissions_cache = []; };
+if ( isNil { name _source } ) then { _source = player; };
 
-_playerrank = 1;
-if ( !GRLIB_permissions_param ) then {
-	_playerrank = 7;
-} else {
-	if ( !(isNil "GRLIB_permissions") && !(isNull _source) ) then {
-
-		_uidvar = getPlayerUID _source;
-		{ if ( _uidvar == _x select 0 ) exitWith { GRLIB_permissions_cache  = [] + (_x select 1) }; } foreach GRLIB_permissions;
-
-		if ( count GRLIB_permissions_cache > 6 ) then {
-			_playerrank = ((GRLIB_permissions_cache select 6) - 100);
-		};
+{
+	if ( ( ( _x select 1 ) select 0 ) == ( getPlayerUID _source ) ) then {
+		_playerrank = ( ( _x select 2 ) select 0 );
 	};
-};
+} forEach player_data;
 
 _playerrank

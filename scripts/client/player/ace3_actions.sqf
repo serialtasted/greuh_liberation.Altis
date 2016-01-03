@@ -16,7 +16,7 @@ if ( [] call F_isAdmin ) then {
 		[player, 1, ["ACE_SelfActions", "ADM"], _action] call ace_interact_menu_fnc_addActionToObject;
 		
 			// morning
-			_action = ["TIME_MORNING","Set to morning","",{[5,"F_skipTime", true, false, true] spawn BIS_fnc_MP},{true}] call ace_interact_menu_fnc_createAction;
+			_action = ["TIME_MORNING","Set to morning","",{[7,"F_skipTime", true, false, true] spawn BIS_fnc_MP},{true}] call ace_interact_menu_fnc_createAction;
 			[player, 1, ["ACE_SelfActions", "ADM", "ADM_CHANGETIME"], _action] call ace_interact_menu_fnc_addActionToObject;
 			
 			// midday
@@ -24,7 +24,7 @@ if ( [] call F_isAdmin ) then {
 			[player, 1, ["ACE_SelfActions", "ADM", "ADM_CHANGETIME"], _action] call ace_interact_menu_fnc_addActionToObject;
 			
 			// dusk
-			_action = ["TIME_DUSK","Set to dusk","",{[18,"F_skipTime", true, false, true] spawn BIS_fnc_MP},{true}] call ace_interact_menu_fnc_createAction;
+			_action = ["TIME_DUSK","Set to dusk","",{[16,"F_skipTime", true, false, true] spawn BIS_fnc_MP},{true}] call ace_interact_menu_fnc_createAction;
 			[player, 1, ["ACE_SelfActions", "ADM", "ADM_CHANGETIME"], _action] call ace_interact_menu_fnc_addActionToObject;
 			
 			// night

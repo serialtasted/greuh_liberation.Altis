@@ -254,7 +254,7 @@ class St_ClassSelector {
 		class txt_marksman: CS_RscText
 		{
 			idc = 1008;
-			text = "Marksman";
+			text = "Marksman  / Spotter";
 			x = 0.05;
 			y = 0.64;
 			w = 0.30;

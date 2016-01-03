@@ -1,6 +1,6 @@
 waitUntil { !isNil "GRLIB_permissions" };
 
-private [ "_dialog", "_nextplayer", "_players_array", "_displayname", "_idx", "_control", "_rankBox", "_player_uid", "_player_idx", "_player_uids", "_player_permissions", "_modify_permissions" ];
+private [ "_dialog", "_nextplayer", "_players_array", "_displayname", "_idx", "_control", "_player_uid", "_player_idx", "_player_uids", "_player_permissions", "_modify_permissions" ];
 
 _players_array = [];
 _dialog = createDialog "liberation_permissions";
@@ -23,12 +23,13 @@ disableSerialization;
 
 waitUntil { dialog };
 
+
 permission_create_activetext = compileFinal '
 
 	params [ "_idx", "_column", "_permission", "_text", "_tooltip" ];
 
 	_control = (findDisplay 5118) ctrlCreate [ "RscActiveText", ((10 * _idx) + 111) + _column, (findDisplay 5118) displayCtrl 9969 ];
-	_control ctrlSetPosition [ 0.065 * _column * safeZoneW, (_idx * 0.025) * safezoneH, 0.072 * safeZoneW, 0.025  * safezoneH];
+	_control ctrlSetPosition [ 0.072 * _column * safeZoneW, (_idx * 0.025) * safezoneH, 0.072 * safeZoneW, 0.025  * safezoneH];
 	_control ctrlSetText _text;
 	_control ctrlSetFontHeight fontsize;
 	_control ctrlSetTooltip _tooltip;
@@ -74,7 +75,7 @@ _idx = 2;
 	};
 
 	_control = (findDisplay 5118) ctrlCreate [ "RscText", (10 * _idx), (findDisplay 5118) displayCtrl 9969 ];
-	_control ctrlSetPosition [ 0.005,  (_idx * 0.025) * safezoneH, 0.072 * safeZoneW, 0.025  * safezoneH];
+	_control ctrlSetPosition [ 0,  (_idx * 0.025) * safezoneH, 0.072 * safeZoneW, 0.025  * safezoneH];
 	_control ctrlSetText (_nextplayer select 1);
 	_control ctrlSetFontHeight fontsize;
 	_control ctrlCommit 0;
@@ -87,7 +88,7 @@ _idx = 2;
 	[ _idx, 6, 5, localize "STR_PERMISSIONS_MISC", localize "STR_PERMISSIONS_TOOLTIP_MISC" ] call  permission_create_activetext;
 
 	_control = (findDisplay 5118) ctrlCreate [ "RscButton", ((10 * _idx) + 111) + 7, (findDisplay 5118) displayCtrl 9969 ];
-	_control ctrlSetPosition [ ((0.075 * 7) - 0.03) * safeZoneW, ((_idx * 0.025) * safezoneH) + 0.0025, (0.035 * safeZoneW), 0.022  * safezoneH];
+	_control ctrlSetPosition [ ((0.075 * 7) - 0.02) * safeZoneW, ((_idx * 0.025) * safezoneH) + 0.0025, (0.035 * safeZoneW), 0.022  * safezoneH];
 	_control ctrlSetText (localize "STR_PERMISSIONS_ALL");
 	_control ctrlSetFontHeight fontsize;
 	_control ctrlSetTooltip (localize "STR_PERMISSIONS_TOOLTIP_ALL");
@@ -95,47 +96,20 @@ _idx = 2;
 	_control ctrlCommit 0;
 
 	_control = (findDisplay 5118) ctrlCreate [ "RscButton", ((10 * _idx) + 111) + 8, (findDisplay 5118) displayCtrl 9969 ];
-	_control ctrlSetPosition [ ((0.075 * 7) + 0.0075) * safeZoneW, (_idx * 0.025) * safezoneH + 0.0025, 0.035 * safeZoneW, 0.022  * safezoneH];
+	_control ctrlSetPosition [ ((0.075 * 7) + 0.02) * safeZoneW, (_idx * 0.025) * safezoneH + 0.0025, 0.035 * safeZoneW, 0.022  * safezoneH];
 	_control ctrlSetText (localize "STR_PERMISSIONS_NONE");
 	_control ctrlSetFontHeight fontsize;
 	_control ctrlSetTooltip (localize "STR_PERMISSIONS_TOOLTIP_NONE");
 	buttonSetAction [ ((10 * _idx) + 111) + 8, format [ "permission_playerid = %1; permission_toset = 999;", _idx ] ];
 	_control ctrlCommit 0;
-	
-	_rankBox = (findDisplay 5118) ctrlCreate [ "RscCombo", ((10 * _idx) + 111) + 9, (findDisplay 5118) displayCtrl 9969 ];
-	_rankBox ctrlSetPosition [ ((0.075 * 7) + 0.045) * safeZoneW, (_idx * 0.025) * safezoneH + 0.0025, 0.023 * safeZoneW, 0.022  * safezoneH];
-	_rankBox lbAdd "1 - Private";
-	_rankBox lbAdd "2 - Corporal";
-	_rankBox lbAdd "3 - Sergeant";
-	_rankBox lbAdd "4 - Lieutenant";
-	_rankBox lbAdd "5 - Captain";
-	_rankBox lbAdd "6 - Major";
-	_rankBox lbAdd "7 - Colonel";
-	_rankBox lbSetCurSel 0;
-	_rankBox ctrlSetFontHeight fontsize;
-	_rankBox ctrlSetTooltip ("Player rank.");
-	_rankBox ctrlCommit 0;
-	
-	[_idx, _rankBox] spawn {
-		disableSerialization;
-		params [ "_idx", "_rankBox" ];
-		
-		while { true } do {
-			_prevSel = lbCurSel _rankBox;
-			waitUntil { _prevSel != lbCurSel _rankBox };
-			permission_playerid = _idx;
-			permission_toset = (lbCurSel _rankBox) + 100;
-		};
-	};
 
 } foreach _players_array;
 
 while { dialog && alive player } do {
-	
+
 	if ( permission_playerid != -1 || permission_toset != -1 ) then {
-		
+
 		_player_uid = "";
-		
 		{
 			if ( _x select 2 == permission_playerid ) exitWith { _player_uid = _x select 0 };
 		} foreach _players_array;
@@ -151,28 +125,23 @@ while { dialog && alive player } do {
 			_player_idx = _player_uids find _player_uid;
 
 			if ( permission_toset == 666 ) then {
-				_player_permissions = [ true, true, true, true, true, true, 106 ];
+				_player_permissions = [ true, true, true, true, true, true ];
 			};
 			if ( permission_toset == 999 ) then {
-				_player_permissions = [ false, false, false, false, false, false, 100 ];
+				_player_permissions = [ false, false, false, false, false, false ];
 			};
 
 			if ( _player_idx == -1 ) then {
-				
-				_player_permissions = [ false, false, false, false, false, false, 100 ];
-				
-				if ( permission_toset != 666 && permission_toset != 999 && !( permission_toset >= 100 && permission_toset <= 106 ) ) then {
+
+				if ( permission_toset != 666 && permission_toset != 999 ) then {
+					_player_permissions = [ false, false, false, false, false, false ];
 					_player_permissions set [ permission_toset, true ];
-				};
-				
-				if ( permission_toset >= 100 && permission_toset <= 106 ) then {
-					_player_permissions set [6, permission_toset];
 				};
 
 				_modify_permissions pushback [ _player_uid, _player_permissions ];
 			} else {
 
-				if ( permission_toset != 666 && permission_toset != 999 && !( permission_toset >= 100 && permission_toset <= 106 ) ) then {
+				if ( permission_toset != 666 && permission_toset != 999 ) then {
 
 					_player_permissions = (_modify_permissions select _player_idx) select 1;
 
@@ -187,10 +156,6 @@ while { dialog && alive player } do {
 						};
 						_idx = _idx + 1;
 					} foreach _player_permissions;
-				};
-				
-				if ( permission_toset >= 100 && permission_toset <= 106 ) then {
-					_player_permissions set [6, permission_toset];
 				};
 
 				_modify_permissions set [ _player_idx, [ _player_uid, _player_permissions ] ];
@@ -218,21 +183,16 @@ while { dialog && alive player } do {
 						_control ctrlSetActiveColor color_denied;
 					};
 				} foreach [ 1, 2, 3, 4, 5, 6 ];
-				
-				_control = ((findDisplay 5118) displayCtrl ((10 * _idx) + 111) + 9);
-				_control lbSetCurSel ((_player_permissions select 6) - 100 );
 			};
 		} foreach _modify_permissions;
 
 	} foreach _players_array;
 
-	if ( save_changes == 1 ) exitWith { closeDialog 0; };
+	if ( save_changes == 1 ) then {
+		GRLIB_permissions = _modify_permissions;
+		publicVariable "GRLIB_permissions";
+		closeDialog 0;
+	};
 
 	waitUntil { !dialog || !(alive player) || permission_playerid != -1 || permission_toset != -1 || save_changes != 0 };
-};
-
-if ( save_changes == 1 ) then {
-	GRLIB_permissions = _modify_permissions;
-	publicVariable "GRLIB_permissions";
-	[[], "F_setRank", true, false, true] call BIS_fnc_MP;
 };

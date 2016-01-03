@@ -328,6 +328,7 @@ while { true } do {
 		} foreach blufor_sectors;
 		
 		{
+			private [ "_nextpos", "_nextdir" ];
 			_building = _x;
 			_nextclass = typeof _building;
 			

@@ -290,6 +290,7 @@ arsenal_items = [
 	"ACE_RangeCard",
 	"ACE_key_lockpick",
 	"ACE_Sandbag_empty",
+	"ACE_SpottingScope",
 	"ACE_Tripod",
 	
 	//ACE flashlights
