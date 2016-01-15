@@ -35,6 +35,7 @@ RespawnButton = 0;
 //------------------------- Includes / Functions
 
 // Original includes
+#include "GREUH\UI\GREUH_interface.hpp"
 #include "ui\liberation_interface.hpp"
 
 // PTr includes

@@ -102,6 +102,10 @@ class lib_intel_fob : lib_intel
 {
 	description = $STR_NOTIFICATION_FOB_TEXT;
 };
+class lib_intel_convoy : lib_intel
+{
+	description = $STR_NOTIFICATION_CONVOY_SPOTTED_TEXT;
+};
 class lib_secondary_fob_destroyed : lib_default_notification
 {
 	title = $STR_NOTIFICATION_SECONDARY_TITLE;
@@ -109,6 +113,10 @@ class lib_secondary_fob_destroyed : lib_default_notification
 	iconPicture = "res\notif\ui_notif_sob.paa";
 	color[] = {0,1,0,1};
 	sound = "taskSucceeded";
+};
+class lib_secondary_convoy_destroyed : lib_secondary_fob_destroyed
+{
+	description = $STR_NOTIFICATION_CONVOY_DESTROYED_TEXT;
 };
 class lib_reinforcements : lib_default_notification
 {

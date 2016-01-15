@@ -1,4 +1,4 @@
-private [ "_idact_build",  "_idact_arsenal", "_idact_buildfob", "_idact_builddevice", "_idact_buildsolar", "_idact_medical", "_idact_buildgenerator", "_idact_redeploy", "_idact_tutorial", "_distfob", "_distarsenal",  "_distbuildfob", "_distmedical", "_distspawn", "_distredeploy", "_distammofactory", "_distsatbox" ];
+private [ "_idact_build",  "_idact_arsenal", "_idact_buildfob", "_idact_builddevice", "_idact_buildsolar", "_idact_medical", "_idact_sparewheel", "_idact_sparetrack", "_idact_fuelbarrel", "_idact_fuelsling", "_idact_fuelcannister", "_idact_buildgenerator", "_idact_redeploy", "_idact_tutorial", "_distfob", "_distarsenal",  "_distbuildfob", "_distspptbuilding", "_distspawn", "_distredeploy", "_distammofactory", "_distsatbox" ];
 
 action_manager_alive = true;
 action_manager_dead = false;
@@ -16,13 +16,20 @@ _idact_repackage = -1;
 _idact_halo = -1;
 _idact_secondary = -1;
 _idact_medical = -1;
+
+_idact_sparewheel = -1;
+_idact_sparetrack = -1;
+_idact_fuelbarrel = -1;
+_idact_fuelsling = -1;
+_idact_fuelcannister = -1;
+
 _distfob = GRLIB_fob_range;
 _distarsenal = 5;
 _distbuildfob = 10;
 _distspawn = 10;
 _distredeploy = 20;
 _distammofactory = 5;
-_distmedical = 3;
+_distspptbuilding = 3;
 _distsatbox = 2;
 
 GRLIB_removeBoxes = "";
@@ -39,13 +46,15 @@ while { action_manager_alive } do {
 		_fobdistance = player distance _nearfob;
 	};
 
-	_neararsenal = [ ( (getpos player) nearobjects [ Arsenal_typename, _distarsenal ]), { getObjectType _x >= 8 } ] call BIS_fnc_conditionalSelect;
-	_nearfobbox = ( (getpos player) nearEntities [ [ FOB_box_typename, FOB_truck_typename ] , _distbuildfob ] );
-	_nearspawn = ( (getpos player) nearEntities [ [ Respawn_truck_typename, huron_typename ] , _distspawn ] ); // USAGE: count _nearspawn != 0
-	_neardevicebox = ( (getpos player) nearEntities [ [ AmmoFactory_box_typename select 0, AmmoFactory_box_typename select 1, AmmoFactory_truck_typename select 0, AmmoFactory_truck_typename select 1 ] , _distammofactory ] );
-	_nearsolarbox = ( (getpos player) nearobjects [ AmmoFactory_solarBox_typename , _distammofactory ] );
-	_neargeneratorbox = ( (getpos player) nearobjects [ AmmoFactory_generatorBox_typename , _distammofactory ] );
-	_nearmedical = ( (getpos player) nearobjects [ Medical_typename , _distmedical ] );
+	_neararsenal = [ ( (getPosATL player) nearobjects [ Arsenal_typename, _distarsenal ]), { getObjectType _x >= 8 } ] call BIS_fnc_conditionalSelect;
+	_nearfobbox = ( (getPosATL player) nearEntities [ [ FOB_box_typename, FOB_truck_typename ] , _distbuildfob ] );
+	_nearbuildtruck = ( (getPosATL player) nearobjects [ Build_truck_typename , _distbuildfob ] );
+	_nearspawn = ( (getPosATL player) nearEntities [ [ Respawn_truck_typename, huron_typename ] , _distspawn ] ); // USAGE: count _nearspawn != 0
+	_neardevicebox = ( (getPosATL player) nearEntities [ [ AmmoFactory_box_typename select 0, AmmoFactory_box_typename select 1, AmmoFactory_truck_typename select 0, AmmoFactory_truck_typename select 1 ] , _distammofactory ] );
+	_nearsolarbox = ( (getPosATL player) nearobjects [ AmmoFactory_solarBox_typename , _distammofactory ] );
+	_neargeneratorbox = ( (getPosATL player) nearobjects [ AmmoFactory_generatorBox_typename , _distammofactory ] );
+	_nearmedical = ( (getPosATL player) nearobjects [ Medical_typename , _distspptbuilding ] );
+	_nearcarshop = ( (getPosATL player) nearobjects [ Repair_typename , _distspptbuilding ] );
 	
 	switch ( GRLIB_removeBoxes ) do {
 		case "fobBox": {
@@ -119,7 +128,7 @@ while { action_manager_alive } do {
 		};
 	};
 
-	if ( _fobdistance < _distfob && alive player && vehicle player == player && ( ( [ player, 3 ] call F_fetchPermission ) || ( player == ( [] call F_getCommander ) || [] call F_isAdmin ) ) ) then {
+	if ( (_fobdistance < _distfob || count _nearbuildtruck != 0) && alive player && vehicle player == player && ( ( [ player, 3 ] call F_fetchPermission ) || ( player == ( [] call F_getCommander ) || [] call F_isAdmin ) ) ) then {
 		if ( _idact_build == -1 ) then {
 			_idact_build = player addAction ["<t color='#FFFF00'>" + localize "STR_BUILD_ACTION" + "</t> <img size='2' image='res\ui_build.paa'/>","scripts\client\build\open_build_menu.sqf","",-985,false,true,"","build_confirmed == 0"];
 		};
@@ -182,6 +191,28 @@ while { action_manager_alive } do {
 		if ( _idact_buildsolar != -1 ) then {
 			player removeAction _idact_buildsolar;
 			_idact_buildsolar = -1;
+		};
+	};
+	
+	if ( count _nearcarshop != 0 && alive player && vehicle player == player && ( player getVariable ["St_class", "assault"] ) == "engineer" ) then {
+		if ( _idact_sparewheel == -1 ) then {
+			_idact_sparewheel = player addAction ["<t color='#9D162E'>" + "-- GET SPARE WHEEL" + "</t>",{ buildtype = "spareWheel"; dobuild = 1; },"",0,false,true,"","build_confirmed == 0"];
+		};
+	} else {
+		if ( _idact_sparewheel != -1 ) then {
+			player removeAction _idact_sparewheel;
+			_idact_sparewheel = -1;
+		};
+	};
+	
+	if ( count _nearcarshop != 0 && alive player && vehicle player == player && ( player getVariable ["St_class", "assault"] ) == "engineer" ) then {
+		if ( _idact_sparetrack == -1 ) then {
+			_idact_sparetrack = player addAction ["<t color='#9D162E'>" + "-- GET SPARE TRACK" + "</t>",{ buildtype = "spareTrack"; dobuild = 1; },"",0,false,true,"","build_confirmed == 0"];
+		};
+	} else {
+		if ( _idact_sparetrack != -1 ) then {
+			player removeAction _idact_sparetrack;
+			_idact_sparetrack = -1;
 		};
 	};
 	

@@ -12,11 +12,27 @@ _initindex = buildindex;
 _dialog = createDialog "liberation_build";
 waitUntil { dialog };
 
+_isfob = false;
+if ( (player distance ([] call F_getNearestFob)) < (2 * GRLIB_fob_range) ) then {
+	_isfob = true;
+} else { buildtype = 6; };
+ctrlShow [ 102, _isfob ];
+ctrlShow [ 1025, _isfob ];
+ctrlShow [ 103, _isfob ];
+ctrlShow [ 1035, _isfob ];
+ctrlShow [ 104, _isfob ];
+ctrlShow [ 1045, _isfob ];
+ctrlShow [ 105, _isfob ];
+ctrlShow [ 1055, _isfob ];
+ctrlShow [ 1106, _isfob ];
+ctrlShow [ 11065, _isfob ];
+ctrlShow [ 107, _isfob ];
+ctrlShow [ 1075, _isfob ];
+
 _iscommandant = false;
-if ( player == [] call F_getCommander ) then {
+if ( player == [] call F_getCommander && _isfob ) then {
 	_iscommandant = true;
 };
-
 ctrlShow [ 108, _iscommandant ];
 ctrlShow [ 1085, _iscommandant ];
 ctrlShow [ 121, _iscommandant ];
@@ -79,6 +95,12 @@ while { dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 				};
 				if ( _classnamevar == AmmoFactory_generatorBox_typename ) then {
 					_entrytext = localize "STR_GENERATOR_BOX";
+				};
+				if ( _classnamevar == "Flag_Red_F" ) then {
+					_entrytext = "Flag (PT)";
+				};
+				if ( _classnamevar == "Flag_Green_F" ) then {
+					_entrytext = "Flag (PTrangers)";
 				};
 				((findDisplay 5501) displayCtrl (110)) lnbAddRow [ _entrytext, format [ "%1" ,_x select 1], format [ "%1" ,_x select 2], format [ "%1" ,_x select 3]];
 

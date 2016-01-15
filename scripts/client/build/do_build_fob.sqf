@@ -1,6 +1,6 @@
 private [ "_minfobdist", "_minsectordist", "_distfob", "_clearedtobuildfob", "_distsector", "_clearedtobuildsector", "_idx" ];
 
-_minfobdist = 1000;
+_minfobdist = 600;
 _minsectordist = GRLIB_capture_size + GRLIB_fob_range;
 _distfob = 1;
 _clearedtobuildfob = true;

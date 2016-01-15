@@ -5,20 +5,32 @@ enableSaving [ false, false ];
 
 diag_log ["------------------------------------------------------------------------------- STEP #1"];
 [] call compileFinal preprocessFileLineNumbers "scripts\shared\atlas_manager.sqf";
+
 diag_log ["------------------------------------------------------------------------------- STEP #2"];
 [] call compileFinal preprocessFileLineNumbers "scripts\shared\liberation_functions.sqf";
+
 diag_log ["------------------------------------------------------------------------------- STEP #3"];
 [] call compileFinal preprocessFileLineNumbers "scripts\shared\init_sectors.sqf";
+
 diag_log ["------------------------------------------------------------------------------- STEP #4"];
 [] call compileFinal preprocessFileLineNumbers "scripts\shared\fetch_params.sqf";
+
 diag_log ["------------------------------------------------------------------------------- STEP #5"];
 [] call compileFinal preprocessFileLineNumbers "gameplay_constants.sqf";
+
 diag_log ["------------------------------------------------------------------------------- STEP #6"];
 [] call compileFinal preprocessFileLineNumbers "classnames.sqf";
-diag_log ["------------------------------------------------------------------------------- STEP #7"];
 
-[] call compileFinal preprocessfilelinenumbers "scripts\shared\init_shared.sqf";
+diag_log ["------------------------------------------------------------------------------- STEP #7"];
+[] execVM "GREUH\scripts\GREUH_activate.sqf";
+
 diag_log ["------------------------------------------------------------------------------- STEP #8"];
+[] call compileFinal preprocessfilelinenumbers "scripts\shared\init_shared.sqf";
+
+diag_log ["------------------------------------------------------------------------------- STEP #9"];
+
+//------------------------------------------------ Build list of ignored markers
+GRLIB_ignored_markers = allMapMarkers;
 
 //------------------------------------------------ Initialize server, client and HC
 if (isServer) then {
@@ -47,3 +59,4 @@ callFireworks = compile preprocessFileLineNumbers "GRAD_fireworks\callFireworks.
 [] call compileFinal preprocessFileLineNumbers "LT\init.sqf";
 [] call compileFinal preprocessFileLineNumbers "scripts\misc\intLight.sqf";
 [] call compileFinal preprocessFileLineNumbers "scripts\misc\repair\TAA_init.sqf";
+[] call compileFinal preprocessFileLineNumbers "scripts\misc\doors\automatedDoors.sqf";

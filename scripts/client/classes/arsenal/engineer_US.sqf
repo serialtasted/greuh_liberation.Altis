@@ -29,7 +29,7 @@ if ( classtogo != "" ) then {
 	comment "Add weapons";
 	player addWeapon "rhs_weap_m16a4_carryhandle_grip_pmag";
 	player addPrimaryWeaponItem "rhsusf_acc_anpeq15";
-	player addPrimaryWeaponItem "FHQ_optic_AimM_BLK";
+	player addPrimaryWeaponItem "FHQ_optic_ACOG";
 	player addWeapon "Binocular";
 	
 };

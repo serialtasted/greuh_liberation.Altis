@@ -135,4 +135,14 @@ waitUntil { !isNil "save_is_loaded" };
 	if ( _classname in draggable_objects ) then {
 		[_vehicle, true, [0, 1, 0], 180] call ace_dragging_fnc_setDraggable;
 	};
+	
+	if ( _classname isEqualTo "Flag_Red_F" && _isServer ) then {
+		_vehicle setFlagTexture "res\flag_portugal_co.paa";
+		_vehicle setFlagSide west;
+	};
+	
+	if ( _classname isEqualTo "Flag_Green_F" && _isServer ) then {
+		_vehicle setFlagTexture "res\flag_ptrangers_co.paa";
+		_vehicle setFlagSide west;
+	};
 }forEach (allMissionObjects "");

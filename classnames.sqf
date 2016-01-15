@@ -11,12 +11,13 @@ if ( isNil "heavy_vehicles_extension" ) then { heavy_vehicles_extension = []; };
 if ( isNil "air_vehicles_extension" ) then { air_vehicles_extension = []; };
 if ( isNil "static_vehicles_extension" ) then { static_vehicles_extension = []; };
 if ( isNil "buildings_extension" ) then { buildings_extension = []; };
-if ( isNil "support_vehicles_extension" ) then { support_vehicles_extension = []; };
+if ( isNil "support_vehicles_extension" ) then { support_vehicles_extension = []; }; 
 
 // Each of these should be unique, the same classnames for different purposes may cause various unpredictable issues with player actions. Or not. Just don't try.
 if ( isNil "FOB_typename" ) then { FOB_typename = "Land_Cargo_HQ_V1_F"; };
 if ( isNil "FOB_box_typename" ) then { FOB_box_typename = "B_Slingload_01_Cargo_F"; };
 if ( isNil "FOB_truck_typename" ) then { FOB_truck_typename = "B_Truck_01_box_F"; };
+if ( isNil "Build_truck_typename" ) then { Build_truck_typename = "B_Truck_01_box_F"; };
 if ( isNil "Medical_typename" ) then { Medical_typename = "Land_Medevac_house_V1_F"; };
 if ( isNil "Repair_typename" ) then { Repair_typename = "Land_Research_house_V1_F"; };
 if ( isNil "Build_helper_typename" ) then { Build_helper_typename = "Pole_F"; };
@@ -25,7 +26,7 @@ if ( isNil "Respawn_truck_typename" ) then { Respawn_truck_typename = "B_Truck_0
 if ( isNil "huron_typename" ) then { huron_typename = "JNS_Skycrane_BLU_Grey"; };
 if ( isNil "ammobox_b_typename" ) then { ammobox_b_typename = "Box_NATO_AmmoVeh_F"; };
 if ( isNil "ammobox_o_typename" ) then { ammobox_o_typename = "Box_East_AmmoVeh_F"; };
-if ( isNil "opfor_ammobox_transport" ) then { opfor_ammobox_transport = "rhs_gaz66_ammo_vdv"; };
+if ( isNil "opfor_ammobox_transport" ) then { opfor_ammobox_transport = "O_Truck_03_transport_F"; };
 
 AmmoFactory_truck_typename = ["B_Truck_01_ammo_F","rhsusf_m113_usarmy_supply"];
 AmmoFactory_box_typename = ["B_Slingload_01_Ammo_F","JNS_Skycrane_Pod_Ammo_BLU_Green"];
@@ -42,7 +43,8 @@ GRLIB_intel_laptop = "Land_Laptop_device_F";
 
 GRLIB_ignore_colisions_when_building = [
 	"Land_Flush_Light_Red_F",
-	"Animal",
+	"Land_Flush_Light_green_F",
+	"Land_Flush_Light_yellow_F",
 	"land_runway_edgelight",
 	"land_runway_edgelight_blue_f",
 	"Land_HelipadSquare_F",
@@ -54,7 +56,18 @@ GRLIB_ignore_colisions_when_building = [
 	"PortableHelipadLight_01_red_F",
 	"PortableHelipadLight_01_green_F",
 	"PortableHelipadLight_01_yellow_F",
-	"Land_Camping_Light_F"
+	"Land_Camping_Light_F",
+	"RoadCone_F",
+	"RoadCone_L_F"
+];
+
+GRLIB_mines_to_be_saved = [
+	"ATMine_Range_Ammo",
+	"APERSMine_Range_Ammo",
+	"APERSBoundingMine_Range_Ammo",
+	"SLAMDirectionalMine_Wire_Ammo",
+	"SLAMDirectionalMine_Magnetic_Ammo",
+	"APERSTripMine_Wire_Ammo"
 ];
 
 // Standard crewman to use when default crew won't work (saved AAF vehicles for example)
@@ -92,8 +105,10 @@ light_vehicles = [
 	["B_UGV_01_rcws_F",0,60,5],
 	["C_Rubberboat",0,0,2],
 	["B_Boat_Transport_01_F",0,0,2],
-	["ffaa_ar_supercat",0,45,10],
-	["ASH_MKVSOC",0,80,10]
+	["B_SDV_01_F",0,0,15],
+	["ffaa_ar_supercat",0,30,10],
+	["B_Boat_Armed_01_minigun_F",0,65,25],
+	["ASH_MKVSOC",0,80,35]
 ];
 
 heavy_vehicles = [
@@ -118,21 +133,22 @@ air_vehicles = [
 	["B_Heli_Attack_01_F",0,200,30],
 	["RHS_AH1Z_wd_GS",0,175,30],
 	["RHS_AH64D_wd",0,400,50],
-	["USAF_A10",0,700,50],
-	["JS_JC_FA18E",0,650,40],
-	["JS_JC_FA18F",0,650,40],
+	["USAF_A10",0,700,85],
+	["JS_JC_FA18E",0,650,75],
+	["JS_JC_FA18F",0,650,75],
 	["B_UAV_01_F",0,0,5],
 	["B_UAV_02_F",0,50,25],
 	["B_UAV_02_CAS_F",0,250,25],
 	["USAF_F16",0,500,75],
 	["usaf_f22",0,500,75],
 	["USAF_F35A",0,650,75],
-	["usaf_b1b",0,1200,120],
+	["usaf_b1b",0,1200,90],
 	["usaf_kc135",5,30,180],
-	["USAF_E3",75,0,25],
-	["USAF_C17",0,0,85],
-	["USAF_C130J",0,0,70],
-	["USAF_C130J_Cargo",0,0,65]
+	["USAF_E3",75,0,65],
+	["USAF_C17",0,0,130],
+	["USAF_C130J",0,0,95],
+	["USAF_C130J_Cargo",0,0,95],
+	["USAF_AC130U",0,600,95]
 ];
 
 static_vehicles = [
@@ -144,16 +160,29 @@ static_vehicles = [
 	["RHS_Stinger_AA_pod_WD",0,25,0],
 	["RHS_TOW_TriPod_WD",0,30,0],
 	["B_SearchLight",0,0,0]
+	
 ];
 
 buildings = [
 	["Land_BarGate_F",0,0,0],
+	["Land_RampConcrete_F",0,0,0],
+	["BlockConcrete_F",0,0,0],
+	["Dirthump_2_F",0,0,0],
+	["Dirthump_3_F",0,0,0],
+	["Dirthump_4_F",0,0,0],
+	["Dirthump_1_F",0,0,0],
 	["Land_CncBarrierMedium_F",0,0,0],
 	["Land_CncBarrierMedium4_F",0,0,0],
 	["Land_CncShelter_F",0,0,0],
+	["Land_CncWall4_F",0,0,0],
+	["Land_CncWall1_F",0,0,0],
 	["Land_Mil_WiredFence_F",0,0,0],
 	["Land_Mil_WiredFence_Gate_F",0,0,0],
+	["Land_Net_Fence_Gate_F",0,0,0],
+	["Land_Concrete_SmallWall_4m_F",0,0,0],
+	["Land_Concrete_SmallWall_8m_F",0,0,0],
 	["Land_Mil_ConcreteWall_F",0,0,0],
+	["Land_Crash_barrier_F",0,0,0],
 	["Land_CncBarrier_F",0,0,0],
 	["Land_CncBarrier_stripes_F",0,0,0],
 	["Land_HBarrier_1_F",0,0,0],
@@ -179,13 +208,15 @@ buildings = [
 	["Land_Scaffolding_F",0,0,0],
 	["CamoNet_BLUFOR_open_F",0,0,0],
 	["CamoNet_BLUFOR_big_F",0,0,0],
-	["Land_TentHangar_V1_F",0,0,0],
 	[Medical_typename,0,0,0],
 	[Repair_typename,0,0,0],
 	["Land_Cargo_House_V1_F",0,0,0],
 	["Land_Cargo_Patrol_V1_F",0,0,0],
 	["Flag_NATO_F",0,0,0],
 	["Flag_US_F",0,0,0],
+	["Flag_Red_F",0,0,0],
+	["Flag_Green_F",0,0,0],
+	["Land_TentHangar_V1_F",0,0,0],
 	["Land_HelipadSquare_F",0,0,0],
 	["Land_HelipadRescue_F",0,0,0],
 	["PortableHelipadLight_01_blue_F",0,0,0],
@@ -211,11 +242,12 @@ buildings = [
 	["Land_Obstacle_Pass_F",0,0,0],
 	["Land_Obstacle_Ramp_F",0,0,0],
 	["Land_Obstacle_RunAround_F",0,0,0],
+	["TargetP_Inf_F",0,0,0],
+	["TargetP_Inf_Acc1_F",0,0,0],
 	["TargetP_Inf_Acc2_F",0,0,0],
-	["Target_PopUp_Moving_Acc2_F",0,0,0],
-	["Target_PopUp_Moving_90deg_Acc2_F",0,0,0],
 	["Land_Sign_WarningMilAreaSmall_F",0,0,0],
 	["Land_Sign_WarningMilitaryArea_F",0,0,0],
+	["Land_Sign_Mines_F",0,0,0],
 	["Land_Sign_WarningMilitaryVehicles_F",0,0,0],
 	["ArrowDesk_L_F",0,0,0],
 	["ArrowDesk_R_F",0,0,0],
@@ -238,15 +270,14 @@ support_vehicles = [
 	["B_G_Offroad_01_repair_F",5,0,2],
 	["B_Truck_01_Repair_F",10,0,5],
 	["B_Truck_01_fuel_F",10,0,5],
-	[AmmoFactory_truck_typename select 0,10,15,5],
-	[AmmoFactory_truck_typename select 1,10,15,5],
-	[AmmoFactory_box_typename select 0,0,15,0],
-	[AmmoFactory_box_typename select 1,0,15,0],
+	[AmmoFactory_truck_typename select 0,10,25,5],
+	[AmmoFactory_truck_typename select 1,10,25,5],
+	[AmmoFactory_box_typename select 0,0,25,0],
+	[AmmoFactory_box_typename select 1,0,25,0],
 	["B_Slingload_01_Repair_F",5,0,0],
 	["JNS_Skycrane_Pod_Repair_BLU_Green",5,0,0],
 	["B_Slingload_01_Fuel_F",0,0,5],
 	["JNS_Skycrane_Pod_Fuel_BLU_Green",0,0,5],
-	//["B_Slingload_01_Medevac_F",5,0,0],
 	["JNS_Skycrane_Pod_Medical_BLU_Green",5,0,0],
 	["JNS_Skycrane_Pod_Bench_BLU_Green",5,0,0],
 	[AmmoFactory_solarBox_typename,5,0,15],
@@ -329,14 +360,14 @@ opfor_vehicles_low_intensity = [ "rhs_tigr_m_vdv","rhs_tigr_sts_vdv","rhs_uaz_op
 // All the vehicles that can spawn as battlegroup members
 opfor_battlegroup_vehicles = [ "rhs_btr80a_vdv","rhs_sprut_vdv","rhs_zsu234_aa" ];
 // Same with lighter choices to be used  when the alert level is low
-opfor_battlegroup_vehicles_low_intensity = [ "rhs_tigr_m_vdv","rhs_tigr_sts_vdv","" ];
+opfor_battlegroup_vehicles_low_intensity = [ "rhs_tigr_m_vdv","rhs_tigr_sts_vdv" ];
 
 // All the vehicles that can spawn as battlegroup members (see above) and hold 8 soldiers as passengers.
 // If something can't hold all 8 soldiers then buggy behaviours may occur 
-opfor_troup_transports = [ "RHS_Ural_Open_VDV_01","RHS_Ural_VDV_01" ];
+opfor_troup_transports = [ "RHS_Ural_Open_VDV_01","RHS_Ural_VDV_01","RHS_Mi8mt_vvsc","rhs_ka60_c" ];
 
 // Battlegroup members that will need to spawn in flight. Should be only helos but, who knows
-opfor_choppers = [ "RHS_Ka52_vvsc","RHS_Ka52_UPK23_vvsc","RHS_Mi8mt_vvsc" ];
+opfor_choppers = [ "RHS_Ka52_vvsc","RHS_Ka52_UPK23_vvsc", "RHS_Mi24V_AT_vvsc" ];
 
 // Opfor attack aircrafts to choose from
 opfor_air = [ "RHS_Su25SM_vvs" ];
@@ -354,7 +385,7 @@ opfor_flag = "rhs_Flag_Russia_F";
 
 // Civilians to randomly choose from
 civilians = ["C_man_1","C_man_polo_6_F","C_man_polo_3_F","C_man_polo_2_F","C_man_polo_4_F","C_man_polo_5_F","C_man_polo_1_F","C_man_p_beggar_F","C_man_1_2_F","C_man_p_fugitive_F","C_man_hunter_1_F","C_journalist_F","C_man_shorts_2_F","C_man_w_worker_F"];
-civilian_vehicles = [ "C_Hatchback_01_F","C_Hatchback_01_sport_F","C_Offroad_01_F","C_SUV_01_F","C_Van_01_transport_F","C_Van_01_box_F","C_Van_01_fuel_F", "C_Heli_Light_01_civil_F", "C_Quadbike_01_F" ];
+civilian_vehicles = [ "C_Hatchback_01_F", "C_Hatchback_01_sport_F", "C_Offroad_01_F", "C_SUV_01_F", "C_Van_01_transport_F", "C_Van_01_box_F", "C_Van_01_fuel_F", "C_Quadbike_01_F" ];
 
 // !!
 // Do not edit below this point!!
@@ -404,7 +435,15 @@ air_vehicles_classnames = [] + opfor_choppers;
 markers_reset = [99999,99999,0];
 zeropos = [0,0,0];
 squads_names = [ localize "STR_LIGHT_RIFLE_SQUAD", localize "STR_RIFLE_SQUAD", localize "STR_AT_SQUAD", localize "STR_AA_SQUAD",  localize "STR_RECON_SQUAD", localize "STR_PARA_SQUAD" ];
-boats_names = [ "B_Boat_Transport_01_F", "B_Boat_Armed_01_minigun_F" ];
+boats_names = [ 
+	"B_Boat_Transport_01_F", 
+	"B_Boat_Armed_01_minigun_F",
+	"C_Rubberboat",
+	"B_SDV_01_F",
+	"ffaa_ar_supercat",
+	"ASH_MKVSOC"
+];
+
 box_transport_config = [
 	[ "B_Truck_01_transport_F", -6.5, [0,	-0.4,	0.4], [0,	-2.1,	0.4], [0,	-3.8,	0.4] ],
 	[ "B_Truck_01_covered_F", -6.5, [0,	-0.4,	0.4], [0,	-2.1,	0.4], [0,	-3.8,	0.4] ],
@@ -419,3 +458,4 @@ ammobox_transports_typenames = [];
 ammobox_transports_typenames = [ ammobox_transports_typenames , { [ _x ] call F_checkClass } ]  call BIS_fnc_conditionalSelect;
 elite_vehicles = [ elite_vehicles , { [ _x ] call F_checkClass } ]  call BIS_fnc_conditionalSelect;
 original_resistance = [ "rhs_g_Soldier_AA_F","rhs_g_Soldier_exp_F","rhs_g_engineer_F","rhs_g_Soldier_LAT_F","rhs_g_Soldier_AR_F","rhs_g_Soldier_M_F","rhs_g_medic_F","rhs_g_Soldier_F","rhs_g_Soldier_F3","rhs_g_Soldier_lite_F","rhs_g_Soldier_TL_F","rhs_g_Soldier_SL_F" ];
+opfor_infantry = [opfor_sentry,opfor_rifleman,opfor_grenadier,opfor_squad_leader,opfor_team_leader,opfor_marksman,opfor_machinegunner,opfor_heavygunner,opfor_medic,opfor_rpg,opfor_at,opfor_aa,opfor_officer,opfor_sharpshooter,opfor_sniper,opfor_engineer];

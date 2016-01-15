@@ -19,6 +19,7 @@ date_day = date select 2;
 blufor_sectors = [];
 GRLIB_all_fobs = [];
 buildings_to_save= [];
+mines_to_save = [];
 combat_readiness = 0;
 saved_ammo_res = 0;
 stats_opfor_soldiers_killed = 0;
@@ -70,7 +71,7 @@ _classnames_to_save_blu = [];
 	_classnames_to_save_blu pushback (_x select 0);
 } foreach (static_vehicles + air_vehicles + heavy_vehicles + light_vehicles + support_vehicles);
 
-_classnames_to_save = _classnames_to_save + _classnames_to_save_blu + all_hostile_classnames + AmmoFactory_allclasses;
+_classnames_to_save = _classnames_to_save + _classnames_to_save_blu + all_hostile_classnames;
 
 trigger_server_save = false;
 greuh_liberation_savegame = profileNamespace getVariable GRLIB_save_key;
@@ -150,6 +151,10 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 	if ( count greuh_liberation_savegame > 15 ) then {
  		GRLIB_player_scores = greuh_liberation_savegame select 15;
  	};
+	
+	if ( count greuh_liberation_savegame > 16 ) then {
+ 		mines_to_save = greuh_liberation_savegame select 16;
+ 	};
 
 	setDate [date_year, date_month, date_day, time_of_day, 0];
 	
@@ -168,11 +173,12 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 
 	{
 		_nextclass = _x select 0;
-		_nextpos = [];
+		varNextPos = [];
+		varNextDir = 0;
 
 		if ( _nextclass in _classnames_to_save ) then {
-			_nextpos = _x select 1;
-			_nextdir = _x select 2;
+			varNextPos = [] + (_x select 1);
+			varNextDir = 0 + (_x select 2);
 			_hascrew = false;
 			if ( count _x > 3 ) then {
 				_hascrew = _x select 3;
@@ -183,11 +189,13 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 				_vectorup = [0,0,1];
 			};
 			
-			_nextbuilding = _nextclass createVehicle _nextpos;
-			_nextbuilding setPosATL _nextpos;
-			_nextbuilding setVariable ["truePos", _nextpos, true];
-			_nextbuilding setdir _nextdir;
-			_nextbuilding setVariable ["trueDir", _nextdir, true];
+			diag_log format["OBJ: %1 | NEXTPOS: %2 | NEXTDIR: %3", _nextclass, varNextPos, varNextDir];
+			
+			_nextbuilding = _nextclass createVehicle varNextPos;
+			_nextbuilding setPosATL varNextPos;
+			_nextbuilding setVariable ["truePos", varNextPos, true];
+			_nextbuilding setdir varNextDir;
+			_nextbuilding setVariable ["trueDir", varNextDir, true];
 			_nextbuilding setdamage 0;
 			
 			//TO DO: LOAD VEHICLES
@@ -207,6 +215,32 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 			};
 		};
 	} foreach buildings_to_save;
+	
+	_mines = [] + mines_to_save;
+	{
+		_nextclass = _x select 0;
+		varNextPos = [];
+		varNextDir = 0;
+		
+		if ( _nextclass in GRLIB_mines_to_be_saved ) then {
+			varNextPos = [] + (_x select 1);
+			varNextDir = 0 + (_x select 2);
+			
+			_minename = "";
+			switch ( _nextclass ) do {
+				case "ATMine_Range_Ammo": { _minename = "ATMine"; };
+				case "APERSMine_Range_Ammo": { _minename = "APERSMine"; };
+				case "APERSBoundingMine_Range_Ammo": { _minename = "APERSBoundingMine"; };
+				case "SLAMDirectionalMine_Wire_Ammo": { _minename = "SLAMDirectionalMine"; };
+				case "SLAMDirectionalMine_Magnetic_Ammo": { _minename = "SLAMDirectionalMine"; };
+				case "APERSTripMine_Wire_Ammo": { _minename = "APERSTripMine"; };
+			};
+			
+			_mine = createMine [ _minename, [varNextPos select 0, varNextPos select 1, 0], [], 0];
+			_mine setdir varNextDir;
+			_mine setdamage 0;
+		};
+	} foreach _mines;
 
 	sleep 0.1;
 
@@ -216,14 +250,14 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 		_grp = createGroup WEST;
 
 		{
-			private [ "_nextunit", "_nextpos", "_nextdir", "_nextobj"];
+			private [ "_nextunit", "_nextobj"];
 			_nextunit = _x;
-			_nextpos = [(_nextunit select 1) select 0, (_nextunit select 1) select 1, ((_nextunit select 1) select 2) + 0.2];
-			_nextdir = _nextunit select 2;
-			(_nextunit select 0) createUnit [ _nextpos, _grp, 'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}] '];
+			varNextPos = [(_nextunit select 1) select 0, (_nextunit select 1) select 1, ((_nextunit select 1) select 2) + 0.2];
+			varNextDir = _nextunit select 2;
+			(_nextunit select 0) createUnit [ varNextPos, _grp, 'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}] '];
 			_nextobj = ((units _grp) select ((count (units _grp)) - 1));
-			_nextobj setPosATL _nextpos;
-			_nextobj setDir _nextdir;
+			_nextobj setPosATL varNextPos;
+			_nextobj setDir varNextDir;
 		} foreach _nextgroup;
 	} foreach ai_groups;
 };
@@ -279,15 +313,6 @@ while { true } do {
 		_all_buildings = [];
 		{
 			_fobpos = _x;
-			_nextbuildings = [ _fobpos nearobjects (GRLIB_fob_range * 2), {
-				((typeof _x) in _classnames_to_save ) &&
-				( alive _x) &&
-				( speed _x < 5 ) &&
-				( isNull  attachedTo _x ) &&
-				(((getPos _x) select 2) < 10 )
- 				} ] call BIS_fnc_conditionalSelect;
-
-			_all_buildings = _all_buildings + _nextbuildings;
 			
 			{
 				_nextgroup = _x;
@@ -327,20 +352,43 @@ while { true } do {
 			};
 		} foreach blufor_sectors;
 		
+		_nextbuildings = [ allMissionObjects "", {
+			( ((typeof _x) in _classnames_to_save) && !((typeof _x) in AmmoFactory_allclasses) ) &&
+			( alive _x) &&
+			( speed _x < 5 ) &&
+			( isNull  attachedTo _x ) &&
+			( ( (getPos _x) select 2 ) < 30 ) &&
+			( getObjectType _x >= 8 ) &&
+			( (count(_x getVariable ["truePos", []]) > 0) || ((typeof _x) in GRLIB_mines_to_be_saved) )
+		} ] call BIS_fnc_conditionalSelect;
+		
+		_all_buildings = _all_buildings + _nextbuildings;
+		
 		{
-			private [ "_nextpos", "_nextdir" ];
 			_building = _x;
 			_nextclass = typeof _building;
 			
-			_nextpos = [];
-			/*if ( _nextclass in light_objects ) then {
-				_nextpos = [(getPosATL _building) select 0, (getPosATL _building) select 1, (getPosATL _building) select 2];
-			} else {
-				_nextpos = [(getPosATL _building) select 0, (getPosATL _building) select 1, 0];
-			};*/
+			varNextPos = [];
+			varNextDir = 0;
 			
-			_nextpos = _building getVariable "truePos";
-			_nextdir = _building getVariable "trueDir";
+			if ( _building isKindOf "AllVehicles" || (_building getVariable ["ace_dragging_canCarry", false] || _building getVariable ["ace_dragging_canDrag", false]) ) then {
+				if ( _building isKindOf "Air" ) then {
+					if ( isTouchingGround _building || speed _building < 5 ) then {
+						varNextPos = [] + (getPosATL _building);
+						varNextDir = 0 + (getDir _building);
+					} else {
+						varNextPos = [] + (_building getVariable "truePos");
+						varNextDir = 0 + (_building getVariable "trueDir");
+					};
+				} else {
+					varNextPos = [] + (getPosATL _building);
+					varNextDir = 0 + (getDir _building);
+				};
+			} else {
+				varNextPos = [] + (_building getVariable "truePos");
+				varNextDir = 0 + (_building getVariable "trueDir");
+			};
+			
 			_hascrew = false;
 			_vectorup = vectorUp _building;
 			
@@ -378,8 +426,20 @@ while { true } do {
 					_hascrew = true;
 				};
 			};
-			buildings_to_save pushback [ _nextclass,_nextpos,_nextdir,_hascrew,_vectorup,[_vehammo,_vehcargoammo,_vehfuel,_vehcargofuel,_vehweaponcargo,_vehmagazinecargo,_vehbackpackcargo,_vehitemcargo,_vehdamage] ];
+			buildings_to_save pushback [ _nextclass,varNextPos,varNextDir,_hascrew,_vectorup,[_vehammo,_vehcargoammo,_vehfuel,_vehcargofuel,_vehweaponcargo,_vehmagazinecargo,_vehbackpackcargo,_vehitemcargo,_vehdamage] ];
 		} foreach _all_buildings;
+		
+		_mines = [ allMissionObjects "", { (typeof _x) in GRLIB_mines_to_be_saved } ] call BIS_fnc_conditionalSelect;
+		diag_log format["MINES: %1",_mines];
+		{
+			_mine = _x;
+			_nextclass = typeof _mine;
+			
+			varNextPos = [] + [(getPosATL _mine) select 0, (getPosATL _mine) select 1, 0];
+			varNextDir = 0 + getDir _mine;
+			
+			mines_to_save pushback [ _nextclass,varNextPos,varNextDir ];
+		} foreach _mines;
 
 		time_of_day = date select 3;
 
@@ -435,7 +495,7 @@ while { true } do {
 		_stats pushback stats_readiness_earned;
 
 		greuh_liberation_savegame = [ blufor_sectors, GRLIB_all_fobs, buildings_to_save, time_of_day,round combat_readiness, date select 0, date select 1, date select 2, round resources_ammo, _stats,
-		[ round infantry_weight, round armor_weight, round air_weight ], GRLIB_vehicle_to_military_base_links, GRLIB_permissions, ai_groups, resources_intel, GRLIB_player_scores ];
+		[ round infantry_weight, round armor_weight, round air_weight ], GRLIB_vehicle_to_military_base_links, GRLIB_permissions, ai_groups, resources_intel, GRLIB_player_scores, mines_to_save ];
 
 		profileNamespace setVariable [ GRLIB_save_key, greuh_liberation_savegame ];
 		saveProfileNamespace;

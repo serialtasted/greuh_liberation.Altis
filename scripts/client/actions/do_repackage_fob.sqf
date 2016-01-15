@@ -32,11 +32,13 @@ if ( dorepackage > 0 ) then {
 
 	if ( dorepackage == 1 ) then {
 		_fobbox = FOB_box_typename createVehicle _spawnpos;
+		_fobbox setVariable ["truePos", _spawnpos, true];
 		//[ [_fobbox, 3000 ] , "F_setMass" ] call BIS_fnc_MP;
 	};
 
 	if ( dorepackage == 2 ) then {
-		FOB_truck_typename createVehicle _spawnpos;
+		_fobtruck = FOB_truck_typename createVehicle _spawnpos;
+		_fobtruck setVariable ["truePos", _spawnpos, true];
 	};
 
 	hint localize "STR_FOB_REPACKAGE_HINT";

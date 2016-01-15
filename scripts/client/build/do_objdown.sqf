@@ -1,0 +1,1 @@
+heightmodifier = heightmodifier - 0.5;

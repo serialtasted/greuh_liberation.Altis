@@ -1,4 +1,4 @@
-private [ "_maxdist", "_truepos", "_price", "_pos", "_grp", "_classname", "_idx", "_unitrank", "_posfob", "_ghost_spot", "_vehicle", "_dist", "_actualdir", "_near_objects", "_near_objects_25", "_allowbis", "_allowcancel", "_debug_colisions" ];
+private [ "_maxdist", "_truepos", "_price", "_pos", "_grp", "_classname", "_idx", "_unitrank", "_posfob", "_ghost_spot", "_vehicle", "_dist", "_actualdir", "_near_objects", "_near_objects_25", "_allowbis", "_allowcancel", "_debug_colisions", "_objectheight" ];
 
 build_confirmed = 0;
 _maxdist = GRLIB_fob_range;
@@ -15,6 +15,7 @@ while { count GRLIB_preview_spheres < 36 } do {
 if (isNil "manned") then { manned = false };
 if (isNil "gridmode" ) then { gridmode = 0 };
 if (isNil "levelmode" ) then { levelmode = 0 };
+if (isNil "heightmodifier" ) then { heightmodifier = 0 };
 if (isNil "repeatbuild" ) then { repeatbuild = false };
 if (isNil "build_rotation" ) then { build_rotation = 0 };
 
@@ -27,6 +28,7 @@ while { true } do {
 	_allowbis = false;
 	_allowcancel = false;
 	_classname = "";
+	_objectheight = 0;
 	
 	switch ( buildtype ) do {
 		case 99: {
@@ -47,6 +49,26 @@ while { true } do {
 			GRLIB_removeBoxes = "generatorBox";
 			buildtype = 6;
 			_classname = AmmoFactory_generator_typename;
+		};
+		case "spareWheel": {
+			buildtype = 6;
+			_classname = "ACE_Wheel";
+		};
+		case "spareTrack": {
+			buildtype = 6;
+			_classname = "ACE_Track";
+		};
+		case "fuelBarrel": {
+			buildtype = 6;
+			_classname = "Land_MetalBarrel_F";
+		};
+		case "fuelSling": {
+			buildtype = 6;
+			_classname = "FlexibleTank_01_forest_F";
+		};
+		case "fuelCannister": {
+			buildtype = 6;
+			_classname = "Land_CanisterFuel_F";
 		};
 		default {
 			_allowbis = true;
@@ -79,6 +101,8 @@ while { true } do {
 				_idx = _idx + 1;
 
 			} foreach _classname;
+			_grp setCombatMode "GREEN";
+			_grp setBehaviour "AWARE";
 			build_confirmed = 0;
 		} else {
 			_posfob = getPosATL player;
@@ -89,6 +113,8 @@ while { true } do {
 			_idactcancel = -1;
 			_idactsnap = -1;
 			_idactlevel = -1;
+			_idactraise = -1;
+			_idactlower = -1;
 			_idactplacebis = -1;
 			if (buildtype != 99 && _allowcancel) then {
 				_idactcancel = player addAction ["<t color='#B0FF00'>" + localize "STR_CANCEL" + "</t> <img size='2' image='res\ui_cancel.paa'/>","scripts\client\build\build_cancel.sqf","",-725,false,true,"","build_confirmed == 1"];
@@ -99,6 +125,8 @@ while { true } do {
 			if (buildtype == 6 || buildtype == 99) then {
 				_idactsnap = player addAction ["<t color='#B0FF00'>" + localize "STR_GRID" + "</t>","scripts\client\build\do_grid.sqf","",-735,false,false,"","build_confirmed == 1"];
 				_idactlevel = player addAction ["<t color='#B0FF00'>" + localize "STR_LEVEL" + "</t>","scripts\client\build\do_level.sqf","",-735,false,false,"","build_confirmed == 1"];
+				_idactraise = player addAction ["<t color='#B0FF00'>" + localize "STR_OBJUP" + "</t>","scripts\client\build\do_objup.sqf","",-735,false,false,"","build_confirmed == 1"];
+				_idactlower = player addAction ["<t color='#B0FF00'>" + localize "STR_OBJDOWN" + "</t>","scripts\client\build\do_objdown.sqf","",-735,false,false,"","build_confirmed == 1"];
 			};
 			_idactrotate = player addAction ["<t color='#B0FF00'>" + localize "STR_ROTATION" + "</t> <img size='2' image='res\ui_rotation.paa'/>","scripts\client\build\build_rotate.sqf","",-750,false,false,"","build_confirmed == 1"];
 			_idactplace = player addAction ["<t color='#B0FF00'>" + localize "STR_PLACEMENT" + "</t> <img size='2' image='res\ui_confirm.paa'/>","scripts\client\build\build_place.sqf","",-775,false,true,"","build_invalid == 0 && build_confirmed == 1"];
@@ -122,10 +150,19 @@ while { true } do {
 
 			while { build_confirmed == 1 && alive player } do {
 				_truedir = 90 - (getdir player);
-				_objectheight = 0;
 				
-				if ( _classname in light_objects ) then {
-					_objectheight = (getPosATL player) select 2;
+				if (buildtype == 6 || buildtype == 99) then {
+					if ( _classname in light_objects ) then {
+						_objectheight = ((getPosATL player) select 2) + heightmodifier;
+					} else {
+						_objectheight = heightmodifier;
+					};
+				} else {
+					if ( _classname in light_objects ) then {
+						_objectheight = ((getPosATL player) select 2);
+					} else {
+						_objectheight = 0;
+					};
 				};
 				
 				_cursorObject = typeOf cursorTarget;
@@ -167,22 +204,17 @@ while { true } do {
 				_near_objects_25 = (_truepos nearobjects ["AllVehicles", 50]) ;
 				_near_objects_25 = _near_objects_25 + (_truepos nearobjects [FOB_box_typename, 50]);
 				_near_objects_25 = _near_objects_25 + (_truepos nearobjects [Arsenal_typename, 50]);
-
-				if(	buildtype != 6 && buildtype != 5) then {
-					_near_objects = _near_objects + (_truepos nearobjects ["Static", _dist]);
-					_near_objects_25 = _near_objects_25 + (_truepos nearobjects ["Static", 50]);
-				};
 				
-				_remove_objects = [];
+				private _remove_objects = [];
 				{
-					if (typeOf _x in GRLIB_ignore_colisions_when_building || _x == player || _x == _vehicle) then {
+					if ((_x isKindOf "Animal") || (_x isKindOf "Static") || ((typeof _x) in GRLIB_ignore_colisions_when_building) || (_x == player) || (_x == _vehicle )) then {
 						_remove_objects pushBack _x;
 					};
 				} forEach _near_objects;
 				
-				_remove_objects_25 = [];
+				private _remove_objects_25 = [];
 				{
-					if (typeOf _x in GRLIB_ignore_colisions_when_building || _x == player || _x == _vehicle) then {
+					if ((_x isKindOf "Animal") || (_x isKindOf "Static") || ((typeof _x) in GRLIB_ignore_colisions_when_building) || (_x == player) || (_x == _vehicle )) then {
 						_remove_objects_25 pushBack _x;
 					};
 				} forEach _near_objects_25;
@@ -208,7 +240,7 @@ while { true } do {
 					GRLIB_conflicting_objects = [];
 				};
 
-				if (count _near_objects == 0 && ((_truepos distance _posfob) < _maxdist || _classname in AmmoFactory_allclasses) && (  ((!surfaceIsWater _truepos) && (!surfaceIsWater getPosATL player)) || (_classname in boats_names) ) ) then {
+				if (count _near_objects == 0 && ( ((!surfaceIsWater _truepos) && (!surfaceIsWater getPosATL player)) ) ) then {
 
 					if ( (buildtype == 6 || buildtype == 99 || buildtype == 5) && ((gridmode % 2) == 1) ) then {
 						_vehicle setPosATL [round (_truepos select 0),round (_truepos select 1), _truepos select 2];
@@ -228,28 +260,44 @@ while { true } do {
 					build_invalid = 0;
 
 				} else {
-					if ( build_invalid == 0 ) then {
-						{ _x setObjectTexture [0, "#(rgb,8,8,3)color(1,0,0,1)"]; } foreach GRLIB_preview_spheres;
-					};
-					_vehicle setPosATL _ghost_spot;
-					build_invalid = 1;
-					if(count _near_objects > 0) then {
-						GRLIB_ui_notif = format [localize "STR_PLACEMENT_IMPOSSIBLE",count _near_objects, round _dist];
+					
+					if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname in boats_names) ) then {
+					
+						_vehicle setPosASL _truepos;
+						_vehicle setVectorUp [0,0,1];
 						
-						if (_debug_colisions) then {
-							private [ "_objs_classnames" ];
-							_objs_classnames = [];
-							{ _objs_classnames pushback (typeof _x) } foreach _near_objects;
-							hint format [ "Colisions : %1", _objs_classnames ];
+						if(build_invalid == 1) then {
+							GRLIB_ui_notif = "";
+							{ _x setObjectTexture [0, "#(rgb,8,8,3)color(0,1,0,1)"]; } foreach GRLIB_preview_spheres;
 						};
+						build_invalid = 0;
+						
+					} else {
+					
+						if ( build_invalid == 0 ) then {
+							{ _x setObjectTexture [0, "#(rgb,8,8,3)color(1,0,0,1)"]; } foreach GRLIB_preview_spheres;
+						};
+						_vehicle setPosATL _ghost_spot;
+						build_invalid = 1;
+						if(count _near_objects > 0) then {
+							GRLIB_ui_notif = format [localize "STR_PLACEMENT_IMPOSSIBLE",count _near_objects, round _dist];
+							
+							if (_debug_colisions) then {
+								private [ "_objs_classnames" ];
+								_objs_classnames = [];
+								{ _objs_classnames pushback (typeof _x) } foreach _near_objects;
+								hint format [ "Colisions : %1", _objs_classnames ];
+							};
+						};
+						if( ((surfaceIsWater _truepos) || (surfaceIsWater getPosATL player)) && !(_classname in boats_names)) then {
+							GRLIB_ui_notif = localize "STR_BUILD_ERROR_WATER";
+						};
+						if((_truepos distance _posfob) > _maxdist) then {
+							GRLIB_ui_notif = format [localize "STR_BUILD_ERROR_DISTANCE",_maxdist];
+						};
+						
 					};
-					if( ((surfaceIsWater _truepos) || (surfaceIsWater getPosATL player)) && !(_classname in boats_names)) then {
-						GRLIB_ui_notif = localize "STR_BUILD_ERROR_WATER";
-					};
-					if((_truepos distance _posfob) > _maxdist) then {
-						GRLIB_ui_notif = format [localize "STR_BUILD_ERROR_DISTANCE",_maxdist];
-					};
-
+					
 				};
 				sleep 0.05;
 			};
@@ -264,14 +312,24 @@ while { true } do {
 			};
 
 			if ( build_confirmed == 2 ) then {
-				_vehpos = getPosATL _vehicle;
+				if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname in boats_names) ) then {
+					_vehpos = getPosASL _vehicle;
+				} else {
+					_vehpos = getPosATL _vehicle;
+				};
+				
 				_vehdir = getdir _vehicle;
 				deleteVehicle _vehicle;
 				sleep 0.1;
 				_vehicle = _classname createVehicle _truepos;
 				_vehicle allowDamage false;
 				_vehicle setdir _vehdir;
-				_vehicle setPosATL _truepos;
+				
+				if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname in boats_names) ) then {
+					_vehicle setPosASL _truepos;
+				} else {
+					_vehicle setPosATL _truepos;
+				};
 				
 				_vehicle setVariable ["truePos", _truepos, true];
 				_vehicle setVariable ["trueDir", _vehdir, true];
@@ -391,11 +449,11 @@ while { true } do {
 				};
 				
 				if ( _vehicle isKindOf "Plane" ) then {
-					[_vehicle] execVM "scripts\misc\pushback.sqf";
+					[[[_vehicle],"scripts\misc\pushback.sqf"],"BIS_fnc_execVM",true,false] call BIS_fnc_MP;
 				};
 				
 				if ( _vehicle isKindOf "AllVehicles" ) then {
-					[_vehicle] execVM "IgiLoad\IgiLoad.sqf";
+					[[[_vehicle],"IgiLoad\IgiLoad.sqf"],"BIS_fnc_execVM",true,false] call BIS_fnc_MP;
 				};
 				
 				if ( _classname in fuel_cannister ) then {
@@ -419,6 +477,16 @@ while { true } do {
 				if ( _classname in draggable_objects ) then {
 					[[_vehicle, true, [0, 1, 0], 180], "ace_dragging_fnc_setDraggable", true, false] call BIS_fnc_MP;
 				};
+				
+				if ( _classname isEqualTo "Flag_Red_F" ) then {
+					_vehicle setFlagTexture "res\flag_portugal_co.paa";
+					_vehicle setFlagSide west;
+				};
+				
+				if ( _classname isEqualTo "Flag_Green_F" ) then {
+					_vehicle setFlagTexture "res\flag_ptrangers_co.paa";
+					_vehicle setFlagSide west;
+				};
 
 				if (buildtype != 6) then {
 					_vehicle addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
@@ -434,6 +502,12 @@ while { true } do {
 			};
 			if ( _idactlevel != -1 ) then {
 				player removeAction _idactlevel;
+			};
+			if ( _idactraise != -1 ) then {
+				player removeAction _idactraise;
+			};
+			if ( _idactlower != -1 ) then {
+				player removeAction _idactlower;
 			};
 			if ( _idactplacebis != -1 ) then {
 				player removeAction _idactplacebis;

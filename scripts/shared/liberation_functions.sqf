@@ -51,3 +51,4 @@ F_getCorrectedSectorRange = compileFinal preprocessFileLineNumbers "scripts\shar
 F_getLocationName = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getLocationName.sqf";
 F_setRank = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_setRank.sqf";
 F_skipTime = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_skipTime.sqf";
+F_getNearestBuildingTruck = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getNearestBuildingTruck.sqf";

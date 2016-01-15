@@ -150,7 +150,7 @@ class ACE_Settings {
 		force = 1;
 	};
 	class ace_medical_bleedingCoefficient {
-		value = 1.25;
+		value = 0.75;
 		typeName = "SCALAR";
 		force = 1;
 	};

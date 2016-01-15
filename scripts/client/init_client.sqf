@@ -17,6 +17,7 @@ if((getPlayerUID player) != "_SP_PLAYER_") then {
 playableUnitOccupier_PV = player; publicVariableServer "playableUnitOccupier_PV";	
 player addEventHandler ["Respawn", {
 	playableUnitOccupier_PV = _this select 0; publicVariableServer "playableUnitOccupier_PV";
+	playerTeam = _this getVariable ["St_team", "PTr_alpha"];  [playerTeam] call F_setPlayerTeam;
 }];
 
 // add arsenal items

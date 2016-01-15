@@ -10,7 +10,7 @@ class Unitcap{
 	title = $STR_PARAMS_UNITCAP;
 	values[] = {50,75,100,125,150,200};
 	texts[] = {$STR_PARAMS_UNITCAP1,$STR_PARAMS_UNITCAP2,$STR_PARAMS_UNITCAP3,$STR_PARAMS_UNITCAP4,$STR_PARAMS_UNITCAP5,$STR_PARAMS_UNITCAP6};
-	default = 100;
+	default = 75;
 	paramCode = "";
 };
 class Difficulty {
@@ -22,16 +22,16 @@ class Difficulty {
 };
 class Aggressivity{
 	title = $STR_AGGRESSIVITY_PARAM;
-	values[] = {25,50,100,200,400};
+	values[] = {25,50,100,250,400};
 	texts[] = {$STR_AGGRESSIVITY_PARAM0, $STR_AGGRESSIVITY_PARAM1,$STR_AGGRESSIVITY_PARAM2,$STR_AGGRESSIVITY_PARAM3,$STR_AGGRESSIVITY_PARAM4};
-	default = 200;
+	default = 250;
 	paramCode = "";
 };
 class AdaptToPlayercount{
 	title = $STR_PARAM_ADAPT_TO_PLAYERCOUNT;
 	values[] = {1,0};
 	texts[] = {$STR_PARAMS_ENABLED,$STR_PARAMS_DISABLED};
-	default = 1;
+	default = 0;
 	paramCode = "";
 };
 class DayDuration {
