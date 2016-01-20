@@ -24,6 +24,10 @@ if (isServer) then {
 	if ( _liberated_sector in sectors_tower ) then {
 		_combat_readiness_increase = (floor (random 4));
 	};
+	
+	if ( GRLIB_passive_income ) then {
+ 		resources_ammo = resources_ammo + (floor (75 + (random 50)));
+ 	};
 
 	combat_readiness = combat_readiness + _combat_readiness_increase;
 	if ( combat_readiness > 100.0 && GRLIB_difficulty_modifier <= 2.0 ) then { combat_readiness = 100.0 };

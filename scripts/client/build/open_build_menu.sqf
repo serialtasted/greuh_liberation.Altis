@@ -13,21 +13,44 @@ _dialog = createDialog "liberation_build";
 waitUntil { dialog };
 
 _isfob = false;
+_isnimitz = false;
+_istruck = false;
 if ( (player distance ([] call F_getNearestFob)) < (2 * GRLIB_fob_range) ) then {
 	_isfob = true;
-} else { buildtype = 6; };
+} else { 
+	if ( (player distance nimitz) < 70 ) then {
+		_isnimitz = true;
+		buildtype = 4;
+	} else {
+		_istruck = true;
+		buildtype = 6;
+	};
+};
+
 ctrlShow [ 102, _isfob ];
 ctrlShow [ 1025, _isfob ];
 ctrlShow [ 103, _isfob ];
 ctrlShow [ 1035, _isfob ];
 ctrlShow [ 104, _isfob ];
 ctrlShow [ 1045, _isfob ];
-ctrlShow [ 105, _isfob ];
-ctrlShow [ 1055, _isfob ];
+if (_isfob || _isnimitz) then {
+	ctrlShow [ 105, true ];
+	ctrlShow [ 1055, true ];
+} else {
+	ctrlShow [ 105, false ];
+	ctrlShow [ 1055, false ];
+};
 ctrlShow [ 1106, _isfob ];
 ctrlShow [ 11065, _isfob ];
 ctrlShow [ 107, _isfob ];
 ctrlShow [ 1075, _isfob ];
+if (_isfob || _istruck) then {
+	ctrlShow [ 109, true ];
+	ctrlShow [ 1095, true ];
+} else {
+	ctrlShow [ 109, false ];
+	ctrlShow [ 1095, false ];
+};
 
 _iscommandant = false;
 if ( player == [] call F_getCommander && _isfob ) then {

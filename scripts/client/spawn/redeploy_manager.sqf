@@ -53,7 +53,7 @@ while { true } do {
 	((findDisplay 5201) displayCtrl 201) ctrlAddEventHandler [ "mouseButtonDblClick" , { deploy = 1; } ];
 
 	while { dialog && alive player && deploy == 0 } do {
-		choiceslist = [ [ _basenamestr, getpos lhd ] ];
+		choiceslist = [ [ _basenamestr, getpos lhd ], [ "USS NIMITZ", getpos nimitz ] ];
 		
 		if ( PARAMS_AllowFOBDeploy == 1 || count allPlayers <= 5 ) then {
 			for [{_idx=0},{_idx < count GRLIB_all_fobs},{_idx=_idx+1}] do {
@@ -117,12 +117,16 @@ while { true } do {
 		if (((choiceslist select _idxchoice) select 0) == _basenamestr) then {
 			call respawn_lhd;
 		} else {
-			if (count (choiceslist select _idxchoice) == 3) then {
-				_truck = (choiceslist select _idxchoice) select 2;
-				player setpos ([_truck, 5 + (random 3), random 360] call BIS_fnc_relPos)
+			if (((choiceslist select _idxchoice) select 0) == "USS NIMITZ") then {
+				call respawn_nimitz;
 			} else {
-				_destpos = ((choiceslist select _idxchoice) select 1);
-				player setpos [((_destpos select 0) + 5) - (random 10),((_destpos select 1) + 5) - (random 10),0];
+				if (count (choiceslist select _idxchoice) == 3) then {
+					_truck = (choiceslist select _idxchoice) select 2;
+					player setpos ([_truck, 5 + (random 3), random 360] call BIS_fnc_relPos)
+				} else {
+					_destpos = ((choiceslist select _idxchoice) select 1);
+					player setpos [((_destpos select 0) + 5) - (random 10),((_destpos select 1) + 5) - (random 10),0];
+				};
 			};
 		};
 	};

@@ -158,7 +158,7 @@ while { true } do {
 						_objectheight = heightmodifier;
 					};
 				} else {
-					if ( _classname in light_objects ) then {
+					if ( _classname in light_objects || (player distance nimitz) < 200 ) then {
 						_objectheight = ((getPosATL player) select 2);
 					} else {
 						_objectheight = 0;
@@ -240,7 +240,7 @@ while { true } do {
 					GRLIB_conflicting_objects = [];
 				};
 
-				if (count _near_objects == 0 && ( ((!surfaceIsWater _truepos) && (!surfaceIsWater getPosATL player)) ) ) then {
+				if (count _near_objects == 0 && ( ((!surfaceIsWater _truepos) && (!surfaceIsWater getPosATL player)) || (player distance nimitz) < 60 ) ) then {
 
 					if ( (buildtype == 6 || buildtype == 99 || buildtype == 5) && ((gridmode % 2) == 1) ) then {
 						_vehicle setPosATL [round (_truepos select 0),round (_truepos select 1), _truepos select 2];
@@ -273,7 +273,9 @@ while { true } do {
 						build_invalid = 0;
 						
 					} else {
-					
+						
+						GRLIB_ui_notif = format ["You're too further away from the allowed build radius."];
+						
 						if ( build_invalid == 0 ) then {
 							{ _x setObjectTexture [0, "#(rgb,8,8,3)color(1,0,0,1)"]; } foreach GRLIB_preview_spheres;
 						};
@@ -289,11 +291,8 @@ while { true } do {
 								hint format [ "Colisions : %1", _objs_classnames ];
 							};
 						};
-						if( ((surfaceIsWater _truepos) || (surfaceIsWater getPosATL player)) && !(_classname in boats_names)) then {
+						if( ((surfaceIsWater _truepos) || (surfaceIsWater getPosATL player)) && !(_classname in boats_names) && (player distance nimitz) > 60 ) then {
 							GRLIB_ui_notif = localize "STR_BUILD_ERROR_WATER";
-						};
-						if((_truepos distance _posfob) > _maxdist) then {
-							GRLIB_ui_notif = format [localize "STR_BUILD_ERROR_DISTANCE",_maxdist];
 						};
 						
 					};
@@ -403,6 +402,10 @@ while { true } do {
 				sleep 0.3;
 				_vehicle allowDamage true;
 				_vehicle setDamage 0;
+				
+				if(buildtype == 99) then {
+					_vehicle addEventHandler ["HandleDamage", { 0 }];
+ 				};
 				
 				if ( _classname in ammo_vehicles ) then {
 					_vehicle setAmmoCargo 1;

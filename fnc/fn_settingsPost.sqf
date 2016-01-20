@@ -12,6 +12,7 @@ if !(isServer) exitWith {};
 // safezone setup
 "safezone_1" setMarkerAlpha 0;
 "safezone_2" setMarkerAlpha 0;
+"safezone_3" setMarkerAlpha 0;
 "huronmarker" setMarkerAlpha 0;
 
 // initialize objects after load

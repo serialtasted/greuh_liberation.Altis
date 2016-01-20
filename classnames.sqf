@@ -93,6 +93,7 @@ infantry_units = [
 
 light_vehicles = [
 	["B_Quadbike_01_F",0,0,1],
+	["Peral_B_600",0,0,3],
 	["rhsusf_m1025_w",0,0,2],
 	["rhsusf_m1025_w_m2",0,10,2],
 	["rhsusf_m1025_w_mk19",0,20,2],
@@ -105,10 +106,10 @@ light_vehicles = [
 	["B_UGV_01_rcws_F",0,60,5],
 	["C_Rubberboat",0,0,2],
 	["B_Boat_Transport_01_F",0,0,2],
+	["Burnes_MK10_1",0,30,20],
 	["B_SDV_01_F",0,0,15],
-	["ffaa_ar_supercat",0,30,10],
-	["B_Boat_Armed_01_minigun_F",0,65,25],
-	["ASH_MKVSOC",0,80,35]
+	["ffaa_ar_supercat",0,30,10]
+	
 ];
 
 heavy_vehicles = [
@@ -120,7 +121,9 @@ heavy_vehicles = [
 	["Steve_MBT_Kuma",0,110,25],
 	["rhsusf_m1a2sep1tuskiwd_usarmy",0,120,25],
 	["Burnes_FV4034_01",0,250,40],
-	["rhsusf_m109_usarmy",0,750,30]
+	["rhsusf_m109_usarmy",0,750,30],
+	["B_Boat_Armed_01_minigun_F",0,65,25],
+	["ASH_MKVSOC",0,80,35]
 ];
 
 air_vehicles = [
