@@ -159,9 +159,9 @@ if (isnil "IL_Variables") then
 	
 	IL_Supported_RHSTank = ["rhsusf_m1a2sep1tuskiid_usarmy","RHS_M2A3_BUSKIII_wd","rhsusf_m1a1aimwd_usarmy","rhsusf_m1a2sep1tuskiwd_usarmy"];
 	IL_Supported_RHSArtillery = ["rhsusf_m109_usarmy"];
-	IL_Supported_RHSAPC = ["rhsusf_m113_usarmy_medical","rhsusf_m113_usarmy_supply","rhsusf_m113_usarmy_MK19","rhsusf_m113_usarmy_M240"];
+	IL_Supported_RHSAPC = ["rhsusf_m113_usarmy","rhsusf_m113_usarmy_medical","rhsusf_m113_usarmy_supply","rhsusf_m113_usarmy_MK19","rhsusf_m113_usarmy_M240"];
 	IL_Supported_RHSMrap = ["rhsusf_rg33_m2_d"];
-	IL_Supported_RHSCar = ["rhsusf_m998_d_4dr_halftop", "rhsusf_m1025_d", "rhsusf_m1025_d_m2", "rhsusf_m1025_d_Mk19","rhsusf_m1025_w","rhsusf_m1025_w_m2","rhsusf_m1025_w_mk19","rhsusf_m998_w_4dr"];
+	IL_Supported_RHSCar = ["rhsusf_m998_w_4dr_halftop","rhsusf_m998_w_2dr_halftop","rhsusf_m1025_w_mk19","rhsusf_m1025_w_m2","rhsusf_m1025_w","rhsusf_m998_d_4dr_halftop", "rhsusf_m1025_d", "rhsusf_m1025_d_m2", "rhsusf_m1025_d_Mk19","rhsusf_m998_w_4dr"];
 	
 	//TODO
 	//IL_Supported_Backpack = ["B_AssaultPack_blk", "B_AssaultPack_cbr", "B_AssaultPack_dgtl", "B_AssaultPack_khk", "B_AssaultPack_mcamo", "B_AssaultPack_ocamo", "B_AssaultPack_rgr", "B_AssaultPack_sgg", "B_AssaultPackG", "B_Bergen_blk", "B_Bergen_mcamo", "B_Bergen_rgr", "B_Bergen_sgg", "B_BergenC_blu", "B_BergenC_grn", "B_BergenC_red", "B_BergenG", "B_Carryall_cbr", "B_Carryall_khk", "B_Carryall_mcamo", "B_Carryall_ocamo", "B_Carryall_oli", "B_Carryall_oucamo", "B_FieldPack_blk", "B_FieldPack_cbr", "B_FieldPack_khk", "B_FieldPack_ocamo", "B_FieldPack_oli", "B_FieldPack_oucamo", "B_HuntingBackpack", "B_Kitbag_cbr", "B_Kitbag_mcamo", "B_Kitbag_sgg", "B_OutdoorPack_blk", "B_OutdoorPack_blu", "B_OutdoorPack_tan", "B_TacticalPack_blk", "B_TacticalPack_mcamo", "B_TacticalPack_ocamo", "B_TacticalPack_oli", "B_TacticalPack_rgr", "C_Bergen_blu", "C_Bergen_grn", "C_Bergen_red", "G_AssaultPack", "G_Bergen"];

@@ -69,6 +69,7 @@ if ("STRING" == typeName _objects) then {
 
 _fnc_addDoorActions =
 {
+	/*
 	// _doorsStayOpen = _this select 0;
 	_doorsStayOpen = param [0, player getVariable [DOORS_STAY_OPEN, false], [true]];
 	
@@ -111,9 +112,10 @@ _fnc_addDoorActions =
 			[] call _this;
 		}
 	];
+	*/
 };
 
-/*[
+[
 	[
 		[_doorsStayOpen, _fnc_addDoorActions],
 		{
@@ -124,7 +126,7 @@ _fnc_addDoorActions =
 		}
 	],
 	"BIS_fnc_call", true, true, true
-] call BIS_fnc_MP;*/
+] call BIS_fnc_MP;
 
 scriptHandle_automatedDoors = [_objects, _doorsStayOpen] spawn
 {
@@ -202,7 +204,7 @@ scriptHandle_automatedDoors = [_objects, _doorsStayOpen] spawn
 	};
 	
 	//relative path to the folder where this file is in
-	_path = (__FILE__ select [_prefixLength, ([__FILE__, "\"] call _fnc_findLast) - _prefixLength + 1]);
+	_path = "scripts\misc\doors\"; //(__FILE__ select [_prefixLength, ([__FILE__, "\"] call _fnc_findLast) - _prefixLength + 1]);
 	
 	_allBuildingDoors = [];
 	{

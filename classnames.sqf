@@ -106,10 +106,9 @@ light_vehicles = [
 	["B_UGV_01_rcws_F",0,60,5],
 	["C_Rubberboat",0,0,2],
 	["B_Boat_Transport_01_F",0,0,2],
-	["Burnes_MK10_1",0,30,20],
+	["Burnes_MK10_1",0,0,2],
 	["B_SDV_01_F",0,0,15],
 	["ffaa_ar_supercat",0,30,10]
-	
 ];
 
 heavy_vehicles = [
@@ -118,9 +117,7 @@ heavy_vehicles = [
 	["rhsusf_m113_usarmy_M240",0,50,15],
 	["RHS_M2A3_BUSKIII_wd",0,85,15],
 	["rhsusf_m1a1aimwd_usarmy",0,105,20],
-	["Steve_MBT_Kuma",0,110,25],
 	["rhsusf_m1a2sep1tuskiwd_usarmy",0,120,25],
-	["Burnes_FV4034_01",0,250,40],
 	["rhsusf_m109_usarmy",0,750,30],
 	["B_Boat_Armed_01_minigun_F",0,65,25],
 	["ASH_MKVSOC",0,80,35]
@@ -444,7 +441,8 @@ boats_names = [
 	"C_Rubberboat",
 	"B_SDV_01_F",
 	"ffaa_ar_supercat",
-	"ASH_MKVSOC"
+	"ASH_MKVSOC",
+	"Burnes_MK10_1"
 ];
 
 box_transport_config = [

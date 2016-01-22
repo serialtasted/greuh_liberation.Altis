@@ -221,7 +221,7 @@ scriptHandle_automatedDoors = [_objects, _doorsStayOpen] spawn
 	};
 	
 	//relative path to the folder where this file is in
-	_path = (__FILE__ select [_prefixLength, ([__FILE__, "\"] call _fnc_findLast) - _prefixLength + 1]);
+	_path = "scripts\misc\doors\"; //(__FILE__ select [_prefixLength, ([__FILE__, "\"] call _fnc_findLast) - _prefixLength + 1]);
 	
 	diag_log format ["automatedDoors: _path = %1", _path];
 	

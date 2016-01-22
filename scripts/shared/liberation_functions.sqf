@@ -52,3 +52,4 @@ F_getLocationName = compileFinal preprocessFileLineNumbers "scripts\shared\funct
 F_setRank = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_setRank.sqf";
 F_skipTime = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_skipTime.sqf";
 F_getNearestBuildingTruck = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getNearestBuildingTruck.sqf";
+F_initObjects = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_initObjects.sqf";

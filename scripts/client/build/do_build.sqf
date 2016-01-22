@@ -205,16 +205,21 @@ while { true } do {
 				_near_objects_25 = _near_objects_25 + (_truepos nearobjects [FOB_box_typename, 50]);
 				_near_objects_25 = _near_objects_25 + (_truepos nearobjects [Arsenal_typename, 50]);
 				
+				if(	buildtype != 6 ) then {
+					_near_objects = _near_objects + (_truepos nearobjects ["Static", _dist]);
+					_near_objects_25 = _near_objects_25 + (_truepos nearobjects ["Static", 50]);
+				};
+				
 				private _remove_objects = [];
 				{
-					if ((_x isKindOf "Animal") || (_x isKindOf "Static") || ((typeof _x) in GRLIB_ignore_colisions_when_building) || (_x == player) || (_x == _vehicle )) then {
+					if ((_x isKindOf "Animal") || (_x isKindOf "StaticWeapon") || ((typeof _x) in GRLIB_ignore_colisions_when_building) || (_x == player) || (_x == _vehicle )) then {
 						_remove_objects pushBack _x;
 					};
 				} forEach _near_objects;
 				
 				private _remove_objects_25 = [];
 				{
-					if ((_x isKindOf "Animal") || (_x isKindOf "Static") || ((typeof _x) in GRLIB_ignore_colisions_when_building) || (_x == player) || (_x == _vehicle )) then {
+					if ((_x isKindOf "Animal") || (_x isKindOf "StaticWeapon") || ((typeof _x) in GRLIB_ignore_colisions_when_building) || (_x == player) || (_x == _vehicle )) then {
 						_remove_objects_25 pushBack _x;
 					};
 				} forEach _near_objects_25;
@@ -261,7 +266,7 @@ while { true } do {
 
 				} else {
 					
-					if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname in boats_names) ) then {
+					if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship") ) then {
 					
 						_vehicle setPosASL _truepos;
 						_vehicle setVectorUp [0,0,1];
@@ -291,7 +296,7 @@ while { true } do {
 								hint format [ "Colisions : %1", _objs_classnames ];
 							};
 						};
-						if( ((surfaceIsWater _truepos) || (surfaceIsWater getPosATL player)) && !(_classname in boats_names) && (player distance nimitz) > 60 ) then {
+						if( ((surfaceIsWater _truepos) || (surfaceIsWater getPosATL player)) && !(_classname isKindOf "Ship") && (player distance nimitz) > 60 ) then {
 							GRLIB_ui_notif = localize "STR_BUILD_ERROR_WATER";
 						};
 						
@@ -311,7 +316,7 @@ while { true } do {
 			};
 
 			if ( build_confirmed == 2 ) then {
-				if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname in boats_names) ) then {
+				if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship") ) then {
 					_vehpos = getPosASL _vehicle;
 				} else {
 					_vehpos = getPosATL _vehicle;
@@ -324,7 +329,7 @@ while { true } do {
 				_vehicle allowDamage false;
 				_vehicle setdir _vehdir;
 				
-				if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname in boats_names) ) then {
+				if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship") ) then {
 					_vehicle setPosASL _truepos;
 				} else {
 					_vehicle setPosATL _truepos;
@@ -377,13 +382,9 @@ while { true } do {
 				if ( (_classname in uavs) || manned ) then {
 					[ _vehicle ] call F_forceBluforCrew;
 				};
-
-				/*if ( _classname == FOB_box_typename ) then {
-					[ [_vehicle, 3000 ] , "F_setMass" ] call BIS_fnc_MP;
-				};*/
 				
-				if ( _classname in  [ ammobox_b_typename, ammobox_o_typename, "B_Slingload_01_Ammo_F","JNS_Skycrane_Pod_Ammo_BLU_Green", "B_Slingload_01_Medevac_F", "JNS_Skycrane_Pod_Medical_BLU_Green", "B_Slingload_01_Fuel_F", "JNS_Skycrane_Pod_Fuel_BLU_Green", "B_Slingload_01_Repair_F", "JNS_Skycrane_Pod_Repair_BLU_Green" ] ) then {
-					_vehicle setVariable ["ace_cargo_size", -1];
+				if ( _classname in [ ammobox_b_typename, ammobox_o_typename, "B_Slingload_01_Ammo_F","JNS_Skycrane_Pod_Ammo_BLU_Green", "B_Slingload_01_Medevac_F", "JNS_Skycrane_Pod_Medical_BLU_Green", "B_Slingload_01_Fuel_F", "JNS_Skycrane_Pod_Fuel_BLU_Green", "B_Slingload_01_Repair_F", "JNS_Skycrane_Pod_Repair_BLU_Green" ] ) then {
+					_vehicle setVariable ["ace_cargo_size", -1, true];
 				};
 				
 				if ( _classname == Build_helper_typename ) then {
@@ -449,10 +450,6 @@ while { true } do {
 					};
 					
 					_vehicle setVariable ["ace_medical_medicClass", 1, true];
-				};
-				
-				if ( _vehicle isKindOf "Plane" ) then {
-					[[[_vehicle],"scripts\misc\pushback.sqf"],"BIS_fnc_execVM",true,false] call BIS_fnc_MP;
 				};
 				
 				if ( _vehicle isKindOf "AllVehicles" ) then {

@@ -1,6 +1,9 @@
 if (!hasInterface) exitWith {}; // headless client exit
 waitUntil { alive player };
 
+// include fast rope script
+#include "fastrope\SHK_Fastrope.sqf"
+
 // initialize playerRank global var
 playerRank = "";
 
@@ -25,9 +28,6 @@ player addEventHandler ["Respawn", {
 
 // setup ACE3
 player setVariable ["ACE_canMoveRallypoint", false];
-
-// initialize objects on client side
-[false] execVM "scripts\misc\initObjects.sqf";
 
 // handle parameters
 call St_fnc_setParams;

@@ -14,6 +14,3 @@ if !(isServer) exitWith {};
 "safezone_2" setMarkerAlpha 0;
 "safezone_3" setMarkerAlpha 0;
 "huronmarker" setMarkerAlpha 0;
-
-// initialize objects after load
-[true] execVM "scripts\misc\initObjects.sqf";
