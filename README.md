@@ -2,7 +2,7 @@
 
 # Liberation for Arma 3 by [GreuhZbug](https://github.com/GreuhZbug/greuh_liberation.Altis)
 
-## Current version : 0.920 (PTr Edition)
+## Current version : 0.921 (PTr Edition)
 
 ## Overview
 
