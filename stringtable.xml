@@ -1515,9 +1515,9 @@ Ce rôle n'est pas obligatoire, mais fortement recommandé pour les petits group
 						 &lt;t size='1'&gt;
 						 Your mission is to stop the CSAT convoy by any means necessary. You can destroy it, or hijack it to retrieve all the ammunition you can grab. The target will be spotted on your map.&lt;/t&gt;
 						 &lt;br/&gt;&lt;br/&gt;
-						 &lt;t size='1.15' color='#00a0ff'&gt;Cost: 10&lt;img image='\A3\Ui_f\data\GUI\Cfg\Ranks\general_gs.paa'/&gt;&lt;/t&gt;
+						 &lt;t size='1.15' color='#00a0ff'&gt;Cost: 8&lt;img image='\A3\Ui_f\data\GUI\Cfg\Ranks\general_gs.paa'/&gt;&lt;/t&gt;
 						 &lt;br/&gt;
-						 &lt;t size='1.15' color='#ffa000'&gt;Reward: CSAT alert level reduced by 15%&lt;/t&gt;
+						 &lt;t size='1.15' color='#ffa000'&gt;Reward: CSAT alert level reduced by 25%&lt;/t&gt;
 						 &lt;br/&gt;
 						 &lt;t size='1.15' color='#ffa000'&gt;Side reward: All the ammunition you can retrieve.&lt;/t&gt;
 						 &lt;br/&gt;&lt;br/&gt;
@@ -1533,9 +1533,9 @@ Ce rôle n'est pas obligatoire, mais fortement recommandé pour les petits group
 						 &lt;t size='1'&gt;
 						 Votre mission est de stopper le convoi du CSAT par tous les moyens nécessaires. Vous pouvez le détruire, ou le stopper pour récupérer un maximum de munitions. La cible sera marquée sur votre carte.&lt;/t&gt;
 						 &lt;br/&gt;&lt;br/&gt;
-						 &lt;t size='1.15' color='#00a0ff'&gt;Coût: 10&lt;img image='\A3\Ui_f\data\GUI\Cfg\Ranks\general_gs.paa'/&gt;&lt;/t&gt;
+						 &lt;t size='1.15' color='#00a0ff'&gt;Coût: 8&lt;img image='\A3\Ui_f\data\GUI\Cfg\Ranks\general_gs.paa'/&gt;&lt;/t&gt;
 						 &lt;br/&gt;
-						 &lt;t size='1.15' color='#ffa000'&gt;Récompense: niveau d'alerte du CSAT réduit de 15%&lt;/t&gt;
+						 &lt;t size='1.15' color='#ffa000'&gt;Récompense: niveau d'alerte du CSAT réduit de 25%&lt;/t&gt;
 						 &lt;br/&gt;
 						 &lt;t size='1.15' color='#ffa000'&gt;Récompense secondaire: toutes les munitions que vous pourrez récupérer.&lt;/t&gt;
 						 &lt;br/&gt;&lt;br/&gt;
