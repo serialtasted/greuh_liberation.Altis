@@ -2,7 +2,7 @@ class Header
 {
 	gameType = CTI;
 	minPlayers = 1;
-	maxPlayers = 31;
+	maxPlayers = 36;
 };
 
 loadScreen="res\liberation.jpg";

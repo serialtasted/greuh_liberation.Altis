@@ -38,7 +38,8 @@ class Mission
 		"TTT_NimitzBoat",
 		"TTT_NimitzAmbiance",
 		"Peral_Airfield_Logistics",
-		"A3_Modules_F_Multiplayer"
+		"A3_Modules_F_Multiplayer",
+		"HMDs_Kimi_METRIC_RHS"
 	};
 	addOnsAuto[]=
 	{
@@ -58,7 +59,7 @@ class Mission
 		"A3_Air_F_Heli_Heli_Light_01",
 		"a3_air_f_heli_light_01",
 		"A3_Soft_F_Truck",
-		"RHS_US_A2_AirImport",
+		"HMDs_Kimi_METRIC_RHS",
 		"A3_Structures_F_Civ_InfoBoards",
 		"A3_Structures_F_EPA_Mil_Scrapyard",
 		"A3_Structures_F_EPC_Civ_InfoBoards",
@@ -74,6 +75,7 @@ class Mission
 		"A3_Weapons_F_Ammoboxes",
 		"A3_Structures_F_Heli_Ind_Machines",
 		"A3_Structures_F_Heli_Items_Airport",
+		"rhs_us_a2_airimport",
 		"JDG_carrier",
 		"Peral_Airfield_Logistics",
 		"a3_map_altis"
