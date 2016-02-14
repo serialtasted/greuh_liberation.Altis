@@ -23,7 +23,7 @@ while { true } do {
 
 	if (  [ player, 4 ] call F_fetchPermission ) then {
 
-		_detected_vehicles = 	[ (getpos player) nearObjects veh_action_distance ,
+		_detected_vehicles = 	[ (getPosATL player) nearObjects veh_action_distance ,
 							{
 								(((typeof _x in _recycleable_classnames ) &&
 								((count crew _x) == 0 || (typeof _x) in uavs) &&

@@ -24,7 +24,7 @@ _idact_fuelsling = -1;
 _idact_fuelcannister = -1;
 
 _distfob = GRLIB_fob_range;
-_distarsenal = 5;
+_distarsenal = 3;
 _distbuildfob = 10;
 _distspawn = 10;
 _distredeploy = 20;

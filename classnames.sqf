@@ -58,7 +58,19 @@ GRLIB_ignore_colisions_when_building = [
 	"PortableHelipadLight_01_yellow_F",
 	"Land_Camping_Light_F",
 	"RoadCone_F",
-	"RoadCone_L_F"
+	"RoadCone_L_F",
+	"Land_Cargo_Patrol_V2_F",
+	"Land_Cargo_Patrol_V3_F",
+	"Land_Cargo_Tower_V2_F",
+	"Land_Cargo_Tower_V3_F",
+	"Land_Cargo_HQ_V2_F",
+	"Land_Cargo_HQ_V3_F",
+	"Land_Cargo_House_V2_F",
+	"Land_Cargo_House_V3_F",
+	"Land_Medevac_HQ_V1_F",
+	"Land_Research_HQ_F",
+	"Land_Dome_Big_F",
+	"Land_Dome_Small_F"
 ];
 
 GRLIB_mines_to_be_saved = [

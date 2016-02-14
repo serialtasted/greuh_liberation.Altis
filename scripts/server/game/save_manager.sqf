@@ -71,7 +71,7 @@ _classnames_to_save_blu = [];
 	_classnames_to_save_blu pushback (_x select 0);
 } foreach (static_vehicles + air_vehicles + heavy_vehicles + light_vehicles + support_vehicles);
 
-_classnames_to_save = _classnames_to_save + _classnames_to_save_blu + all_hostile_classnames;
+_classnames_to_save = _classnames_to_save + _classnames_to_save_blu + all_hostile_classnames + AmmoFactory_allclasses;
 
 trigger_server_save = false;
 greuh_liberation_savegame = profileNamespace getVariable GRLIB_save_key;
@@ -170,7 +170,7 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 	GRLIB_all_fobs = _correct_fobs;
 
 	stats_saves_loaded = stats_saves_loaded + 1;
-
+	
 	{
 		_nextclass = _x select 0;
 		_nextpos = [];
