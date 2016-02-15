@@ -125,8 +125,6 @@ while { true } do {
 			if (buildtype == 6 || buildtype == 99) then {
 				_idactsnap = player addAction ["<t color='#B0FF00'>" + localize "STR_GRID" + "</t>","scripts\client\build\do_grid.sqf","",-735,false,false,"","build_confirmed == 1"];
 				_idactlevel = player addAction ["<t color='#B0FF00'>" + localize "STR_LEVEL" + "</t>","scripts\client\build\do_level.sqf","",-735,false,false,"","build_confirmed == 1"];
-				_idactraise = player addAction ["<t color='#B0FF00'>" + localize "STR_OBJUP" + "</t>","scripts\client\build\do_objup.sqf","",-735,false,false,"","build_confirmed == 1"];
-				_idactlower = player addAction ["<t color='#B0FF00'>" + localize "STR_OBJDOWN" + "</t>","scripts\client\build\do_objdown.sqf","",-735,false,false,"","build_confirmed == 1"];
 			};
 			_idactrotate = player addAction ["<t color='#B0FF00'>" + localize "STR_ROTATION" + "</t> <img size='2' image='res\ui_rotation.paa'/>","scripts\client\build\build_rotate.sqf","",-750,false,false,"","build_confirmed == 1"];
 			_idactplace = player addAction ["<t color='#B0FF00'>" + localize "STR_PLACEMENT" + "</t> <img size='2' image='res\ui_confirm.paa'/>","scripts\client\build\build_place.sqf","",-775,false,true,"","build_invalid == 0 && build_confirmed == 1"];
@@ -149,6 +147,19 @@ while { true } do {
 			{ _x setObjectTexture [0, "#(rgb,8,8,3)color(0,1,0,1)"]; } foreach GRLIB_preview_spheres;
 
 			while { build_confirmed == 1 && alive player } do {
+				
+				if ( heightmodifier < 2 && _idactraise == -1 && (buildtype == 6 || buildtype == 99)) then {
+					_idactraise = player addAction ["<t color='#B0FF00'>" + localize "STR_OBJUP" + "</t>","scripts\client\build\do_objup.sqf","",-735,false,false,"","build_confirmed == 1"];
+				} else {
+					if ( heightmodifier >= 2 ) then { player removeAction _idactraise; _idactraise = -1;  };
+				};
+				
+				if ( heightmodifier > -2 && _idactlower == -1 && (buildtype == 6 || buildtype == 99)) then {
+					_idactlower = player addAction ["<t color='#B0FF00'>" + localize "STR_OBJDOWN" + "</t>","scripts\client\build\do_objdown.sqf","",-735,false,false,"","build_confirmed == 1"];
+				} else {
+					if ( heightmodifier <= -2 ) then { player removeAction _idactlower; _idactlower = -1; };
+				};
+				
 				_truedir = 90 - (getdir player);
 				
 				if (buildtype == 6 || buildtype == 99) then {

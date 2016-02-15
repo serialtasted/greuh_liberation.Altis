@@ -165,6 +165,7 @@ while {true} do {
 				sleep 1;
 				timelefttochange = timelefttochange - 1;
 			};
+			timelefttochange = 60;
 			allowclasschange = true;
 		};
 		
