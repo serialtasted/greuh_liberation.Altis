@@ -281,6 +281,10 @@ all_arsenal_items = [
 	"toolkit",
 	"MineDetector",
 	
+	//mine detector items
+	"Revo_mD_battery",
+	"Revo_mD_Flag",
+	
 	//uav terminal
 	"B_UavTerminal",
 	
@@ -531,6 +535,11 @@ all_arsenal_items = [
 	"ACE_Sandbag_empty",
 	"ACE_SpottingScope",
 	"ACE_Tripod",
+	"ACE_entrenchingtool",
+	"ACE_SpraypaintBlack",
+	"ACE_SpraypaintRed",
+	"ACE_SpraypaintGreen",
+	"ACE_SpraypaintBlue",
 	
 	//ACE flashlights
 	"ACE_Flashlight_MX991",

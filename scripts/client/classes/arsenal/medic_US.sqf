@@ -296,6 +296,10 @@ arsenal_items = [
 	"ACE_NVG_Gen4",
 	"ACE_NVG_Wide",
 	"ACE_Altimeter",
+	"ACE_SpraypaintBlack",
+	"ACE_SpraypaintRed",
+	"ACE_SpraypaintGreen",
+	"ACE_SpraypaintBlue",
 	
 	//ACE flashlights
 	"ACE_Flashlight_MX991",

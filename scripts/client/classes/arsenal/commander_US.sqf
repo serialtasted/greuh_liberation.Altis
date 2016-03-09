@@ -308,6 +308,10 @@ arsenal_items = [
 	"ACE_Altimeter",
 	"ACE_key_lockpick",
 	"ACE_Sandbag_empty",
+	"ACE_SpraypaintBlack",
+	"ACE_SpraypaintRed",
+	"ACE_SpraypaintGreen",
+	"ACE_SpraypaintBlue",
 	
 	//ACE flashlights
 	"ACE_Flashlight_MX991",

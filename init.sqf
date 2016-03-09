@@ -1,5 +1,8 @@
 enableSaving [ false, false ];
 
+//------------------------------------------------ Lock doors
+[35,100] call compileFinal preprocessFileLineNumbers "scripts\misc\breachingdoors.sqf";
+
 //------------------------------------------------ Initialize whitelist
 [] call compileFinal preprocessFileLineNumbers "whitelist.sqf";
 

@@ -118,7 +118,8 @@ light_vehicles = [
 	["B_UGV_01_rcws_F",0,60,5],
 	["C_Rubberboat",0,0,2],
 	["B_Boat_Transport_01_F",0,0,2],
-	["Burnes_MK10_1",0,0,2],
+	["ffaa_ar_lcm",0,0,4],
+	["Burnes_LCAC_1",0,0,7],
 	["B_SDV_01_F",0,0,15],
 	["ffaa_ar_supercat",0,30,10]
 ];
@@ -270,6 +271,7 @@ buildings = [
 	["ACE_Track",0,0,0],
 	["Land_MetalBarrel_F",0,0,1],
 	["FlexibleTank_01_forest_F",0,0,1],
+	["StorageBladder_01_fuel_forest_F",0,0,5],
 	["Land_CanisterFuel_F",0,0,0]
 ];
 
@@ -454,7 +456,8 @@ boats_names = [
 	"B_SDV_01_F",
 	"ffaa_ar_supercat",
 	"ASH_MKVSOC",
-	"Burnes_MK10_1"
+	"Burnes_LCAC_1",
+	"ffaa_ar_lcm"
 ];
 
 box_transport_config = [

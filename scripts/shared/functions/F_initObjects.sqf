@@ -2,6 +2,10 @@ params [ "_vehicle" ];
 
 _classname = typeOf _vehicle;
 
+/*if ( _vehicle isKindOf "Helicopter" ) then {
+	[[_vehicle], "ace_fastroping_fnc_equipFRIES", true, false] call BIS_fnc_MP;
+};*/
+
 if ( _classname == "C_Offroad_01_repair_F" ) then {
 	[
 		_vehicle,
@@ -63,6 +67,7 @@ if ( _vehicle isKindOf "AllVehicles" ) then {
 
 if ( _classname in fuel_cannister ) then {
 	[[_vehicle, true, [0.3, 0, 0.3], 90], "ace_dragging_fnc_setCarryable", true, false] call BIS_fnc_MP;
+	[[_vehicle, true, 1], "ace_cargo_fnc_makeLoadable", true, false] call BIS_fnc_MP;
 	[_vehicle] execVM "scripts\misc\repair\TAA_Database.sqf";
 };
 

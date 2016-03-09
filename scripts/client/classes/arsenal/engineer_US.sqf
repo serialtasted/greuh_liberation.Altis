@@ -157,6 +157,10 @@ arsenal_items = [
 	"toolkit",
 	"MineDetector",
 	
+	//mine detector items
+	"Revo_mD_battery",
+	"Revo_mD_Flag",
+	
 	//special uniforms
 	"U_B_Wetsuit",
 	"V_RebreatherB",
@@ -327,6 +331,11 @@ arsenal_items = [
 	"ACE_Altimeter",
 	"ACE_key_lockpick",
 	"ACE_Sandbag_empty",
+	"ACE_entrenchingtool",
+	"ACE_SpraypaintBlack",
+	"ACE_SpraypaintRed",
+	"ACE_SpraypaintGreen",
+	"ACE_SpraypaintBlue",
 	
 	//ACE flashlights
 	"ACE_Flashlight_MX991",

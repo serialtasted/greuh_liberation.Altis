@@ -48,6 +48,7 @@ while { true } do {
 	if ( dialog ) then {
 		closeDialog 0;
 	};
+	
 	"colorCorrections" ppEffectEnable FALSE;
 	"filmGrain" ppEffectEnable FALSE;
 	_cam cameraEffect ["Terminate","back"];
