@@ -8,3 +8,5 @@ Description: postInit settings
 		returns nothing
 __________________________________________________________________*/
 if !(isServer) exitWith {};
+
+"huronmarker" setMarkerAlpha 0;
