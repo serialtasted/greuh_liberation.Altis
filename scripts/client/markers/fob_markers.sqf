@@ -26,11 +26,13 @@ while { true } do {
 	if ( count _markers_mobilespawns != count _respawn_trucks ) then {
 		{ deleteMarkerLocal _x; } foreach _markers_mobilespawns;
 		_markers_mobilespawns = [];
-		for [ {_idx=0} , {_idx < (count _respawn_trucks)} , {_idx=_idx+1} ] do {
-			_marker = createMarkerLocal [format ["mobilespawn%1",_idx], markers_reset];
-			_marker setMarkerTypeLocal "mil_end";
-			_marker setMarkerColorLocal "ColorYellow";
-			_markers_mobilespawns pushback _marker;
+		if ( PARAMS_AllowMobileDeploy == 1 || count allPlayers <= 3 ) then {
+			for [ {_idx=0} , {_idx < (count _respawn_trucks)} , {_idx=_idx+1} ] do {
+				_marker = createMarkerLocal [format ["mobilespawn%1",_idx], markers_reset];
+				_marker setMarkerTypeLocal "mil_end";
+				_marker setMarkerColorLocal "ColorYellow";
+				_markers_mobilespawns pushback _marker;
+			};
 		};
 	};
 

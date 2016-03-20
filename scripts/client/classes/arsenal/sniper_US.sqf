@@ -12,12 +12,14 @@ if ( classtogo != "" ) then {
 	player addVest "rhsusf_iotv_ucp_Rifleman";
 	for "_i" from 1 to 6 do {player addItemToVest "5Rnd_127x108_Mag";};
 	for "_i" from 1 to 4 do {player addItemToVest "rhs_mag_an_m8hc";};
+	player addItemToVest "ACE_Kestrel4500";
+	player addItemToVest "ACE_ATragMX";
 	player addGoggles "rhs_googles_clear";
 
 	comment "Add weapons";
 	player addWeapon "srifle_GM6_F";
 	player addPrimaryWeaponItem "optic_LRPS";
-	player addWeapon "Leupold_Mk4";
+	player addWeapon "ACE_Vector";
 	
 };
 

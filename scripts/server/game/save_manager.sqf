@@ -189,6 +189,12 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 				_vectorup = [0,0,1];
 			};
 			
+			_animstate = [0,0,0,0,0];
+			if ( count _x > 6 ) then {
+				_animstate = [];
+				_animstate = _x select 6;
+			};
+			
 			diag_log format["OBJ: %1 | NEXTPOS: %2 | NEXTDIR: %3", _nextclass, _nextpos, _nextdir];
 			
 			_nextbuilding = _nextclass createVehicle _nextpos;
@@ -198,8 +204,8 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 			_nextbuilding setVariable ["trueDir", _nextdir, true];
 			_nextbuilding setdamage 0;
 			
-			//	0			1				2			3				4					5					6					7				8			9					10
-			//[	_vehammo,	_vehcargoammo,	_vehfuel,	_vehcargofuel,	_vehweaponcargo,	_vehmagazinecargo,	_vehbackpackcargo,	_vehitemcargo,	_vehdamage,	_vehhitpointdamage,	_vehcargorepair ]
+			//	0			1				2			3				4					5					6					7				8			9					10					11
+			//[	_vehammo,	_vehcargoammo,	_vehfuel,	_vehcargofuel,	_vehweaponcargo,	_vehmagazinecargo,	_vehbackpackcargo,	_vehitemcargo,	_vehdamage,	_vehhitpointdamage,	_vehcargorepair, 	_vehticker ]
 			if ( (_nextbuilding isKindOf "Air" || _nextbuilding isKindOf "LandVehicle" || _nextbuilding isKindOf "Ship") && count(_x select 5) > 10 ) then {
 				clearItemCargoGlobal _nextbuilding;
 				clearBackpackCargoGlobal _nextbuilding;
@@ -218,6 +224,11 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 				_vehmagazinecargo = (_x select 5) select 5;
 				_vehbackpackcargo = (_x select 5) select 6;
 				_vehitemcargo = (_x select 5) select 7;
+				
+				_vehticker = 0;
+				if ( count (_x select 5) > 11 ) then {
+					_vehticker = (_x select 5) select 11;
+				};
 			
 				if ( !(_nextclass in disable_damage) ) then {
 					if(_vehdamage < 0.4) then {
@@ -290,6 +301,12 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 						_nextbuilding addItemCargoGlobal [_xclass, _xammount];
 					} forEach (_vehitemcargo select 0);
 				};
+				
+				_nextbuilding setVariable  [ "GRLIB_empty_vehicle_ticker", _vehticker ];
+			};
+			
+			if ( _nextclass == "Land_BarGate_F" ) then {
+				_nextbuilding animate [ "Door_1_rot", ( _animstate select 0 ), true ];
 			};
 			
 			[_nextbuilding] call F_initObjects;
@@ -521,12 +538,19 @@ while { true } do {
 			_vehdamage = damage _building;
 			_vehhitpointdamage = getAllHitPointsDamage _building;
 			
+			_vehticker = _building getVariable [ "GRLIB_empty_vehicle_ticker", 0 ];
+			
+			_animstate = [];
+			if ( _nextclass == "Land_BarGate_F" ) then {
+				_animstate pushBack ( _building animationPhase "Door_1_rot" );
+			};
+			
 			if ( _nextclass in _classnames_to_save_blu ) then {
 				if ( ( { !isPlayer _building } count (crew _building) ) > 0 ) then {
 					_hascrew = true;
 				};
 			};
-			buildings_to_save pushback [ _nextclass,_nextpos,_nextdir,_hascrew,_vectorup,[_vehammo,_vehcargoammo,_vehfuel,_vehcargofuel,_vehweaponcargo,_vehmagazinecargo,_vehbackpackcargo,_vehitemcargo,_vehdamage,_vehhitpointdamage,_vehcargorepair] ];
+			buildings_to_save pushback [ _nextclass,_nextpos,_nextdir,_hascrew,_vectorup,[_vehammo,_vehcargoammo,_vehfuel,_vehcargofuel,_vehweaponcargo,_vehmagazinecargo,_vehbackpackcargo,_vehitemcargo,_vehdamage,_vehhitpointdamage,_vehcargorepair,_vehticker], _animstate ];
 		} foreach _all_buildings;
 		
 		_mines = [ allMissionObjects "", { (typeof _x) in GRLIB_mines_to_be_saved } ] call BIS_fnc_conditionalSelect;

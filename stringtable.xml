@@ -1268,6 +1268,18 @@
                         <Original>Enabled - 4 hours delay</Original>
                         <French>Activé - 4 heures de délai</French>
                 </Key>
+				<Key ID="STR_CLEANUP_PARAM4">
+                        <Original>Enabled - 12 hours delay</Original>
+                        <French>Activé - 12 heures de délai</French>
+                </Key>
+				<Key ID="STR_CLEANUP_PARAM5">
+                        <Original>Enabled - 24 hours delay</Original>
+                        <French>Activé - 24 heures de délai</French>
+                </Key>
+				<Key ID="STR_CLEANUP_PARAM6">
+                        <Original>Enabled - 48 hours delay</Original>
+                        <French>Activé - 48 heures de délai</French>
+                </Key>
                 <Key ID="STR_TUTO_GOTIT">
                         <Original>Got it!</Original>
                         <French>J'ai pigé !</French>

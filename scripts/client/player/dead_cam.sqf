@@ -30,7 +30,7 @@ while { true } do {
 	
 	_cam camCommit 0;
 	
-	"SmokeShellOrange" createVehicle [(getPosATL player) select 0, (getPosATL player) select 1, (getPosATL player) select 2];
+	//"SmokeShellOrange" createVehicle [(getPosATL player) select 0, (getPosATL player) select 1, (getPosATL player) select 2];
 	
 	_cam camSetPos [(getPosASLW player) select 0, (getPosASLW player) select 1, ((getPosASLW player) select 2) + 250];
 	_cam camCommit 1505;
@@ -43,7 +43,7 @@ while { true } do {
 		};
 	};
 	
-	waitUntil {	!( player getVariable ["ACE_isUnconscious", true] )	};
+	waitUntil {	player getVariable ["ACE_isUnconscious", true] isEqualTo false	};
 	
 	if ( dialog ) then {
 		closeDialog 0;

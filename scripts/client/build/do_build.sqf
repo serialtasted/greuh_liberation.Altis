@@ -354,9 +354,9 @@ while { true } do {
 				clearItemCargoGlobal _vehicle;
 				clearBackpackCargoGlobal _vehicle;
 				
-				/*if ( _vehicle isKindOf "Helicopter" ) then {
+				if ( _vehicle isKindOf "Helicopter" ) then {
 					[[_vehicle], "ace_fastroping_fnc_equipFRIES", true, false] call BIS_fnc_MP;
-				};*/
+				};
 				
 				if ( _classname == "C_Offroad_01_repair_F" ) then {
 					[

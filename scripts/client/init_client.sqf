@@ -7,6 +7,13 @@ waitUntil { alive player };
 // initialize playerRank global var
 playerRank = "";
 
+// Wait for game to load
+waitUntil {
+	titleText ["Loading game... Please wait while the server loads the game.", "BLACK FADED"];
+	player enableSimulation false;
+	if ( !isNil "save_is_loaded" ) exitWith { true };
+};
+
 // TFAR Plugin check
 if((getPlayerUID player) != "_SP_PLAYER_") then {
 	waitUntil {
@@ -21,6 +28,7 @@ playableUnitOccupier_PV = player; publicVariableServer "playableUnitOccupier_PV"
 player addEventHandler ["Respawn", {
 	playableUnitOccupier_PV = _this select 0; publicVariableServer "playableUnitOccupier_PV";
 	playerTeam = _this getVariable ["St_team", "PTr_alpha"];  [playerTeam] call F_setPlayerTeam;
+	_this setVariable ["ACE_isUnconscious", false];
 }];
 
 // add arsenal items
@@ -72,6 +80,7 @@ do_load_box = compileFinal preprocessFileLineNumbers "scripts\client\ammoboxes\d
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\build\do_build.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\fob_markers.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\hostile_groups.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\medical_markers.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\sector_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\spot_timer.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\broadcast_squad_colors.sqf";

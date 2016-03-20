@@ -11,8 +11,10 @@ if ( isServer ) then {
 	if ( GRLIB_isAtlasPresent ) then {
 
 		_littlebird setdamage 0;
-		sleep 5;
+		sleep 10;
 		_littlebird setdamage 0;
 		_littlebird allowdamage true;
 	};
+	
+	[[_littlebird], "ace_fastroping_fnc_equipFRIES", true, false] call BIS_fnc_MP;
 };

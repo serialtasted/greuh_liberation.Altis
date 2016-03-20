@@ -38,6 +38,10 @@ _base_corners =  _template select 3;
 	_nextobject setpos _nextpos;
 	_nextobject setdir _nextdir;
 	_base_objects = _base_objects + [_nextobject];
+	
+	if ( _nextobject isKindOf "AllVehicles" ) then {
+		[[[_nextobject],"IgiLoad\IgiLoad.sqf"],"BIS_fnc_execVM",true,false] call BIS_fnc_MP;
+	};
 
 } foreach _objects_to_build;
 

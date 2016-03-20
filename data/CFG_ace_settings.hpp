@@ -1,6 +1,6 @@
 class ACE_Settings {
     class ace_common_forceAllSettings {
-		value = 0;
+		value = 1;
 		typeName = "BOOL";
 		force = 1;
 	};
@@ -25,7 +25,7 @@ class ACE_Settings {
 		force = 1;
 	};
 	class ace_finger_maxRange {
-		value = 5;
+		value = 7;
 		typeName = "SCALAR";
 		force = 1;
 	};
@@ -515,7 +515,7 @@ class ACE_Settings {
 		force = 1;
 	};
 	class ace_weather_serverUpdateInterval {
-		value = 60;
+		value = 240;
 		typeName = "SCALAR";
 		force = 1;
 	};
@@ -610,12 +610,12 @@ class ACE_Settings {
 		force = 1;
 	};
 	class ace_hearing_EarplugsVolume {
-		value = 0.5;
+		value = 0.6;
 		typeName = "SCALAR";
 		force = 1;
 	};
 	class ace_hearing_UnconsciousnessVolume {
-		value = 0.4;
+		value = 0.3;
 		typeName = "SCALAR";
 		force = 1;
 	};
@@ -645,7 +645,7 @@ class ACE_Settings {
 		force = 1;
 	};
 	class ace_advanced_ballistics_disabledInFullAutoMode {
-		value = 0;
+		value = 1;
 		typeName = "BOOL";
 		force = 1;
 	};

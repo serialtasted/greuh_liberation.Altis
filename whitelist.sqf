@@ -26,5 +26,5 @@ player_data = [
 	[ "*DETECTIVE*", 		["76561198030568758"], 	[1], false ],
 	[ "incha", 				["76561198011026487"], 	[1], false ],
 	[ ".Qu!cK^", 			["76561198022527444"], 	[1], false ],
-	[ "Rodolfo Oliveira", 	["76561198143814041"],	[1], false ]
+	[ "Rodolfo Oliveira", 	["76561198143814041"],	[2], false ]
 ];

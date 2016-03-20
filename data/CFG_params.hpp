@@ -15,9 +15,9 @@ class Unitcap{
 };
 class Difficulty {
 	title = $STR_PARAMS_DIFFICULTY;
-	values[] = { 50, 75, 100, 125, 150, 200, 400, 1000 };
+	values[] = { 50, 75, 100, 125, 150, 250, 400, 1000 };
 	texts[] = { $STR_PARAMS_DIFFICULTY1, $STR_PARAMS_DIFFICULTY2, $STR_PARAMS_DIFFICULTY3, $STR_PARAMS_DIFFICULTY4, $STR_PARAMS_DIFFICULTY5, $STR_PARAMS_DIFFICULTY6, $STR_PARAMS_DIFFICULTY7, $STR_PARAMS_DIFFICULTY8 };
-	default = 400;
+	default = 150;
 	paramCode = "";
 };
 class Aggressivity{
@@ -31,7 +31,7 @@ class AdaptToPlayercount{
 	title = $STR_PARAM_ADAPT_TO_PLAYERCOUNT;
 	values[] = {1,0};
 	texts[] = {$STR_PARAMS_ENABLED,$STR_PARAMS_DISABLED};
-	default = 0;
+	default = 1;
 	paramCode = "";
 };
 class DayDuration {
@@ -66,7 +66,7 @@ class Fatigue {
 	title = $STR_PARAMS_FATIGUE;
 	values[] = { 0, 1 };
 	texts[] = { $STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED };
-	default = 0;
+	default = 1;
 	paramCode = "";
 };
 class AmmoBounties{
@@ -267,9 +267,9 @@ class spacer3{
 };
 class CleanupVehicles {
 	title = $STR_CLEANUP_PARAM;
-	values[] = { 0,1,2,4 };
-	texts[] = { $STR_PARAMS_DISABLED, $STR_CLEANUP_PARAM1, $STR_CLEANUP_PARAM2, $STR_CLEANUP_PARAM3 };
-	default = 2;
+	values[] = { 0,1,2,4,12,24,48 };
+	texts[] = { $STR_PARAMS_DISABLED, $STR_CLEANUP_PARAM1, $STR_CLEANUP_PARAM2, $STR_CLEANUP_PARAM3, $STR_CLEANUP_PARAM4, $STR_CLEANUP_PARAM5, $STR_CLEANUP_PARAM6 };
+	default = 12;
 	paramCode = "";
 };
 class Permissions{
