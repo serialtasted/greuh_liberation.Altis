@@ -17,7 +17,7 @@ class Difficulty {
 	title = $STR_PARAMS_DIFFICULTY;
 	values[] = { 50, 75, 100, 125, 150, 250, 400, 1000 };
 	texts[] = { $STR_PARAMS_DIFFICULTY1, $STR_PARAMS_DIFFICULTY2, $STR_PARAMS_DIFFICULTY3, $STR_PARAMS_DIFFICULTY4, $STR_PARAMS_DIFFICULTY5, $STR_PARAMS_DIFFICULTY6, $STR_PARAMS_DIFFICULTY7, $STR_PARAMS_DIFFICULTY8 };
-	default = 150;
+	default = 250;
 	paramCode = "";
 };
 class Aggressivity{
@@ -66,7 +66,7 @@ class Fatigue {
 	title = $STR_PARAMS_FATIGUE;
 	values[] = { 0, 1 };
 	texts[] = { $STR_PARAMS_DISABLED, $STR_PARAMS_ENABLED };
-	default = 1;
+	default = 0;
 	paramCode = "";
 };
 class AmmoBounties{

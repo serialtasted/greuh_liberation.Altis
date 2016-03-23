@@ -119,7 +119,7 @@ while { action_manager_alive } do {
 
 	if ( (_fobdistance < _distredeploy || ( count _neararsenal != 0 || count _neardevicebox != 0 ) || (player distance lhd) < 200  || (player distance nimitz) < 200) && alive player && vehicle player == player ) then {
 		if (_idact_arsenal == -1) then {
-			_idact_arsenal = player addAction ["<t color='#FFFF00'>" + localize "STR_ARSENAL_ACTION" + "</t> <img size='2' image='res\ui_arsenal.paa'/>",{ createDialog "LT_MainMenu" },"",-980,true,true,"","build_confirmed == 0"];
+			_idact_arsenal = player addAction ["<t color='#FFFF00'>" + localize "STR_ARSENAL_ACTION" + "</t> <img size='2' image='res\ui_arsenal.paa'/>","fnc\fn_openArmoury.sqf","",-980,true,true,"","build_confirmed == 0"];
 		};
 	} else {
 		if ( _idact_arsenal != -1 ) then {

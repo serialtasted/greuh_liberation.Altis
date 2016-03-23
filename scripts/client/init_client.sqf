@@ -28,7 +28,8 @@ playableUnitOccupier_PV = player; publicVariableServer "playableUnitOccupier_PV"
 player addEventHandler ["Respawn", {
 	playableUnitOccupier_PV = _this select 0; publicVariableServer "playableUnitOccupier_PV";
 	playerTeam = _this getVariable ["St_team", "PTr_alpha"];  [playerTeam] call F_setPlayerTeam;
-	_this setVariable ["ACE_isUnconscious", false];
+	"colorCorrections" ppEffectEnable FALSE;
+	"filmGrain" ppEffectEnable FALSE;
 }];
 
 // add arsenal items
@@ -93,6 +94,7 @@ do_load_box = compileFinal preprocessFileLineNumbers "scripts\client\ammoboxes\d
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\stop_renegade.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\synchronise_vars.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\update_comms.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\vehicle_comms.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\vehicle_permissions.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\player\dead_cam.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\player\save_manager.sqf";

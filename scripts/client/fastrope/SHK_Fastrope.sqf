@@ -148,7 +148,7 @@ SHK_Fastrope_fnc_AIs = {
 // Check if the player is allowed to drop the ropes
 // Conditions: chopper speed low enough, no ropes attached yet, chopper altitude between given values, suitable access level
 SHK_Fastrope_fnc_canCreate = {
-  private ["_heli","_alt","_altBool","_speedBool","_ropesBool","_role","_roleBool"];
+  private ["_heli","_alt","_altBool","_speedBool","_ropesBool","_role","_roleBool","_typeOfHeli"];
   _heli = objectParent player;
   _roleBool = call SHK_Fastrope_fnc_hasAccess;
   
@@ -156,8 +156,9 @@ SHK_Fastrope_fnc_canCreate = {
   _altBool = ((_alt < MAX_ALTITUDE_ROPES_AVAIL) && (_alt > MIN_ALTITUDE_ROPES_AVAIL));
   _speedBool = ((abs (speed _heli)) < MAX_SPEED_ROPES_AVAIL);
   _ropesBool = (count (_heli getVariable ["SHK_Fastrope_Ropes",[]]) == 0);
-
-  (_altBool && _speedBool && _ropesBool && _roleBool)
+  _typeOfHeli = ((typeOf _heli) isEqualTo "MELB_MH6M");
+  
+  (_altBool && _speedBool && _ropesBool && _roleBool && _typeOfHeli)
 };
 
 SHK_Fastrope_fnc_canCut = {

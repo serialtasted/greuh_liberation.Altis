@@ -16,7 +16,7 @@ _unitName = name player;
 _unitTeam = player getVariable ["St_team", "PTr_alpha"];
 _friendlyTeamName = "";
 
-if (typeOf (unitBackpack player) isEqualTo SEN_TFAR_LR) then {
+if ( (backpack player) isEqualTo SEN_TFAR_LR ) then {
 	removeBackpack player;
 };
 
@@ -40,7 +40,7 @@ if ( player getvariable ["SEN_commNet",""] isEqualTo "command" ) exitWith {
 
 if ( player getvariable ["SEN_commNet",""] isEqualTo "support" ) exitWith {
 	player linkItem SEN_TFAR_SW;
-	waitUntil {sleep 0.1; count (player call TFAR_fnc_radiosList) > 0};
+	waitUntil { sleep 0.1; count (player call TFAR_fnc_radiosList) > 0 };
 	[(call TFAR_fnc_activeSwRadio), SEN_tfar_ch_sw] call TFAR_fnc_setSwChannel;
 	[(call TFAR_fnc_activeSwRadio), SEN_tfar_add_sw] call TFAR_fnc_setAdditionalSwChannel;
 	[(call TFAR_fnc_ActiveSWRadio), tf_default_radioVolume] call TFAR_fnc_setSwVolume;
@@ -48,6 +48,7 @@ if ( player getvariable ["SEN_commNet",""] isEqualTo "support" ) exitWith {
 	if ( (player getvariable ["St_class",""]) != "pilot" && (player getvariable ["St_class",""]) != "crew" ) then {
 		_bItems = backpackItems player;
 		removeBackpack player;
+		waitUntil { sleep 0.1; (backpack player) isEqualTo "" };
 		player addbackpack SEN_TFAR_LR;
 		{player addItemToBackpack _x} forEach _bItems;
 		[(call TFAR_fnc_activeLrRadio) select 0, (call TFAR_fnc_activeLrRadio) select 1, SEN_tfar_ch_lr] call TFAR_fnc_setLrChannel;

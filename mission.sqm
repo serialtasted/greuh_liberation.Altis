@@ -4969,7 +4969,7 @@ class Mission
 		items=3;
 		class Item0
 		{
-			position[]={14488.395,6.4043932,5899.9287};
+			position[]={14488.214,6.5639892,5899.1191};
 			timeoutMin=1.5;
 			timeoutMid=1.5;
 			timeoutMax=1.5;
@@ -4983,7 +4983,7 @@ class Mission
 		};
 		class Item1
 		{
-			position[]={14499.864,7.9827247,5895.2632};
+			position[]={14499.506,7.9951391,5894.7231};
 			a=250;
 			b=250;
 			activationBy="WEST";
@@ -5000,7 +5000,7 @@ class Mission
 		};
 		class Item2
 		{
-			position[]={14512.67,6.9740396,5901.2651};
+			position[]={14512.67,7.0516744,5899.1084};
 			timeoutMin=17;
 			timeoutMid=17;
 			timeoutMax=17;

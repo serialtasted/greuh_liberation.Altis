@@ -48,3 +48,7 @@ _action = ["ME",(name player),"",{},{true}] call ace_interact_menu_fnc_createAct
 	// extended options "<t color='#FF8000'>-- Extended Options --</t>","GREUH\scripts\GREUH_dialog.sqf"
 	_action = ["ME_EXTENDED","Extended Options","",{ execVM "GREUH\scripts\GREUH_dialog.sqf" },{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions", "ME"], _action] call ace_interact_menu_fnc_addActionToObject;
+	
+	// reset radio frequencies
+	_action = ["ME_RESETFRQ","Reset Radio","",{ [] call F_resetComms },{true}] call ace_interact_menu_fnc_createAction;
+	[player, 1, ["ACE_SelfActions", "ME"], _action] call ace_interact_menu_fnc_addActionToObject;

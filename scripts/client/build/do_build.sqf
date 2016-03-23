@@ -488,6 +488,7 @@ while { true } do {
 				
 				if ( _classname in carryable_objects ) then {
 					[[_vehicle, true, [0, 1, 0], 180], "ace_dragging_fnc_setCarryable", true, false] call BIS_fnc_MP;
+					[[_vehicle, true, 1], "ace_cargo_fnc_makeLoadable", true, false] call BIS_fnc_MP;
 				};
 				
 				if ( _classname in draggable_objects ) then {

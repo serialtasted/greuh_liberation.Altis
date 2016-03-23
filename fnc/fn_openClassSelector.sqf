@@ -60,24 +60,28 @@ while { !CSclosed } do {
 
 		{
 			
-			_playerclass = _x getVariable ["St_class", "assault"];
+			if ( name _x != "HC1" && name _x != "HC2" && name _x != "HC3" ) then {
 			
-			switch ( _playerclass ) do {
-				case "assault": { if ( _limitAssault != -99 ) then { _limitAssault = _limitAssault - 1; }; if ( _playersAssault == "" ) then { _playersAssault = format["» %1", (name _x)]; } else { _playersAssault = format["%1\n» %2", _playersAssault, (name _x)]; }; };
-				case "grenadier": { if ( _limitGrenadier != -99 ) then { _limitGrenadier = _limitGrenadier - 1; }; if ( _playersGrenadier == "" ) then { _playersGrenadier = format["» %1", (name _x)]; } else { _playersGrenadier = format["%1\n» %2", _playersGrenadier, (name _x)]; }; };
-				case "medic": { if ( _limitMedic != -99 ) then { _limitMedic = _limitMedic - 1; }; if ( _playersMedic == "" ) then { _playersMedic = format["» %1", (name _x)]; } else { _playersMedic = format["%1\n» %2", _playersMedic, (name _x)]; }; };
-				case "engineer": { if ( _limitEngineer != -99 ) then { _limitEngineer = _limitEngineer - 1; }; if ( _playersEngineer == "" ) then { _playersEngineer = format["» %1", (name _x)]; } else { _playersEngineer = format["%1\n» %2", _playersEngineer, (name _x)]; }; };
-				case "at": { if ( _limitAT != -99 ) then { _limitAT = _limitAT - 1; }; if ( _playersAT == "" ) then { _playersAT = format["» %1", (name _x)]; } else { _playersAT = format["%1\n» %2", _playersAT, (name _x)]; }; };
-				case "aa": { if ( _limitAA != -99 ) then { _limitAA = _limitAA - 1; }; if ( _playersAA == "" ) then { _playersAA = format["» %1", (name _x)]; } else { _playersAA = format["%1\n» %2", _playersAA, (name _x)]; }; };
-				case "ar": { if ( _limitAR != -99 ) then { _limitAR = _limitAR - 1; }; if ( _playersAR == "" ) then { _playersAR = format["» %1", (name _x)]; } else { _playersAR = format["%1\n» %2", _playersAR, (name _x)]; }; };
-				case "jtac": { if ( _limitJTAC != -99 ) then { _limitJTAC = _limitJTAC - 1; }; if ( _playersJTAC == "" ) then { _playersJTAC = format["» %1", (name _x)]; } else { _playersJTAC = format["%1\n» %2", _playersJTAC, (name _x)]; }; };
-				case "marksman": { if ( _limitMarksman != -99 ) then { _limitMarksman = _limitMarksman - 1; }; if ( _playersMarksman == "" ) then { _playersMarksman = format["» %1", (name _x)]; } else { _playersMarksman = format["%1\n» %2", _playersMarksman, (name _x)]; }; };
-				case "sniper": { if ( _limitSniper != -99 ) then { _limitSniper = _limitSniper - 1; }; if ( _playersSniper == "" ) then { _playersSniper = format["» %1", (name _x)]; } else { _playersSniper = format["%1\n» %2", _playersSniper, (name _x)]; }; };
-				case "pilot": { if ( _limitPilot != -99 ) then { _limitPilot = _limitPilot - 1; }; if ( _playersPilot == "" ) then { _playersPilot = format["» %1", (name _x)]; } else { _playersPilot = format["%1\n» %2", _playersPilot, (name _x)]; }; };
-				case "crew": { if ( _limitCrew != -99 ) then { _limitCrew = _limitCrew - 1; }; if ( _playersCrew == "" ) then { _playersCrew = format["» %1", (name _x)]; } else { _playersCrew = format["%1\n» %2", _playersCrew, (name _x)]; }; };
-				case "fso": { if ( _limitFSO != -99 ) then { _limitFSO = _limitFSO - 1; }; if ( _playersFSO == "" ) then { _playersFSO = format["» %1", (name _x)]; } else { _playersFSO = format["%1\n» %2", _playersFSO, (name _x)]; }; };
-				case "commander": { if ( _limitCommander != -99 ) then { _limitCommander = _limitCommander - 1; }; if ( _playersCommander == "" ) then { _playersCommander = format["» %1", (name _x)]; } else { _playersCommander = format["%1\n» %2", _playersCommander, (name _x)]; }; };
-				default {};
+				_playerclass = _x getVariable ["St_class", "assault"];
+				
+				switch ( _playerclass ) do {
+					case "assault": { if ( _limitAssault != -99 ) then { _limitAssault = _limitAssault - 1; }; if ( _playersAssault == "" ) then { _playersAssault = format["» %1", (name _x)]; } else { _playersAssault = format["%1\n» %2", _playersAssault, (name _x)]; }; };
+					case "grenadier": { if ( _limitGrenadier != -99 ) then { _limitGrenadier = _limitGrenadier - 1; }; if ( _playersGrenadier == "" ) then { _playersGrenadier = format["» %1", (name _x)]; } else { _playersGrenadier = format["%1\n» %2", _playersGrenadier, (name _x)]; }; };
+					case "medic": { if ( _limitMedic != -99 ) then { _limitMedic = _limitMedic - 1; }; if ( _playersMedic == "" ) then { _playersMedic = format["» %1", (name _x)]; } else { _playersMedic = format["%1\n» %2", _playersMedic, (name _x)]; }; };
+					case "engineer": { if ( _limitEngineer != -99 ) then { _limitEngineer = _limitEngineer - 1; }; if ( _playersEngineer == "" ) then { _playersEngineer = format["» %1", (name _x)]; } else { _playersEngineer = format["%1\n» %2", _playersEngineer, (name _x)]; }; };
+					case "at": { if ( _limitAT != -99 ) then { _limitAT = _limitAT - 1; }; if ( _playersAT == "" ) then { _playersAT = format["» %1", (name _x)]; } else { _playersAT = format["%1\n» %2", _playersAT, (name _x)]; }; };
+					case "aa": { if ( _limitAA != -99 ) then { _limitAA = _limitAA - 1; }; if ( _playersAA == "" ) then { _playersAA = format["» %1", (name _x)]; } else { _playersAA = format["%1\n» %2", _playersAA, (name _x)]; }; };
+					case "ar": { if ( _limitAR != -99 ) then { _limitAR = _limitAR - 1; }; if ( _playersAR == "" ) then { _playersAR = format["» %1", (name _x)]; } else { _playersAR = format["%1\n» %2", _playersAR, (name _x)]; }; };
+					case "jtac": { if ( _limitJTAC != -99 ) then { _limitJTAC = _limitJTAC - 1; }; if ( _playersJTAC == "" ) then { _playersJTAC = format["» %1", (name _x)]; } else { _playersJTAC = format["%1\n» %2", _playersJTAC, (name _x)]; }; };
+					case "marksman": { if ( _limitMarksman != -99 ) then { _limitMarksman = _limitMarksman - 1; }; if ( _playersMarksman == "" ) then { _playersMarksman = format["» %1", (name _x)]; } else { _playersMarksman = format["%1\n» %2", _playersMarksman, (name _x)]; }; };
+					case "sniper": { if ( _limitSniper != -99 ) then { _limitSniper = _limitSniper - 1; }; if ( _playersSniper == "" ) then { _playersSniper = format["» %1", (name _x)]; } else { _playersSniper = format["%1\n» %2", _playersSniper, (name _x)]; }; };
+					case "pilot": { if ( _limitPilot != -99 ) then { _limitPilot = _limitPilot - 1; }; if ( _playersPilot == "" ) then { _playersPilot = format["» %1", (name _x)]; } else { _playersPilot = format["%1\n» %2", _playersPilot, (name _x)]; }; };
+					case "crew": { if ( _limitCrew != -99 ) then { _limitCrew = _limitCrew - 1; }; if ( _playersCrew == "" ) then { _playersCrew = format["» %1", (name _x)]; } else { _playersCrew = format["%1\n» %2", _playersCrew, (name _x)]; }; };
+					case "fso": { if ( _limitFSO != -99 ) then { _limitFSO = _limitFSO - 1; }; if ( _playersFSO == "" ) then { _playersFSO = format["» %1", (name _x)]; } else { _playersFSO = format["%1\n» %2", _playersFSO, (name _x)]; }; };
+					case "commander": { if ( _limitCommander != -99 ) then { _limitCommander = _limitCommander - 1; }; if ( _playersCommander == "" ) then { _playersCommander = format["» %1", (name _x)]; } else { _playersCommander = format["%1\n» %2", _playersCommander, (name _x)]; }; };
+					default {};
+				};
+			
 			};
 			
 		} forEach allPlayers;
