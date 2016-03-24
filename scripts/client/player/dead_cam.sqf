@@ -51,6 +51,7 @@ while { true } do {
 	
 	"colorCorrections" ppEffectEnable FALSE;
 	"filmGrain" ppEffectEnable FALSE;
+	["EastWind"] call BIS_fnc_setPPeffectTemplate;
 	_cam cameraEffect ["Terminate","back"];
 	camDestroy _cam;
 	camUseNVG false;

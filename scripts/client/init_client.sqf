@@ -25,11 +25,13 @@ if((getPlayerUID player) != "_SP_PLAYER_") then {
 
 // handle player id during session
 playableUnitOccupier_PV = player; publicVariableServer "playableUnitOccupier_PV";	
-player addEventHandler ["Respawn", {
+player addEventHandler ["Respawn", {	
+	(_this select 0) setVariable ["ACE_isUnconscious", false];
+	["EastWind"] call BIS_fnc_setPPeffectTemplate;
+	
 	playableUnitOccupier_PV = _this select 0; publicVariableServer "playableUnitOccupier_PV";
-	playerTeam = _this getVariable ["St_team", "PTr_alpha"];  [playerTeam] call F_setPlayerTeam;
-	"colorCorrections" ppEffectEnable FALSE;
-	"filmGrain" ppEffectEnable FALSE;
+	playerTeam = (_this select 1) getVariable ["St_team", "PTr_alpha"];  [playerTeam] call F_setPlayerTeam;
+	diag_log playerTeam;
 }];
 
 // add arsenal items

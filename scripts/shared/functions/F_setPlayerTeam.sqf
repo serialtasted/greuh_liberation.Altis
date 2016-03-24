@@ -24,7 +24,7 @@ if ( _oldTeam isEqualTo "PTr_alpha" && !isNil { _alphaTeam } ) then {
 	
 	missionNamespace setVariable ["Alpha_Members", _holdArray, true];
 };
-if ( _oldTeam isEqualTo "PTr_bravo" && !isNil { Bravo_Members } ) then {
+if ( _oldTeam isEqualTo "PTr_bravo" && !isNil { _bravoTeam } ) then {
 	{
 		if ( !( (name _x) isEqualTo (name player) ) && !( (name _x) isEqualTo "Error: No vehicle" ) ) then {
 			_holdArray pushBack _x;
@@ -128,8 +128,6 @@ if ( _unitTeam isEqualTo "PTr_crew" ) then {
 	[player] joinSilent (_crewTeam select 0);
 	(_crewTeam select 0) setGroupIdGlobal ["PTr_crew"];
 };
-
-sleep 0.1;
 
 [] call F_assignComms;
 
