@@ -2,7 +2,7 @@
 
 # Liberation for Arma 3 by [GreuhZbug](https://github.com/GreuhZbug/greuh_liberation.Altis)
 
-## Current version : 0.921 (PTr Edition)
+## Current version : 0.922 (PTr Edition)
 
 ## Overview
 
@@ -35,17 +35,26 @@ I have done a lot of work on this mission trying to fill some realistic gaps tha
 ## Addon dependencies
 
 * ACE 3
-* ATLAS LHD (still optional, but recommended)
+* ATLAS LHD
+* USS Nimitz
 * FHQ Accessories
 * JNS Skycranes
-* F/A-18 Super Hornet (optional, also recommended)
 * MRT Accessory Functions
-* RDS Static Weapons
+* MELB
 * RH Pistols
 * RHS AFRF and USF
 * Task Force Radio
-* TRYK Uniforms
 * United States Air Force
+
+## Recommended addons
+
+* Burnes LCAC
+* FFAAV Spanish Forces
+* F/A-18 Super Hornet
+* Lesh Tow
+* Kimi's Helo HUD
+* Advanced Towing
+* Vcom AI
 
 ## Links
 
