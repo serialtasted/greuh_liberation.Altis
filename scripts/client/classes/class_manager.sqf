@@ -105,6 +105,9 @@ while {true} do {
 			case "engineer": {
 				player setVariable ["ACE_IsEngineer", 1];
 			};
+			case "crew": {
+				player setVariable ["ACE_IsEngineer", 1];
+			};
 			default {};
 		};
 		
@@ -127,10 +130,6 @@ while {true} do {
 		
 		if ( _currentclass isEqualTo "commander" ) then { [player,true] call F_setCurator; } else { if ( _oldclass isEqualTo "commander" ) then { [player,false] call F_setCurator; } };
 		
-		if ( typeof player == "rhsusf_army_ucp_officer" ) then {
-			[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\delete_groups.sqf";
-		};
-		
 		if ( !_actionsAdded ) then {
 			_actionsAdded = true;
 			[] call compileFinal preprocessFileLineNumbers "scripts\client\player\ace3_actions.sqf";
@@ -143,6 +142,9 @@ while {true} do {
 		
 		// set unit rank
 		[] call F_setRank;
+		
+		// set unit insignia
+		[ player, format["%1FlagWS", [player] call F_getPlayerCountry] ] remoteExec ["BIS_fnc_setUnitInsignia", 0, true];
 		
 		// lower weapon
 		if ( primaryWeapon player != "" ) then {

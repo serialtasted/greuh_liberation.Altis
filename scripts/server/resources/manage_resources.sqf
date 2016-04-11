@@ -117,7 +117,7 @@ while { GRLIB_endgame == 0 } do {
 					clearBackpackCargoGlobal _newbox;
 					_newbox addMPEventHandler ['MPKilled', {_this spawn kill_manager}];
 
-					[ [_newbox, 500 ] , "F_setMass" ] call BIS_fnc_MP;
+					[_newbox, 500] remoteExec ["F_setMass"];
 
 				};
 			};

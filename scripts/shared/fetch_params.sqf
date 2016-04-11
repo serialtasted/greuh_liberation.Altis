@@ -14,6 +14,7 @@ if ( isMultiplayer ) then {
 	GRLIB_param_wipe_savegame_1 = ["WipeSave1",0] call bis_fnc_getParamValue;
 	GRLIB_param_wipe_savegame_2 = ["WipeSave2",0] call bis_fnc_getParamValue;
 	GRLIB_param_resetelite = ["ResetEliteVehs",0] call bis_fnc_getParamValue;
+	GRLIB_param_resetbuildings = ["ResetBuildings",0] call bis_fnc_getParamValue;
 	GRLIB_passive_income = ["PassiveIncome",0] call bis_fnc_getParamValue;
 	GRLIB_permissions_param = ["Permissions",1] call bis_fnc_getParamValue;
 	GRLIB_halo_param = ["HaloJump",1] call bis_fnc_getParamValue;
@@ -23,6 +24,9 @@ if ( isMultiplayer ) then {
 	GRLIB_shorter_nights = ["ShorterNights",0] call bis_fnc_getParamValue;
 	GRLIB_ammo_bounties = ["AmmoBounties",0] call bis_fnc_getParamValue;
 	GRLIB_remote_sensors = ["DisableRemoteSensors",0] call bis_fnc_getParamValue;
+	GRLIB_blufor_defenders = [ "BluforDefenders",1] call bis_fnc_getParamValue;
+ 	GRLIB_autodanger = [ "Autodanger",0] call bis_fnc_getParamValue;
+	GRLIB_maximum_fobs = [ "MaximumFobs",26] call bis_fnc_getParamValue;
 } else {
 	GRLIB_difficulty_modifier = 1;
 	GRLIB_time_factor = 12;
@@ -39,6 +43,7 @@ if ( isMultiplayer ) then {
 	GRLIB_param_wipe_savegame_1 = 0;
 	GRLIB_param_wipe_savegame_2 = 0;
 	GRLIB_param_resetelite = 0;
+	GRLIB_param_resetbuildings = 0;
 	GRLIB_passive_income = 0;
 	GRLIB_permissions_param = 1;
 	GRLIB_halo_param = 1;
@@ -48,6 +53,9 @@ if ( isMultiplayer ) then {
 	GRLIB_shorter_nights = 0;
 	GRLIB_ammo_bounties = 1;
 	GRLIB_remote_sensors = 0;
+	GRLIB_blufor_defenders = 1;
+ 	GRLIB_autodanger = 0;
+	GRLIB_maximum_fobs = 26;
 	
 	// remove Blufor AI during debug
  	{
@@ -68,3 +76,5 @@ if ( GRLIB_permissions_param == 1 ) then { GRLIB_permissions_param = true } else
 if ( GRLIB_shorter_nights == 1 ) then { GRLIB_shorter_nights = true } else { GRLIB_shorter_nights = false };
 if ( GRLIB_ammo_bounties == 1 ) then { GRLIB_ammo_bounties = true } else { GRLIB_ammo_bounties = false };
 if ( GRLIB_param_resetelite == 1 ) then { GRLIB_param_resetelite = true } else { GRLIB_param_resetelite = false };
+if ( GRLIB_blufor_defenders == 1 ) then { GRLIB_blufor_defenders = true } else { GRLIB_blufor_defenders = false };
+if ( GRLIB_autodanger == 1 ) then { GRLIB_autodanger = true } else { GRLIB_autodanger = false };

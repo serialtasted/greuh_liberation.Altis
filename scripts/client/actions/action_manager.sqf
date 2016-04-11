@@ -95,7 +95,7 @@ while { action_manager_alive } do {
 		};
 	};
 	
-	if ( (_fobdistance < _distredeploy || (player distance lhd) < 200 || (player distance nimitz) < 200) && alive player && vehicle player == player && GRLIB_halo_param > 0 ) then {
+	if ( (_fobdistance < _distredeploy || (player distance lhd) < 200 || (player distance nimitz) < 200) && alive player && vehicle player == player && GRLIB_halo_param > 0 && count allPlayers <= 8 ) then {
 		if ( _idact_halo == -1 ) then {
 			_idact_halo = player addAction ["<t color='#80FF80'>" + localize "STR_HALO_ACTION" + "</t> <img size='2' image='res\ui_redeploy.paa'/>","scripts\client\spawn\do_halo.sqf","",-749,false,true,"","build_confirmed == 0"];
 		};
@@ -194,7 +194,7 @@ while { action_manager_alive } do {
 		};
 	};
 	
-	if ( count _nearcarshop != 0 && alive player && vehicle player == player && ( player getVariable ["St_class", "assault"] ) == "engineer" ) then {
+	if ( count _nearcarshop != 0 && alive player && vehicle player == player && ( (player getVariable ["St_class", "assault"]) == "engineer" || (player getVariable ["St_class", "assault"]) == "crew" ) ) then {
 		if ( _idact_sparewheel == -1 ) then {
 			_idact_sparewheel = player addAction ["<t color='#9D162E'>" + "-- GET SPARE WHEEL" + "</t>",{ buildtype = "spareWheel"; dobuild = 1; },"",0,false,true,"","build_confirmed == 0"];
 		};
@@ -205,7 +205,7 @@ while { action_manager_alive } do {
 		};
 	};
 	
-	if ( count _nearcarshop != 0 && alive player && vehicle player == player && ( player getVariable ["St_class", "assault"] ) == "engineer" ) then {
+	if ( count _nearcarshop != 0 && alive player && vehicle player == player && ( (player getVariable ["St_class", "assault"]) == "engineer" || (player getVariable ["St_class", "assault"]) == "crew" ) ) then {
 		if ( _idact_sparetrack == -1 ) then {
 			_idact_sparetrack = player addAction ["<t color='#9D162E'>" + "-- GET SPARE TRACK" + "</t>",{ buildtype = "spareTrack"; dobuild = 1; },"",0,false,true,"","build_confirmed == 0"];
 		};
@@ -218,13 +218,15 @@ while { action_manager_alive } do {
 	
 	if ( count _nearmedical != 0 && alive player && vehicle player == player ) then {
 		if ( _idact_medical == -1 ) then {
-			_idact_medical = player addAction ["Provide Medical Attention", {
+			_idact_medical = player addAction ["<t color='#FF2626'>" + "-- GET MEDICAL ATTENTION" + "</t> <img size='2' image='res\ui_medical.paa'/>", {
+					player playMoveNow "ainvpknlmstpslaywrfldnon_medic";
 					[
-						20,
+						15,
 						[],
 						{
 							[objNull, player] call ace_medical_fnc_treatmentAdvanced_fullHealLocal;
 							hintSilent "You're good to go soldier. Try to be more careful next time.";
+							player switchmove "";
 						},
 						{
 

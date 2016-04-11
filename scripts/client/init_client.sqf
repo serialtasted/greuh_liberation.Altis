@@ -15,7 +15,7 @@ waitUntil {
 };
 
 // TFAR Plugin check
-if((getPlayerUID player) != "_SP_PLAYER_") then {
+if((getPlayerUID player) != "_SP_PLAYER_" && isDedicated) then {
 	waitUntil {
 		titleText ["Detecting TFR... (Make sure that your TaskForce Radio plugin is enabled on TeamSpeak!)", "BLACK FADED"];
 		player enableSimulation false;
@@ -31,7 +31,11 @@ player addEventHandler ["Respawn", {
 	
 	playableUnitOccupier_PV = _this select 0; publicVariableServer "playableUnitOccupier_PV";
 	playerTeam = (_this select 1) getVariable ["St_team", "PTr_alpha"];  [playerTeam] call F_setPlayerTeam;
-	diag_log playerTeam;
+	
+	[_this select 1] spawn {
+		sleep 120;
+		deleteVehicle (_this select 0);
+	};
 }];
 
 // add arsenal items
@@ -83,6 +87,7 @@ do_load_box = compileFinal preprocessFileLineNumbers "scripts\client\ammoboxes\d
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\build\do_build.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\fob_markers.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\hostile_groups.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\aircall_markers.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\medical_markers.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\sector_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\spot_timer.sqf";

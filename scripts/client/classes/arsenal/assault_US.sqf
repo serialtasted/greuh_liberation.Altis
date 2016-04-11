@@ -8,15 +8,17 @@ Created by: Serialtasted
 if ( classtogo != "" ) then {
 
 	comment "Add containers";
-	player forceAddUniform "rhs_uniform_cu_ucp";
-	player addVest "rhsusf_iotv_ucp_Rifleman";
+	player forceAddUniform "rhs_uniform_cu_ocp";
+	player addVest "rhsusf_iotv_ocp_Rifleman";
 	for "_i" from 1 to 5 do {player addItemToVest "rhs_mag_an_m8hc";};
 	for "_i" from 1 to 6 do {player addItemToVest "rhs_mag_30Rnd_556x45_Mk318_Stanag";};
 	player addItemToVest "rhs_m136_hp_mag";
+	player addItemToVest "ACE_SpraypaintGreen";
+	player addItemToVest "ACE_SpraypaintRed";
 	for "_i" from 1 to 4 do {player addItemToVest "rhs_mag_m67";};
 	for "_i" from 1 to 4 do {player addItemToVest "rhs_mag_mk84";};
 	for "_i" from 1 to 2 do {player addItemToVest "rhs_mag_m18_red";};
-	player addHeadgear "rhsusf_ach_helmet_ucp";
+	player addHeadgear "rhsusf_ach_helmet_ocp";
 	player addGoggles "rhs_googles_black";
 
 	comment "Add weapons";
@@ -179,31 +181,6 @@ arsenal_items = [
 	"G_Shades_Green",
 	"G_Shades_Red",
 	"G_B_Diving",
-	
-	//TRYK items
-	"TRYK_Beard",
-	"TRYK_Beard_BW",
-	"TRYK_Beard_BK",
-	"TRYK_Beard_Gr",
-	"TRYK_Beard2",
-	"TRYK_Beard_BW2",
-	"TRYK_Beard_BK2",
-	"TRYK_Beard_Gr2",
-	"TRYK_Beard3",
-	"TRYK_Beard_BW3",
-	"TRYK_Beard_BK3",
-	"TRYK_Beard_Gr3",
-	"TRYK_Beard4",
-	"TRYK_Beard_BW4",
-	"TRYK_Beard_BK4",
-	"TRYK_Beard_Gr4",
-	"TRYK_Kio_Balaclava",
-	"TRYK_kio_balaclava_WH",
-	"TRYK_kio_balaclava_BLK",
-	"TRYK_kio_balaclavas",
-	"TRYK_kio_balaclava_BLK_ear",
-	"TRYK_kio_balaclava_ear",
-	"TRYK_kio_balaclava_ESS",
 
 	//uniforms
 	"rhs_uniform_cu_ocp",
@@ -303,6 +280,7 @@ arsenal_items = [
 	"ACE_wirecutter",
 	"ACE_MapTools",
 	"ACE_microDAGR",
+	"ACE_RangeTable_82mm",
 	"ACE_NVG_Gen1",
 	"ACE_NVG_Gen2",
 	"ACE_NVG_Gen3",

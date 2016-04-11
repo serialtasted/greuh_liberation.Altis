@@ -1,5 +1,3 @@
-
-
 params [ "_sector" ];
 private [ "_sectorpos", "_stopit", "_spawncivs", "_building_ai_max", "_infsquad", "_building_range", "_local_capture_size", "_iedcount","_combat_readiness_increase","_vehtospawn","_managed_units","_squad1", "_squad2", "_squad3", "_squad4", "_minimum_building_positions", "_popfactor", "_sector_despawn_tickets", "_opforcount" ];
 
@@ -26,7 +24,6 @@ _sector_despawn_tickets = 12;
 
 _popfactor = 1;
 if ( GRLIB_unitcap < 1 ) then { _popfactor = GRLIB_unitcap; };
-if ( GRLIB_unitcap > 1 ) then { _popfactor = sqrt ( GRLIB_unitcap ) };
 
 if ( isNil "active_sectors" ) then { active_sectors = [] };
 if ( _sector in active_sectors ) exitWith {};
@@ -197,7 +194,7 @@ if ( (!(_sector in blufor_sectors)) &&  ( ( [ getmarkerpos _sector , [ _opforcou
 	sleep 10;
 
 	if ( ( _sector in sectors_factory ) || (_sector in sectors_capture ) || (_sector in sectors_bigtown ) || (_sector in sectors_military ) ) then {
-		[ [ _sector ] , "reinforcements_remote_call" ] call BIS_fnc_MP;
+		[ _sector ] remoteExec ["reinforcements_remote_call"];
 	};
 
 	diag_log format [ "Sector %2 checkpoint M at %1", time, _sector ];
@@ -211,7 +208,7 @@ if ( (!(_sector in blufor_sectors)) &&  ( ( [ getmarkerpos _sector , [ _opforcou
 			if (isServer) then {
 				[ _sector ] spawn sector_liberated_remote_call;
 			} else {
-				[ [ _sector ] , "sector_liberated_remote_call" ] call BIS_fnc_MP;
+				[ _sector ] remoteExec ["sector_liberated_remote_call"];
 			};
 
 			_stopit = true;

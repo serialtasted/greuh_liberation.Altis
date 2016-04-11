@@ -17,7 +17,7 @@ _holdArray = [];
 
 if ( _oldTeam isEqualTo "PTr_alpha" && !isNil { _alphaTeam } ) then {
 	{
-		if ( !( (name _x) isEqualTo (name player) ) && !( (name _x) isEqualTo "Error: No vehicle" ) ) then {
+		if ( !( (name _x) isEqualTo (name player) ) && ( _x in allPlayers ) ) then {
 			_holdArray pushBack _x;
 		};
 	} forEach _alphaTeam;
@@ -26,7 +26,7 @@ if ( _oldTeam isEqualTo "PTr_alpha" && !isNil { _alphaTeam } ) then {
 };
 if ( _oldTeam isEqualTo "PTr_bravo" && !isNil { _bravoTeam } ) then {
 	{
-		if ( !( (name _x) isEqualTo (name player) ) && !( (name _x) isEqualTo "Error: No vehicle" ) ) then {
+		if ( !( (name _x) isEqualTo (name player) ) && ( _x in allPlayers ) ) then {
 			_holdArray pushBack _x;
 		};
 	} forEach _bravoTeam;
@@ -35,7 +35,7 @@ if ( _oldTeam isEqualTo "PTr_bravo" && !isNil { _bravoTeam } ) then {
 };
 if ( _oldTeam isEqualTo "PTr_charlie" && !isNil { _charlieTeam } ) then {
 	{
-		if ( !( (name _x) isEqualTo (name player) ) && !( (name _x) isEqualTo "Error: No vehicle" ) ) then {
+		if ( !( (name _x) isEqualTo (name player) ) && ( _x in allPlayers ) ) then {
 			_holdArray pushBack _x;
 		};
 	} forEach _charlieTeam;
@@ -49,7 +49,7 @@ if ( _oldTeam isEqualTo "PTr_commander" ) then {
 
 if ( _oldTeam isEqualTo "PTr_pilot" && !isNil { _pilotTeam } ) then {
 	{
-		if ( !( (name _x) isEqualTo (name player) ) && !( (name _x) isEqualTo "Error: No vehicle" ) ) then {
+		if ( !( (name _x) isEqualTo (name player) ) && ( _x in allPlayers ) ) then {
 			_holdArray pushBack _x;
 		};
 	} forEach _pilotTeam;
@@ -58,7 +58,7 @@ if ( _oldTeam isEqualTo "PTr_pilot" && !isNil { _pilotTeam } ) then {
 };
 if ( _oldTeam isEqualTo "PTr_crew" && !isNil { _crewTeam } ) then {
 	{
-		if ( !( (name _x) isEqualTo (name player) ) && !( (name _x) isEqualTo "Error: No vehicle" ) ) then {
+		if ( !( (name _x) isEqualTo (name player) ) && ( _x in allPlayers ) ) then {
 			_holdArray pushBack _x;
 		};
 	} forEach _crewTeam;
@@ -82,7 +82,7 @@ _crewTeam = missionNamespace getVariable "Crew_Members";
 player setVariable [ "St_team", _unitTeam ];
 
 if ( _unitTeam isEqualTo "PTr_commander" ) then {
-	[player, "unassignTeam", true, true, true] call BIS_fnc_MP;
+	[player] remoteExec ["unassignTeam"];
 	missionNamespace setVariable ["ElComandante", [player], true];
 };
 
@@ -109,7 +109,7 @@ if ( _unitTeam isEqualTo "PTr_charlie" ) then {
 };
 
 if ( _unitTeam isEqualTo "PTr_pilot" ) then {
-	[player, "unassignTeam", true, true, true] call BIS_fnc_MP;
+	[player] remoteExec ["unassignTeam"];
 	curTeam = "MAIN";
 	
 	_pilotTeam pushBack player;
@@ -119,7 +119,7 @@ if ( _unitTeam isEqualTo "PTr_pilot" ) then {
 	(_pilotTeam select 0) setGroupIdGlobal ["PTr_pilot"];
 };
 if ( _unitTeam isEqualTo "PTr_crew" ) then {
-	[player, "unassignTeam", true, true, true] call BIS_fnc_MP;
+	[player] remoteExec ["unassignTeam"];
 	curTeam = "MAIN";
 	
 	_crewTeam pushBack player;

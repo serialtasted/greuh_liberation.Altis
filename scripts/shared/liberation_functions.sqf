@@ -36,6 +36,7 @@ F_getUnitPositionId = compileFinal preprocessFileLineNumbers "scripts\shared\fun
 F_getCommander = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getCommander.sqf";
 F_fetchPermission = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_fetchPermission.sqf";
 F_getPlayerRank = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getPlayerRank.sqf";
+F_getPlayerCountry = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getPlayerCountry.sqf";
 F_isAdmin = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_isAdmin.sqf";
 F_cleanOpforVehicle = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_cleanOpforVehicle.sqf";
 F_setPlayerTeam = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_setPlayerTeam.sqf";

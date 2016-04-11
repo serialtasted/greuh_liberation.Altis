@@ -1,8 +1,5 @@
 enableSaving [ false, false ];
 
-//------------------------------------------------ Lock doors
-[75,100] call compileFinal preprocessFileLineNumbers "scripts\misc\breachingdoors.sqf";
-
 //------------------------------------------------ Initialize whitelist
 [] call compileFinal preprocessFileLineNumbers "whitelist.sqf";
 
@@ -52,9 +49,9 @@ if (!isDedicated && hasInterface) then {
 //------------------------------------------------ Handle parameters
 call St_fnc_setParams;
 
-//["Initialize", [true]] call BIS_fnc_dynamicGroups;
 enableSentences false;
 enableRadio false;
+enableEngineArtillery false;
 
 //------------------------------------------------ Misc
 callFireworks = compile preprocessFileLineNumbers "GRAD_fireworks\callFireworks.sqf";

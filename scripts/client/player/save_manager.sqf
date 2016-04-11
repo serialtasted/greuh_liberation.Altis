@@ -27,9 +27,12 @@ _damageLArm = 0;
 _damageRLeg = 0;
 _damageLLeg = 0;
 
+_isForce = false;
+
 forceclassmanager = false;
 
 trigger_client_save = false;
+trigger_client_save_force = false;
 greuh_liberation_client = profileNamespace getVariable GRLIB_client_key;
 
 if ( !isNil "greuh_liberation_client" ) then {
@@ -136,7 +139,7 @@ client_is_loaded = true;
 while { true } do {
 	waitUntil {
 		sleep 0.3;
-		trigger_client_save || GRLIB_endgame == 1
+		trigger_client_save || trigger_client_save_force || GRLIB_endgame == 1
 	};
 	
 	diag_log "-- SAVING CLIENT --";
@@ -149,6 +152,8 @@ while { true } do {
 		
 		waitUntil { vehicle player == player && (player distance (getmarkerpos "respawn_west") > 50) };
 		trigger_client_save = false;
+		_isForce = trigger_client_save_force;
+		trigger_client_save_force = false;
 		
 		player_class = player getVariable ["St_class", "assault"];
 		
@@ -181,6 +186,10 @@ while { true } do {
 	};
 	diag_log greuh_liberation_saveclient;
 	diag_log "** CLIENT SAVED **";
+	
+	if ( _isForce ) then {
+		[ "lib_client_saved_success" ] call BIS_fnc_showNotification;
+	};
 	
 	waitUntil { 
 		sleep 0.3;

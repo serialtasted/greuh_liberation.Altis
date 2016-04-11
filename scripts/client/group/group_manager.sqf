@@ -712,7 +712,7 @@ GVAR(menu_main) = {
 			PUSH_START(GVAR(actions_ids))
 				player addAction [
 					"<t color='#a9161c'><img image='\A3\ui_f\data\gui\rsc\rscdisplayarcademap\icon_toolbox_units_ca.paa' size='0.7' /> Join Team Red</t>",
-					{ [[player, "RED"], "assignTeam", true, true, true] call BIS_fnc_MP; curTeam = "RED"; },
+					{ [player, "RED"] remoteExec ["assignTeam", 0, true]; curTeam = "RED"; },
 					[],
 					9098
 				]
@@ -721,7 +721,7 @@ GVAR(menu_main) = {
 			PUSH_START(GVAR(actions_ids))
 				player addAction [
 					"<img image='\A3\ui_f\data\gui\rsc\rscdisplayarcademap\icon_toolbox_units_ca.paa' size='0.7' /> You are on Team Red (Leave Team)",
-					{ [player, "unassignTeam", true, true, true] call BIS_fnc_MP; curTeam = "MAIN"; },
+					{ [player] remoteExec ["unassignTeam", 0, true]; curTeam = "MAIN"; },
 					[],
 					9098
 				]
@@ -732,7 +732,7 @@ GVAR(menu_main) = {
 			PUSH_START(GVAR(actions_ids))
 				player addAction [
 					"<t color='#1ca916'><img image='\A3\ui_f\data\gui\rsc\rscdisplayarcademap\icon_toolbox_units_ca.paa' size='0.7' /> Join Team Green</t>",
-					{ [[player, "GREEN"], "assignTeam", true, true, true] call BIS_fnc_MP; curTeam = "GREEN"; },
+					{ [player, "GREEN"] remoteExec ["assignTeam", 0, true]; curTeam = "GREEN"; },
 					[],
 					9097
 				]
@@ -741,7 +741,7 @@ GVAR(menu_main) = {
 			PUSH_START(GVAR(actions_ids))
 				player addAction [
 					"<img image='\A3\ui_f\data\gui\rsc\rscdisplayarcademap\icon_toolbox_units_ca.paa' size='0.7' /> You are on Team Green (Leave Team)",
-					{ [player, "unassignTeam", true, true, true] call BIS_fnc_MP; curTeam = "MAIN"; },
+					{ [player] remoteExec ["unassignTeam", 0, true]; curTeam = "MAIN"; },
 					[],
 					9097
 				]
@@ -752,7 +752,7 @@ GVAR(menu_main) = {
 			PUSH_START(GVAR(actions_ids))
 				player addAction [
 					"<t color='#161ca9'><img image='\A3\ui_f\data\gui\rsc\rscdisplayarcademap\icon_toolbox_units_ca.paa' size='0.7' /> Join Team Blue</t>",
-					{ [[player, "BLUE"], "assignTeam", true, true, true] call BIS_fnc_MP; curTeam = "BLUE"; },
+					{ [player, "BLUE"] remoteExec ["assignTeam", 0, true]; curTeam = "BLUE"; },
 					[],
 					9096
 				]
@@ -761,7 +761,7 @@ GVAR(menu_main) = {
 			PUSH_START(GVAR(actions_ids))
 				player addAction [
 					"<img image='\A3\ui_f\data\gui\rsc\rscdisplayarcademap\icon_toolbox_units_ca.paa' size='0.7' /> You are on Team Blue (Leave Team)",
-					{ [player, "unassignTeam", true, true, true] call BIS_fnc_MP; curTeam = "MAIN"; },
+					{ [player] remoteExec ["unassignTeam", 0, true]; curTeam = "MAIN"; },
 					[],
 					9096
 				]
@@ -772,7 +772,7 @@ GVAR(menu_main) = {
 			PUSH_START(GVAR(actions_ids))
 				player addAction [
 					"<t color='#eec735'><img image='\A3\ui_f\data\gui\rsc\rscdisplayarcademap\icon_toolbox_units_ca.paa' size='0.7' /> Join Team Yellow</t>",
-					{ [[player, "YELLOW"], "assignTeam", true, true, true] call BIS_fnc_MP; curTeam = "YELLOW"; },
+					{ [player, "YELLOW"] remoteExec ["assignTeam", 0, true]; curTeam = "YELLOW"; },
 					[],
 					9095
 				]
@@ -781,7 +781,7 @@ GVAR(menu_main) = {
 			PUSH_START(GVAR(actions_ids))
 				player addAction [
 					"<img image='\A3\ui_f\data\gui\rsc\rscdisplayarcademap\icon_toolbox_units_ca.paa' size='0.7' /> You are on Team Yellow (Leave Team)",
-					{ [player, "unassignTeam", true, true, true] call BIS_fnc_MP; curTeam = "MAIN"; },
+					{ [player] remoteExec ["unassignTeam", 0, true]; curTeam = "MAIN"; },
 					[],
 					9095
 				]

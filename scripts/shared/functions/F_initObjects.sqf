@@ -3,7 +3,7 @@ params [ "_vehicle" ];
 _classname = typeOf _vehicle;
 
 if ( _vehicle isKindOf "Helicopter" ) then {
-	[[_vehicle], "ace_fastroping_fnc_equipFRIES", true, false] call BIS_fnc_MP;
+	[_vehicle] remoteExec ["ace_fastroping_fnc_equipFRIES"];
 };
 
 if ( _classname == "C_Offroad_01_repair_F" ) then {
@@ -61,23 +61,20 @@ if ( _classname in medical_vehicles ) then {
 	_vehicle setVariable ["ace_medical_medicClass", 1, true];
 };
 
-if ( _vehicle isKindOf "AllVehicles" ) then {
-	[[[_vehicle],"IgiLoad\IgiLoad.sqf"],"BIS_fnc_execVM",true,false] call BIS_fnc_MP;
-};
-
 if ( _classname in fuel_cannister ) then {
-	[[_vehicle, true, [0.3, 0, 0.3], 90], "ace_dragging_fnc_setCarryable", true, false] call BIS_fnc_MP;
-	[[_vehicle, true, 1], "ace_cargo_fnc_makeLoadable", true, false] call BIS_fnc_MP;
+	[_vehicle, true, [0.3, 0, 0.3], 90] remoteExec ["ace_dragging_fnc_setCarryable"];
+	[_vehicle, true, 1] remoteExec ["ace_cargo_fnc_makeLoadable"];
 	[_vehicle] execVM "scripts\misc\repair\TAA_Database.sqf";
 };
 
 if ( _classname in carryable_objects ) then {
-	[[_vehicle, true, [0, 1, 0], 180], "ace_dragging_fnc_setCarryable", true, false] call BIS_fnc_MP;
-	[[_vehicle, true, 1], "ace_cargo_fnc_makeLoadable", true, false] call BIS_fnc_MP;
+	[_vehicle, true, [0, 1, 0], 180] remoteExec ["ace_dragging_fnc_setCarryable"];
+	[_vehicle, true, 1] remoteExec ["ace_cargo_fnc_makeLoadable"];
 };
 
 if ( _classname in draggable_objects ) then {
-	[[_vehicle, true, [0, 1, 0], 180], "ace_dragging_fnc_setDraggable", true, false] call BIS_fnc_MP;
+	[_vehicle, true, [0, 1, 0], 180] remoteExec ["ace_dragging_fnc_setDraggable"];
+	[_vehicle, true, 3] remoteExec ["ace_cargo_fnc_makeLoadable"];
 };
 
 if ( _classname isEqualTo "Flag_Red_F" ) then {

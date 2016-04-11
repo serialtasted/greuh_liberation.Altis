@@ -126,3 +126,28 @@ class lib_reinforcements : lib_default_notification
 	color[] = {1,1,0,1};
 	sound = "taskCanceled";
 };
+class lib_client_saved_success : lib_default_notification
+{
+	title = "Game Saved";
+	description = "Client progress has been saved successfully";
+	iconPicture = "res\notif\ui_notif_save.paa";
+	color[] = {0,1,0.38,1};
+	sound = "taskSucceeded";
+};
+class lib_client_saved_fail : lib_default_notification
+{
+	title = "Error Saving Game";
+	description = "You can't save the game while inside a vehicle";
+	iconPicture = "res\notif\ui_notif_save_fail.paa";
+	color[] = {1,0.38,0,1};
+	sound = "taskFailed";
+};
+
+class lib_hq_radio : lib_default_notification
+{
+	title = "Operations HQ";
+	description = "%1";
+	iconPicture = "res\notif\ui_notif_hq_radio.paa";
+	color[] = {0.95,0.95,0.95,1};
+	sound = "taskSucceeded";
+};

@@ -47,7 +47,6 @@ if ( !( _sector in GRLIB_military_sectors_already_activated )) then {
 			};
 
 			_newbox = _spawnclass createVehicle _spawnpos;
-			_newbox setVariable ["ace_cargo_size", -1];
 			_newbox setpos _spawnpos;
 			_newbox setdir (random 360);
 			clearWeaponCargoGlobal _newbox;
@@ -57,7 +56,7 @@ if ( !( _sector in GRLIB_military_sectors_already_activated )) then {
 			_newbox addMPEventHandler ['MPKilled', {_this spawn kill_manager}];
 
 			if ( _i != 0 ) then {
-				[ [_newbox, 500 ] , "F_setMass" ] call BIS_fnc_MP;
+				[_newbox, 500] remoteExec ["F_setMass"];
 			};
 		};
 	};

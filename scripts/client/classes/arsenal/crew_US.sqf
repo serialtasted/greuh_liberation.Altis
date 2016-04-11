@@ -8,8 +8,8 @@ Created by: Serialtasted
 if ( classtogo != "" ) then {
 
 	comment "Add containers";
-	player forceAddUniform "rhs_uniform_cu_ucp";
-	player addVest "rhsusf_iotv_ucp";
+	player forceAddUniform "rhs_uniform_cu_ocp";
+	player addVest "rhsusf_iotv_ocp";
 	for "_i" from 1 to 2 do {player addItemToVest "rhs_mag_30Rnd_556x45_Mk318_Stanag";};
 	player addHeadgear "rhsusf_cvc_green_helmet";
 
@@ -43,6 +43,7 @@ arsenal_items = [
 	"itemMap",
 	"itemCompass",
 	"itemWatch",
+	"toolkit",
 	
 	"FHQ_acc_LLM01L",
 	"FHQ_optic_AIM",
@@ -53,6 +54,9 @@ arsenal_items = [
 	"rhs_uniform_cu_ocp",
 	"rhs_uniform_cu_ucp",
 	
+	"rhsusf_iotv_ocp",
+	"rhsusf_iotv_ucp",
+	
 	"ACE_NVG_Wide",
 	
 	"RH_m6x",
@@ -62,6 +66,7 @@ arsenal_items = [
 	"ACE_EarPlugs",
 	
 	"ACE_microDAGR",
+	"ACE_RangeTable_82mm",
 	
 	"ACE_fieldDressing",
 	"ACE_elasticBandage",

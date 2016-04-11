@@ -75,7 +75,7 @@ while { true } do {
 			_allowcancel = true;
 			_classname = (((build_lists select buildtype) select buildindex) select 0);
 			_price = ((build_lists select buildtype) select buildindex) select 2;
-			[ [ _price, _classname, buildtype ] , "build_remote_call" ] call BIS_fnc_MP;
+			[_price, _classname, buildtype] remoteExec ["build_remote_call"];
 		};
 	};
 
@@ -323,10 +323,11 @@ while { true } do {
 
 			if ( !alive player || build_confirmed == 3 ) then {
 				deleteVehicle _vehicle;
-				[ [ ((build_lists select buildtype) select buildindex) select 2 ] , "cancel_build_remote_call" ] call BIS_fnc_MP;
+				[ ((build_lists select buildtype) select buildindex) select 2 ] remoteExec ["cancel_build_remote_call"];
 			};
 
 			if ( build_confirmed == 2 ) then {
+			
 				if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship") ) then {
 					_vehpos = getPosASL _vehicle;
 				} else {
@@ -335,180 +336,322 @@ while { true } do {
 				
 				_vehdir = getdir _vehicle;
 				deleteVehicle _vehicle;
-				sleep 0.1;
-				_vehicle = _classname createVehicle _truepos;
-				_vehicle allowDamage false;
-				_vehicle setdir _vehdir;
 				
-				if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship") ) then {
-					_vehicle setPosASL _truepos;
-				} else {
-					_vehicle setPosATL _truepos;
-				};
+				_size = (sizeOf _classname);
+				_containerclass = "";
+				if ( _size >= 0 && _size < 1 ) then { _containerclass = "Land_PlasticCase_01_small_F" };
+				if ( _size >= 1 && _size < 3 ) then { _containerclass = "Land_PlasticCase_01_medium_F" };
+				if ( _size >= 3 && _size < 5 ) then { _containerclass = "Land_PlasticCase_01_large_F" };
+				if ( _size >= 5 && _size < 10 ) then { _containerclass = "Land_Cargo10_military_green_F" };
+				if ( _size >= 10 && _size < 15 ) then { _containerclass = "Land_Cargo20_military_green_F" };
+				if ( _size >= 15 ) then { _containerclass = "Land_Cargo40_military_green_F" };
 				
-				_vehicle setVariable ["truePos", _truepos, true];
-				_vehicle setVariable ["trueDir", _vehdir, true];
+				_buildtime = 2;
+				if ((round(sizeOf _classname) * 0.8) > 2) then { _buildtime = (round(sizeOf _classname) * 0.8) };
 				
-				clearWeaponCargoGlobal _vehicle;
-				clearMagazineCargoGlobal _vehicle;
-				clearItemCargoGlobal _vehicle;
-				clearBackpackCargoGlobal _vehicle;
+				_container = objNull;
+				_typeofbuild = "";
+				_waypoint = [0,0,0];
+				_airportmarker = "";
+				_airportid = 0;
 				
-				if ( _vehicle isKindOf "Helicopter" ) then {
-					[[_vehicle], "ace_fastroping_fnc_equipFRIES", true, false] call BIS_fnc_MP;
-				};
+				if ( _classname in (all_vehicles_classnames - static_vehicles_classnames) ) then {
 				
-				if ( _classname == "C_Offroad_01_repair_F" ) then {
-					[
-						_vehicle,
-						nil,
-						[
-							"HideDoor1", 1,
-							"HideDoor2", 1,
-							"HideGlass2", 1,
-							"HideDoor3", 0,
-							"Proxy", 0,
-							"Destruct", 0
-						]
-					] call BIS_fnc_initVehicle;
-				};
-				
-				if ( _classname == "B_G_Offroad_01_repair_F" ) then {
-					[
-						_vehicle,
-						nil,
-						[
-							"HideDoor1", 0,
-							"HideDoor2", 0,
-							"HideGlass2", 1,
-							"HideDoor3", 0,
-							"Proxy", 0,
-							"Destruct", 0
-						]
-					] call BIS_fnc_initVehicle;
-				};
-				
-				if ( (buildtype == 6 || buildtype == 99 || buildtype == 5) && ((levelmode % 2) == 1) ) then {
-					_vehicle setVectorUp [0,0,1];
-				} else {
-					_vehicle setVectorUp surfaceNormal _truepos;
-				};
-				
-				if ( (_classname in uavs) || manned ) then {
-					[ _vehicle ] call F_forceBluforCrew;
-				};
-				
-				if ( _classname in [ ammobox_b_typename, ammobox_o_typename, "B_Slingload_01_Ammo_F","JNS_Skycrane_Pod_Ammo_BLU_Green", "B_Slingload_01_Medevac_F", "JNS_Skycrane_Pod_Medical_BLU_Green", "B_Slingload_01_Fuel_F", "JNS_Skycrane_Pod_Fuel_BLU_Green", "B_Slingload_01_Repair_F", "JNS_Skycrane_Pod_Repair_BLU_Green" ] ) then {
-					_vehicle setVariable ["ace_cargo_size", -1, true];
-				};
-				
-				if ( _classname == Build_helper_typename ) then {
-					_vehicle setVectorUp [0,0,1];
-					_vehicle allowDamage false;
-				};
-				
-				if ( _classname == Medical_typename ) then {
-					_vehicle setVariable["ace_medical_isMedicalFacility", true, true];
-				};
-				
-				if ( _classname == Repair_typename ) then {
-					_vehicle setVariable ["ACE_isRepairFacility", 1, true];					
-				};
-
-				sleep 0.3;
-				_vehicle allowDamage true;
-				_vehicle setDamage 0;
-				
-				if(buildtype == 99) then {
-					_vehicle addEventHandler ["HandleDamage", { 0 }];
- 				};
-				
-				if ( _classname in ammo_vehicles ) then {
-					_vehicle setAmmoCargo 1;
-				};
-				
-				if ( _classname in fuel_vehicles ) then {
-					_vehicle setFuelCargo 1;
-				};
-				
-				if ( _classname in repair_vehicles ) then {
-					_vehicle setRepairCargo 1;
-					_vehicle addItemCargoGlobal ["Toolkit", 25];
-					["AddCargoByClass", ["ACE_Wheel", _vehicle, 6]] call ace_common_fnc_globalEvent;
-					["AddCargoByClass", ["ACE_Track", _vehicle, 6]] call ace_common_fnc_globalEvent;
-					_vehicle setVariable ["ACE_isRepairVehicle", 1, true];
-				};
-				
-				if ( _classname in medical_vehicles ) then {
-					_vehicle addItemCargoGlobal ["ACE_fieldDressing", 300];
-					_vehicle addItemCargoGlobal ["ACE_elasticBandage", 320];
-					_vehicle addItemCargoGlobal ["ACE_bloodIV", 200];
-					_vehicle addItemCargoGlobal ["ACE_bloodIV_500", 260];
-					_vehicle addItemCargoGlobal ["ACE_bloodIV_250", 280];
-					_vehicle addItemCargoGlobal ["ACE_bodyBag", 310];
-					_vehicle addItemCargoGlobal ["ACE_epinephrine", 560];
-					_vehicle addItemCargoGlobal ["ACE_morphine", 560];
+					_typeofbuild = "Calling for a";
+					player playMoveNow "Acts_listeningToRadio_Loop";
 					
-					if(ace_medical_level == 2) then {
-						_vehicle addItemCargoGlobal ["ACE_atropine", 560];
-						_vehicle addItemCargoGlobal ["ACE_quikclot", 250];
-						_vehicle addItemCargoGlobal ["ACE_packingBandage", 430];
-						_vehicle addItemCargoGlobal ["ACE_personalAidKit", 290];
-						_vehicle addItemCargoGlobal ["ACE_plasmaIV", 240];
-						_vehicle addItemCargoGlobal ["ACE_plasmaIV_500", 270];
-						_vehicle addItemCargoGlobal ["ACE_plasmaIV_250", 290];
-						_vehicle addItemCargoGlobal ["ACE_salineIV", 250];
-						_vehicle addItemCargoGlobal ["ACE_salineIV_500", 250];
-						_vehicle addItemCargoGlobal ["ACE_salineIV_250", 270];
-						_vehicle addItemCargoGlobal ["ACE_surgicalKit", 300];
-						_vehicle addItemCargoGlobal ["ACE_tourniquet", 420];
+					if ( _classname in can_parachute ) then { 
+						_truepos = [ ((_truepos select 0) - (round(wind select 0) * 85)), ((_truepos select 1) - (round(wind select 1) * 85)), 300 ];
+					} else { 
+						if ( _classname in air_vehicles_classnames ) then {
+							
+							_airportmarker = ( [ sectors_airports , [ _truepos ] , { (markerpos _x) distance _input0 }, "ASCEND"] call BIS_fnc_sortBy ) select 0;
+							_airportid = parseNumber ((_airportmarker splitString "_") select 1);
+							
+							_waypoint = _truepos;
+							_truepos = [ (getMarkerPos "blufor_airspawn") select 0, (getMarkerPos "blufor_airspawn") select 1, 800 ];
+							_vehdir = (markerDir "blufor_airspawn");
+							_buildtime = _buildtime / 4;
+						} else {
+							_buildtime = _buildtime * 2;
+						};
 					};
 					
-					_vehicle setVariable ["ace_medical_medicClass", 1, true];
+				} else {
+				
+					_typeofbuild = "Building";
+					player playMoveNow "Acts_carFixingWheel";
+					_container = _containerclass createVehicle _truepos;
+					_container setDir (random 360);
+					
 				};
 				
-				if ( _vehicle isKindOf "AllVehicles" ) then {
-					[[[_vehicle],"IgiLoad\IgiLoad.sqf"],"BIS_fnc_execVM",true,false] call BIS_fnc_MP;
-				};
-				
-				if ( _classname in fuel_cannister ) then {
-					[[_vehicle, true, [0.3, 0, 0.3], 90], "ace_dragging_fnc_setCarryable", true, false] call BIS_fnc_MP;
-					[[_vehicle, true, 1], "ace_cargo_fnc_makeLoadable", true, false] call BIS_fnc_MP;
-					[_vehicle] execVM "scripts\misc\repair\TAA_Database.sqf";
-				};
-				
-				if ( _classname in repair_container ) then {
-					_vehicle setRepairCargo 1;
-					_vehicle addItemCargoGlobal ["Toolkit", 25];
-				};
-				
-				if ( _classname in disable_damage ) then {
-					_vehicle allowDamage false;
-				};
-				
-				if ( _classname in carryable_objects ) then {
-					[[_vehicle, true, [0, 1, 0], 180], "ace_dragging_fnc_setCarryable", true, false] call BIS_fnc_MP;
-					[[_vehicle, true, 1], "ace_cargo_fnc_makeLoadable", true, false] call BIS_fnc_MP;
-				};
-				
-				if ( _classname in draggable_objects ) then {
-					[[_vehicle, true, [0, 1, 0], 180], "ace_dragging_fnc_setDraggable", true, false] call BIS_fnc_MP;
-				};
-				
-				if ( _classname isEqualTo "Flag_Red_F" ) then {
-					_vehicle setFlagTexture "res\flag_portugal_co.paa";
-					_vehicle setFlagSide west;
-				};
-				
-				if ( _classname isEqualTo "Flag_Green_F" ) then {
-					_vehicle setFlagTexture "res\flag_ptrangers_co.paa";
-					_vehicle setFlagSide west;
-				};
+				[
+					_buildtime,
+					[_classname, _truepos, _vehdir, _container, _waypoint, _airportmarker, _airportid],
+					{
+						_classname = (_this select 0) select 0;
+						_truepos = (_this select 0) select 1;
+						_vehdir = (_this select 0) select 2;
+						_container = (_this select 0) select 3;
+						_waypoint = (_this select 0) select 4;
+						_airportmarker = (_this select 0) select 5;
+						_airportid = (_this select 0) select 6;
+						
+						if ( !isNull _container ) then { deleteVehicle _container };
+						
+						_airnotifmsg = "Air vehicle is on the way!";
+						
+						_vehicle = objNull;
+						if ( _classname in air_vehicles_classnames ) then {
+							_grp = createGroup west;
+							_vehicle = createVehicle [_classname, _truepos, [], 10, "FLY"];
+							createVehicleCrew _vehicle;
+							
+							_driverseat = [driver _vehicle];
+							_grparray = [];
+							{
+								if ( _x in _driverseat ) then {
+									_grparray pushBack _x;
+									_grparray join _grp;
+									
+									removeAllWeapons _x;
+									removeAllItems _x;
+									removeVest _x;
+									removeBackpack _x;
+									
+									_x setVariable [ "SAVEUNIT", false ];
+									[_x, ["<t color='#FFFF00'>" + "-- DISMISS PILOT" + "</t>", "scripts\client\ai\pilotdismiss.sqf", [_x, _grp]]] remoteExec ["addAction", 0, true];
+								} else {
+									deleteVehicle _x;
+								};
+							} forEach crew _vehicle;
+							
+							if ( _vehicle isKindOf "Plane" ) then { _waypoint = (getMarkerPos _airportmarker) };
+							
+							_wp = _grp addWaypoint [_waypoint, 1];
+							_wp setWaypointType "GETOUT";
+							_wp setWaypointSpeed "FULL";
+							_wp setWaypointBehaviour "SAFE";
+							_wp setWaypointCombatMode "BLUE";
+							
+							if ( _vehicle isKindOf "Plane" ) then {
+								_vehicle land "LAND";
+								_vehicle landAt _airportid;
+								
+								_airportname = "";
+								switch (_airportid) do {
+									case 0: {_airportname = "Altis International Airport"};
+									case 1: {_airportname = "Therisa Airfield"};
+									case 2: {_airportname = "Abdera Airfield"};
+									case 3: {_airportname = "Selakano Airfield"};
+									case 4: {_airportname = "Molos Airfield"};
+									case 5: {_airportname = "Almyra Salt Lake Airstrip"};
+								};
+								
+								_airnotifmsg = _airnotifmsg + format [" Heading to %1.", _airportname];
+							};
+							
+						} else {
+							_vehicle = _classname createVehicle [0,0,0];
+							_vehicle setPos _truepos;
+						};
+						
+						_vehicle allowDamage false;
+						_vehicle setdir _vehdir;
+						
+						if ( _classname in can_parachute ) then {
+							[objnull, _vehicle] call BIS_fnc_curatorobjectedited;
+							["lib_hq_radio", ["Airdrop on the way. Watch your head soldier!"]] call BIS_fnc_showNotification;
+							
+							_smoke = createVehicle ["SmokeshellBlue", position _vehicle, [], 0, "CAN_COLLIDE"];
+							_smoke AttachTo [_vehicle,[0,0,0]];
+						} else { 
+							if ( _classname in air_vehicles_classnames ) then {
+								["lib_hq_radio", [_airnotifmsg]] call BIS_fnc_showNotification;
+							};
+						};
+						
+						if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship") ) then {
+							_vehicle setPosASL _truepos;
+						} else {
+							_vehicle setPosATL _truepos;
+						};
+						
+						_vehicle setVariable ["truePos", _truepos, true];
+						_vehicle setVariable ["trueDir", _vehdir, true];
+						
+						clearWeaponCargoGlobal _vehicle;
+						clearMagazineCargoGlobal _vehicle;
+						clearItemCargoGlobal _vehicle;
+						clearBackpackCargoGlobal _vehicle;
+						
+						if ( _vehicle isKindOf "Helicopter" ) then {
+							[_vehicle] remoteExec ["ace_fastroping_fnc_equipFRIES"];
+						};
+						
+						if ( _classname == "C_Offroad_01_repair_F" ) then {
+							[
+								_vehicle,
+								nil,
+								[
+									"HideDoor1", 1,
+									"HideDoor2", 1,
+									"HideGlass2", 1,
+									"HideDoor3", 0,
+									"Proxy", 0,
+									"Destruct", 0
+								]
+							] call BIS_fnc_initVehicle;
+						};
+						
+						if ( _classname == "B_G_Offroad_01_repair_F" ) then {
+							[
+								_vehicle,
+								nil,
+								[
+									"HideDoor1", 0,
+									"HideDoor2", 0,
+									"HideGlass2", 1,
+									"HideDoor3", 0,
+									"Proxy", 0,
+									"Destruct", 0
+								]
+							] call BIS_fnc_initVehicle;
+						};
+						
+						if ( (buildtype == 6 || buildtype == 99 || buildtype == 5) && ((levelmode % 2) == 1) ) then {
+							_vehicle setVectorUp [0,0,1];
+						} else {
+							_vehicle setVectorUp surfaceNormal _truepos;
+						};
+						
+						if ( (_classname in uavs) || manned ) then {
+							[ _vehicle ] call F_forceBluforCrew;
+						};
+						
+						if ( _classname in [ "B_Slingload_01_Ammo_F","JNS_Skycrane_Pod_Ammo_BLU_Green", "B_Slingload_01_Medevac_F", "JNS_Skycrane_Pod_Medical_BLU_Green", "B_Slingload_01_Fuel_F", "JNS_Skycrane_Pod_Fuel_BLU_Green", "B_Slingload_01_Repair_F", "JNS_Skycrane_Pod_Repair_BLU_Green" ] ) then {
+							_vehicle setVariable ["ace_cargo_size", -1, true];
+						};
+						
+						if ( _classname == Build_helper_typename ) then {
+							_vehicle setVectorUp [0,0,1];
+							_vehicle allowDamage false;
+						};
+						
+						if ( _classname == Medical_typename ) then {
+							_vehicle setVariable["ace_medical_isMedicalFacility", true, true];
+						};
+						
+						if ( _classname == Repair_typename ) then {
+							_vehicle setVariable ["ACE_isRepairFacility", 1, true];					
+						};
 
-				if (buildtype != 6) then {
-					_vehicle addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
-					{ _x addMPEventHandler ["MPKilled", {_this spawn kill_manager}]; } foreach (crew _vehicle);
-				};
+						_vehicle allowDamage true;
+						_vehicle setDamage 0;
+						
+						if(buildtype == 99) then {
+							_vehicle addEventHandler ["HandleDamage", { 0 }];
+						};
+						
+						if ( _classname in ammo_vehicles ) then {
+							_vehicle setAmmoCargo 1;
+						};
+						
+						if ( _classname in fuel_vehicles ) then {
+							_vehicle setFuelCargo 1;
+						};
+						
+						if ( _classname in repair_vehicles ) then {
+							_vehicle setRepairCargo 1;
+							_vehicle addItemCargoGlobal ["Toolkit", 25];
+							["AddCargoByClass", ["ACE_Wheel", _vehicle, 6]] call ace_common_fnc_globalEvent;
+							["AddCargoByClass", ["ACE_Track", _vehicle, 6]] call ace_common_fnc_globalEvent;
+							_vehicle setVariable ["ACE_isRepairVehicle", 1, true];
+						}else{
+							if ( _vehicle isKindOf "Land" ) then { _vehicle addItemCargoGlobal ["Toolkit", 2]; };
+						};
+						
+						if ( _classname in medical_vehicles ) then {
+							_vehicle addItemCargoGlobal ["ACE_fieldDressing", 300];
+							_vehicle addItemCargoGlobal ["ACE_elasticBandage", 320];
+							_vehicle addItemCargoGlobal ["ACE_bloodIV", 200];
+							_vehicle addItemCargoGlobal ["ACE_bloodIV_500", 260];
+							_vehicle addItemCargoGlobal ["ACE_bloodIV_250", 280];
+							_vehicle addItemCargoGlobal ["ACE_bodyBag", 310];
+							_vehicle addItemCargoGlobal ["ACE_epinephrine", 560];
+							_vehicle addItemCargoGlobal ["ACE_morphine", 560];
+							
+							if(ace_medical_level == 2) then {
+								_vehicle addItemCargoGlobal ["ACE_atropine", 560];
+								_vehicle addItemCargoGlobal ["ACE_quikclot", 250];
+								_vehicle addItemCargoGlobal ["ACE_packingBandage", 430];
+								_vehicle addItemCargoGlobal ["ACE_personalAidKit", 290];
+								_vehicle addItemCargoGlobal ["ACE_plasmaIV", 240];
+								_vehicle addItemCargoGlobal ["ACE_plasmaIV_500", 270];
+								_vehicle addItemCargoGlobal ["ACE_plasmaIV_250", 290];
+								_vehicle addItemCargoGlobal ["ACE_salineIV", 250];
+								_vehicle addItemCargoGlobal ["ACE_salineIV_500", 250];
+								_vehicle addItemCargoGlobal ["ACE_salineIV_250", 270];
+								_vehicle addItemCargoGlobal ["ACE_surgicalKit", 300];
+								_vehicle addItemCargoGlobal ["ACE_tourniquet", 420];
+							};
+							
+							_vehicle setVariable ["ace_medical_medicClass", 1, true];
+						};
+						
+						if ( _classname in fuel_cannister ) then {
+							[_vehicle, true, [0.3, 0, 0.3], 90] remoteExec ["ace_dragging_fnc_setCarryable"];
+							[_vehicle, true, 1] remoteExec ["ace_cargo_fnc_makeLoadable"];
+							[_vehicle] execVM "scripts\misc\repair\TAA_Database.sqf";
+						};
+						
+						if ( _classname in repair_container ) then {
+							_vehicle setRepairCargo 1;
+							_vehicle addItemCargoGlobal ["Toolkit", 25];
+						};
+						
+						if ( _classname in disable_damage ) then {
+							_vehicle addEventHandler ["HandleDamage", {0}];
+						};
+						
+						if ( _classname in carryable_objects ) then {
+							[_vehicle, true, [0, 1, 0], 180] remoteExec ["ace_dragging_fnc_setCarryable"];
+							[_vehicle, true, 1] remoteExec ["ace_cargo_fnc_makeLoadable"];
+						};
+
+						if ( _classname in draggable_objects ) then {
+							[_vehicle, true, [0, 1, 0], 180] remoteExec ["ace_dragging_fnc_setDraggable"];
+							[_vehicle, true, 3] remoteExec ["ace_cargo_fnc_makeLoadable"];
+						};
+						
+						if ( _classname isEqualTo "Flag_Red_F" ) then {
+							_vehicle setFlagTexture "res\flag_portugal_co.paa";
+							_vehicle setFlagSide west;
+						};
+						
+						if ( _classname isEqualTo "Flag_Green_F" ) then {
+							_vehicle setFlagTexture "res\flag_ptrangers_co.paa";
+							_vehicle setFlagSide west;
+						};
+
+						if (buildtype != 6) then {
+							_vehicle addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
+							{ _x addMPEventHandler ["MPKilled", {_this spawn kill_manager}]; } foreach (crew _vehicle);
+						};
+						
+						player switchmove "";
+					},
+					{
+						_container = (_this select 0) select 3;
+						if ( !isNull _container ) then { deleteVehicle _container };
+						player switchmove "";
+						
+						_msg = format ["Action cancelled"];
+						titleText [_msg, "PLAIN DOWN"];
+					},
+					format["%1 %2...", _typeofbuild, getText (configFile >> "cfgVehicles" >> _classname >> "displayName")]
+				] call ace_common_fnc_progressBar;
 			};
 
 			if ( _idactcancel != -1 ) then {
@@ -534,7 +677,7 @@ while { true } do {
 
 			if(buildtype == 99) then {
 				_new_fob = getPosATL player;
-				[ [ _new_fob, false ] , "build_fob_remote_call" ] call BIS_fnc_MP;
+				[_new_fob, false] remoteExec ["build_fob_remote_call"];
 				buildtype = 1;
 			};
 

@@ -48,5 +48,5 @@ else
 	publicVariable "bis_fnc_saveInventory_data";
 };
 
-[[player, _loadoutName],"LT_fnc_transferNetwork", _targetUser,false] spawn BIS_fnc_MP;
+[player, _loadoutName] remoteExec ["LT_fnc_transferNetwork", _targetUser];
 closeDialog 0;

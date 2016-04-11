@@ -26,6 +26,7 @@ showWatch = true;
 showGPS = false;
 showMap = true;
 showRadio = false;
+debriefing = true;
 
 //------------------------- Respawn
 Respawn = 3;											// 0 = none. 1 = bird. 2 = instant where died. 3 = base or respawn_west marker. 4 = respawn with team, or bird. 5 = into AI or bird.

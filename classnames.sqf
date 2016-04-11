@@ -27,9 +27,10 @@ if ( isNil "huron_typename" ) then { huron_typename = "JNS_Skycrane_BLU_Grey"; }
 if ( isNil "ammobox_b_typename" ) then { ammobox_b_typename = "Box_NATO_AmmoVeh_F"; };
 if ( isNil "ammobox_o_typename" ) then { ammobox_o_typename = "Box_East_AmmoVeh_F"; };
 if ( isNil "opfor_ammobox_transport" ) then { opfor_ammobox_transport = "O_Truck_03_transport_F"; };
+if ( isNil "pilot_classname" ) then { pilot_classname = "B_Helipilot_F" };
 
 AmmoFactory_truck_typename = ["B_Truck_01_ammo_F","rhsusf_m113_usarmy_supply"];
-AmmoFactory_box_typename = ["B_Slingload_01_Ammo_F","JNS_Skycrane_Pod_Ammo_BLU_Green"];
+AmmoFactory_box_typename = ["B_Slingload_01_Ammo_F"/*,"JNS_Skycrane_Pod_Ammo_BLU_Green"*/];
 AmmoFactory_device_typename = "Land_Device_disassembled_F";
 AmmoFactory_solarBox_typename = "Land_Cargo10_grey_F";
 AmmoFactory_solar_typename = "Land_SolarPanel_2_F";
@@ -40,6 +41,9 @@ GRLIB_intel_table = "Land_CampingTable_small_F";
 GRLIB_intel_chair = "Land_CampingChair_V2_F";
 GRLIB_intel_file = "Land_File1_F";
 GRLIB_intel_laptop = "Land_Laptop_device_F";
+
+GRLIB_sar_wreck = "Land_Wreck_Heli_Attack_01_F";
+GRLIB_sar_fire = "test_EmptyObjectForFireBig";
 
 GRLIB_ignore_colisions_when_building = [
 	"Land_Flush_Light_Red_F",
@@ -70,7 +74,9 @@ GRLIB_ignore_colisions_when_building = [
 	"Land_Medevac_HQ_V1_F",
 	"Land_Research_HQ_F",
 	"Land_Dome_Big_F",
-	"Land_Dome_Small_F"
+	"Land_Dome_Small_F",
+	"B_supplyCrate_F",
+	"Land_LandMark_F"
 ];
 
 GRLIB_mines_to_be_saved = [
@@ -132,8 +138,7 @@ heavy_vehicles = [
 	["rhsusf_m1a1aimwd_usarmy",0,105,20],
 	["rhsusf_m1a2sep1tuskiwd_usarmy",0,120,25],
 	["rhsusf_m109_usarmy",0,750,30],
-	["B_Boat_Armed_01_minigun_F",0,65,25],
-	["ASH_MKVSOC",0,80,35]
+	["B_Boat_Armed_01_minigun_F",0,65,25]
 ];
 
 air_vehicles = [
@@ -142,7 +147,6 @@ air_vehicles = [
 	["RHS_UH60M",0,25,12],
 	["JNS_Skycrane_BLU_Green",0,0,12],
 	["RHS_CH_47F",0,25,20],
-	["USAF_CV22",0,0,25],
 	["B_Heli_Attack_01_F",0,200,30],
 	["RHS_AH1Z_wd_GS",0,175,30],
 	["RHS_AH64D_wd",0,400,50],
@@ -161,7 +165,7 @@ air_vehicles = [
 	["USAF_C17",0,0,130],
 	["USAF_C130J",0,0,95],
 	["USAF_C130J_Cargo",0,0,95],
-	["USAF_AC130U",0,600,95]
+	["USAF_AC130U",0,800,95]
 ];
 
 static_vehicles = [
@@ -209,6 +213,7 @@ buildings = [
 	["Land_BagFence_Short_F",0,0,0],
 	["Land_Razorwire_F",0,0,0],
 	["Land_BagBunker_Tower_F",0,0,0],
+	["Land_PierLadder_F",0,0,0],
 	["Land_PortableLight_single_F",0,0,0],
 	["Land_PortableLight_double_F",0,0,0],
 	["Land_Camping_Light_F",0,0,0],
@@ -287,19 +292,20 @@ support_vehicles = [
 	[AmmoFactory_truck_typename select 0,10,25,5],
 	[AmmoFactory_truck_typename select 1,10,25,5],
 	[AmmoFactory_box_typename select 0,0,25,0],
-	[AmmoFactory_box_typename select 1,0,25,0],
+	//[AmmoFactory_box_typename select 1,0,25,0],
 	["B_Slingload_01_Repair_F",5,0,0],
-	["JNS_Skycrane_Pod_Repair_BLU_Green",5,0,0],
+	//["JNS_Skycrane_Pod_Repair_BLU_Green",5,0,0],
 	["B_Slingload_01_Fuel_F",0,0,5],
-	["JNS_Skycrane_Pod_Fuel_BLU_Green",0,0,5],
-	["JNS_Skycrane_Pod_Medical_BLU_Green",5,0,0],
-	["JNS_Skycrane_Pod_Bench_BLU_Green",5,0,0],
+	//["JNS_Skycrane_Pod_Fuel_BLU_Green",0,0,5],
+	//["JNS_Skycrane_Pod_Medical_BLU_Green",5,0,0],
+	//["JNS_Skycrane_Pod_Bench_BLU_Green",5,0,0],
 	[AmmoFactory_solarBox_typename,5,0,15],
 	[AmmoFactory_generatorBox_typename,5,0,35],
 	[ammobox_b_typename,0,155,0],
 	[ammobox_o_typename,0,115,0],
 	[AmmoFactory_solar_typename,5,0,15],
-	[AmmoFactory_generator_typename,5,0,35]
+	[AmmoFactory_generator_typename,5,0,35],
+	[AmmoFactory_device_typename,10,25,5]
 ];
 
 // Vehicles unlocked by military base control
@@ -434,7 +440,7 @@ opfor_choppers = [ opfor_choppers , { [ _x ] call F_checkClass } ]  call BIS_fnc
 opfor_air = [ opfor_air , { [ _x ] call F_checkClass } ]  call BIS_fnc_conditionalSelect;
 civilians = [ civilians , { [ _x ] call F_checkClass } ]  call BIS_fnc_conditionalSelect;
 civilian_vehicles = [ civilian_vehicles , { [ _x ] call F_checkClass } ]  call BIS_fnc_conditionalSelect;
-military_alphabet = ["Alpha","Bravo","Charlie","Delta","Echo","Foxtrot","Golf","Hotel","India","Juliet","Kilo","Lima","Mike","November","Oscar","Papa","Quebec","Romeo","Sierra","Tango","Uniform","Victor","Whiskey","X-Ray","Yankee","Zulu", "Alpha-2", "Bravo-2", "Charlie-2", "Delta-2", "Echo-2", "Foxtrot-2", "Golf-2","Hotel-2","India-2","Juliet-2","Kilo-2","Lima-2","Mike-2","November-2","Oscar-2","Papa-2","Quebec-2","Romeo-2","Sierra-2","Tango-2","Uniform-2","Victor-2","Whiskey-2","X-Ray-2","Yankee-2","Zulu-2","You should really reconsider a few life choices if you build more than 52 FOBs."];
+military_alphabet = ["Alpha","Bravo","Charlie","Delta","Echo","Foxtrot","Golf","Hotel","India","Juliet","Kilo","Lima","Mike","November","Oscar","Papa","Quebec","Romeo","Sierra","Tango","Uniform","Victor","Whiskey","X-Ray","Yankee","Zulu"];
 land_vehicles_classnames = (opfor_vehicles + militia_vehicles);
 opfor_squad_low_intensity = [opfor_team_leader,opfor_machinegunner,opfor_medic,opfor_rpg,opfor_sentry,opfor_sentry,opfor_sentry,opfor_sentry];
 opfor_squad_8_standard = [opfor_squad_leader,opfor_team_leader,opfor_machinegunner,opfor_heavygunner,opfor_medic,opfor_marksman,opfor_grenadier,opfor_rpg];
@@ -446,19 +452,36 @@ all_hostile_classnames = (land_vehicles_classnames + opfor_air + opfor_choppers 
 { land_vehicles_classnames pushback (_x select 0); } foreach (heavy_vehicles + light_vehicles);
 air_vehicles_classnames = [] + opfor_choppers;
 { air_vehicles_classnames pushback (_x select 0); } foreach air_vehicles;
+static_vehicles_classnames = [];
+{ static_vehicles_classnames pushback (_x select 0); } foreach static_vehicles;
+support_vehicles_classnames = [];
+{ support_vehicles_classnames pushback (_x select 0); } foreach support_vehicles;
+all_vehicles = light_vehicles + heavy_vehicles + air_vehicles + static_vehicles;
+all_vehicles_classnames = land_vehicles_classnames + air_vehicles_classnames + static_vehicles_classnames + support_vehicles_classnames;
+buildings_classnames = [];
+{ buildings_classnames pushback (_x select 0); } foreach buildings;
 markers_reset = [99999,99999,0];
 zeropos = [0,0,0];
 squads_names = [ localize "STR_LIGHT_RIFLE_SQUAD", localize "STR_RIFLE_SQUAD", localize "STR_AT_SQUAD", localize "STR_AA_SQUAD",  localize "STR_RECON_SQUAD", localize "STR_PARA_SQUAD" ];
-boats_names = [ 
+boat_classnames = [ 
 	"B_Boat_Transport_01_F", 
 	"B_Boat_Armed_01_minigun_F",
 	"C_Rubberboat",
 	"B_SDV_01_F",
 	"ffaa_ar_supercat",
-	"ASH_MKVSOC",
 	"Burnes_LCAC_1",
 	"ffaa_ar_lcm"
 ];
+cant_parachute = [ 
+	AmmoFactory_solarBox_typename, 
+	AmmoFactory_generatorBox_typename,
+	AmmoFactory_box_typename select 1,
+	"JNS_Skycrane_Pod_Repair_BLU_Green",
+	"JNS_Skycrane_Pod_Fuel_BLU_Green",
+	"JNS_Skycrane_Pod_Medical_BLU_Green",
+	"JNS_Skycrane_Pod_Bench_BLU_Green"
+] + boat_classnames + air_vehicles_classnames + static_vehicles_classnames;
+can_parachute = all_vehicles_classnames - cant_parachute;
 
 box_transport_config = [
 	[ "B_Truck_01_transport_F", -6.5, [0,	-0.4,	0.4], [0,	-2.1,	0.4], [0,	-3.8,	0.4] ],

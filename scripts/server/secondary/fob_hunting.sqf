@@ -38,10 +38,6 @@ _base_corners =  _template select 3;
 	_nextobject setpos _nextpos;
 	_nextobject setdir _nextdir;
 	_base_objects = _base_objects + [_nextobject];
-	
-	if ( _nextobject isKindOf "AllVehicles" ) then {
-		[[[_nextobject],"IgiLoad\IgiLoad.sqf"],"BIS_fnc_execVM",true,false] call BIS_fnc_MP;
-	};
 
 } foreach _objects_to_build;
 
@@ -117,7 +113,7 @@ secondary_objective_position_marker = [(((secondary_objective_position select 0)
 publicVariable "secondary_objective_position_marker";
 sleep 1;
 GRLIB_secondary_in_progress = 0; publicVariable "GRLIB_secondary_in_progress";
-[ [ 2 ] , "remote_call_intel" ] call BIS_fnc_MP;
+[2] remoteExec ["remote_call_intel"];
 
 waitUntil {
 	sleep 5;
@@ -130,6 +126,6 @@ sleep 1;
 trigger_server_save = true;
 sleep 3;
 
-[ [ 3 ] , "remote_call_intel" ] call BIS_fnc_MP;
+[3] remoteExec ["remote_call_intel"];
 
 GRLIB_secondary_in_progress = -1; publicVariable "GRLIB_secondary_in_progress";

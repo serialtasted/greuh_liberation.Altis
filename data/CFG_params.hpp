@@ -17,7 +17,7 @@ class Difficulty {
 	title = $STR_PARAMS_DIFFICULTY;
 	values[] = { 50, 75, 100, 125, 150, 250, 400, 1000 };
 	texts[] = { $STR_PARAMS_DIFFICULTY1, $STR_PARAMS_DIFFICULTY2, $STR_PARAMS_DIFFICULTY3, $STR_PARAMS_DIFFICULTY4, $STR_PARAMS_DIFFICULTY5, $STR_PARAMS_DIFFICULTY6, $STR_PARAMS_DIFFICULTY7, $STR_PARAMS_DIFFICULTY8 };
-	default = 250;
+	default = 400;
 	paramCode = "";
 };
 class Aggressivity{
@@ -31,7 +31,7 @@ class AdaptToPlayercount{
 	title = $STR_PARAM_ADAPT_TO_PLAYERCOUNT;
 	values[] = {1,0};
 	texts[] = {$STR_PARAMS_ENABLED,$STR_PARAMS_DISABLED};
-	default = 1;
+	default = 0;
 	paramCode = "";
 };
 class DayDuration {
@@ -59,7 +59,7 @@ class ResourcesMultiplier {
 	title = $STR_PARAMS_RESOURCESMULTIPLIER;
 	values[] = { 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 5, 10, 20, 50 };
 	texts[] = { "x0.25", "x0.5", "x0.75", "x1", "x1.25","x1.5","x2","x3","x5","x10","x20","x50" };
-	default = 1;
+	default = 3;
 	paramCode = "";
 };
 class Fatigue {
@@ -78,9 +78,9 @@ class AmmoBounties{
 };
 class Civilians{
 	title = $STR_PARAMS_CIVILIANS;
-	values[] = {0,50,100,200};
+	values[] = {0,50,150,500};
 	texts[] = {$STR_PARAMS_CIVILIANS1,$STR_PARAMS_CIVILIANS2,$STR_PARAMS_CIVILIANS3,$STR_PARAMS_CIVILIANS4};
-	default = 0;
+	default = 150;
 	paramCode = "";
 };
 class TeamkillPenalty{
@@ -102,6 +102,20 @@ class DisableRemoteSensors{
  	values[] = {0,1,2};
  	texts[] = {"No","Disable for clients without local AIs","Disable for all clients"};
  	default = 1;
+	paramCode = "";
+ };
+ class BluforDefenders{
+ 	title = $STR_PARAM_BLUFOR_DEFENDERS;
+ 	values[] = {1,0};
+ 	texts[] = { $STR_PARAMS_ENABLED, $STR_PARAMS_DISABLED };
+ 	default = 0;
+	paramCode = "";
+ };
+ class Autodanger{
+ 	title = $STR_PARAM_AUTODANGER;
+ 	values[] = {1,0};
+ 	texts[] = { $STR_PARAMS_ENABLED, $STR_PARAMS_DISABLED };
+ 	default = 0;
 	paramCode = "";
  };
 class spacer4 {
@@ -269,7 +283,7 @@ class CleanupVehicles {
 	title = $STR_CLEANUP_PARAM;
 	values[] = { 0,1,2,4,12,24,48 };
 	texts[] = { $STR_PARAMS_DISABLED, $STR_CLEANUP_PARAM1, $STR_CLEANUP_PARAM2, $STR_CLEANUP_PARAM3, $STR_CLEANUP_PARAM4, $STR_CLEANUP_PARAM5, $STR_CLEANUP_PARAM6 };
-	default = 12;
+	default = 4;
 	paramCode = "";
 };
 class Permissions{
@@ -300,6 +314,13 @@ class FirstFob {
 	default = 0;
 	paramCode = "";
 };
+class MaximumFobs{
+ 	title = $STR_PARAM_FOBS_COUNT;
+ 	values[] = {3,5,7,10,15,20,26};
+ 	texts[] = {3,5,7,10,15,20,26};
+ 	default = 3;
+	paramCode = "";
+ };
 class spacer99{
 	title = "----------------- CAREFULL WITH THIS SECTION -----------------";
 	values[] = { "" };
@@ -318,6 +339,13 @@ class WipeSave2{
 	title = $STR_WIPE_TITLE_2;
 	values[] = {0,1};
 	texts[] = {$STR_WIPE_NO,$STR_WIPE_YES};
+	default = 0;
+	paramCode = "";
+};
+class ResetBuildings{
+	title = "Recycle buildings (Keep FOBs)";
+	values[] = {0,1,2,3};
+	texts[] = {$STR_NO,"Recycle all buidings and vehicles","Recycle all buidings, keep vehicles","Recycle all vehicles, keep buildings"};
 	default = 0;
 	paramCode = "";
 };

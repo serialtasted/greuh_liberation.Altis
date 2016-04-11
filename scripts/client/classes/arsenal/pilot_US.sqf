@@ -62,6 +62,7 @@ arsenal_items = [
 	"ACE_EarPlugs",
 	
 	"ACE_microDAGR",
+	"ACE_RangeTable_82mm",
 	
 	"ACE_fieldDressing",
 	"ACE_elasticBandage",

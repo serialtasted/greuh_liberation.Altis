@@ -16,10 +16,6 @@ _unitName = name player;
 _unitTeam = player getVariable ["St_team", "PTr_alpha"];
 _friendlyTeamName = "";
 
-if ( (backpack player) isEqualTo SEN_TFAR_LR ) then {
-	removeBackpack player;
-};
-
 switch ( _unitTeam ) do {
 	case "PTr_alpha": { _friendlyTeamName = "Squad Alpha"; };
 	case "PTr_bravo": { _friendlyTeamName = "Squad Bravo"; };
@@ -29,6 +25,11 @@ switch ( _unitTeam ) do {
 
 // if player on COMMAND Net - assign radio, set short wave channel (team ch) and set short wave additional channel (command ch)
 if ( player getvariable ["SEN_commNet",""] isEqualTo "command" ) exitWith {
+	
+	if( (backpack player) isEqualTo SEN_TFAR_LR ) then {
+		removeBackpack player;
+	};
+	
 	player linkItem SEN_TFAR_SW;
 	waitUntil {sleep 0.1; count (player call TFAR_fnc_radiosList) > 0};
 	[(call TFAR_fnc_activeSwRadio), SEN_tfar_ch_sw] call TFAR_fnc_setSwChannel;
@@ -36,16 +37,23 @@ if ( player getvariable ["SEN_commNet",""] isEqualTo "command" ) exitWith {
 	[(call TFAR_fnc_ActiveSWRadio), tf_default_radioVolume] call TFAR_fnc_setSwVolume;
 	hintSilent format["Welcome %1\nYou have access to COMMAND and SQUAD communications network for %2.",_unitName,_friendlyTeamName];
 	diag_log format["Welcome %1\nYou have access to COMMAND and SQUAD communications network for %2.",_unitName,_friendlyTeamName];
+	
 };
 
 if ( player getvariable ["SEN_commNet",""] isEqualTo "support" ) exitWith {
+	
+	if( (backpack player) isEqualTo SEN_TFAR_LR && ( (player getvariable ["St_class",""]) isEqualTo "pilot" || (player getvariable ["St_class",""]) isEqualTo "crew" ) ) then {
+		removeBackpack player;
+	};
+	
 	player linkItem SEN_TFAR_SW;
 	waitUntil { sleep 0.1; count (player call TFAR_fnc_radiosList) > 0 };
 	[(call TFAR_fnc_activeSwRadio), SEN_tfar_ch_sw] call TFAR_fnc_setSwChannel;
 	[(call TFAR_fnc_activeSwRadio), SEN_tfar_add_sw] call TFAR_fnc_setAdditionalSwChannel;
 	[(call TFAR_fnc_ActiveSWRadio), tf_default_radioVolume] call TFAR_fnc_setSwVolume;
 	
-	if ( (player getvariable ["St_class",""]) != "pilot" && (player getvariable ["St_class",""]) != "crew" ) then {
+	if ( (player getvariable ["St_class",""]) != "pilot" && (player getvariable ["St_class",""]) != "crew" && (backpack player) isEqualTo "" ) then {
+	
 		_bItems = backpackItems player;
 		removeBackpack player;
 		waitUntil { sleep 0.1; (backpack player) isEqualTo "" };
@@ -53,13 +61,29 @@ if ( player getvariable ["SEN_commNet",""] isEqualTo "support" ) exitWith {
 		{player addItemToBackpack _x} forEach _bItems;
 		[(call TFAR_fnc_activeLrRadio) select 0, (call TFAR_fnc_activeLrRadio) select 1, SEN_tfar_ch_lr] call TFAR_fnc_setLrChannel;
 		[(call TFAR_fnc_activeLrRadio) select 0, (call TFAR_fnc_activeLrRadio) select 1, tf_default_radioVolume] call TFAR_fnc_setLrVolume;
+		
+	}else{
+	
+		if( (backpack player) isEqualTo SEN_TFAR_LR ) then {
+		
+			[(call TFAR_fnc_activeLrRadio) select 0, (call TFAR_fnc_activeLrRadio) select 1, SEN_tfar_ch_lr] call TFAR_fnc_setLrChannel;
+			[(call TFAR_fnc_activeLrRadio) select 0, (call TFAR_fnc_activeLrRadio) select 1, tf_default_radioVolume] call TFAR_fnc_setLrVolume;
+			
+		};
+		
 	};
 	
 	hintSilent format["Welcome %1\nYou have access to SUPPORT and SQUAD communications network.",_unitName];
 	diag_log format["Welcome %1\nYou have access to SUPPORT and SQUAD communications network.",_unitName];
+	
 };
 
 if ( player getvariable ["SEN_commNet",""] isEqualTo "squad" ) exitWith {
+	
+	if( (backpack player) isEqualTo SEN_TFAR_LR ) then {
+		removeBackpack player;
+	};
+	
 	player linkItem SEN_TFAR_RF;
 	waitUntil {sleep 0.1; count (player call TFAR_fnc_radiosList) > 0};
 	[(call TFAR_fnc_activeSwRadio), SEN_tfar_ch_sw] call TFAR_fnc_setSwChannel;
@@ -67,4 +91,5 @@ if ( player getvariable ["SEN_commNet",""] isEqualTo "squad" ) exitWith {
 	[(call TFAR_fnc_ActiveSWRadio), tf_default_radioVolume] call TFAR_fnc_setSwVolume;
 	hintSilent format["Welcome %1\nYou have access to SQUAD communications network for %2.",_unitName,_friendlyTeamName];
 	diag_log format["Welcome %1\nYou have access to SQUAD communications network for %2.",_unitName,_friendlyTeamName];
+	
 };

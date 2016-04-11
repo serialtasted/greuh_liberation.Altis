@@ -6,19 +6,28 @@ sleep 5;
 _ownership = [ _thispos ] call F_sectorOwnership;
 if ( _ownership != EAST ) exitWith {};
 
-_grp = creategroup WEST;
-{ _x createUnit [ _thispos, _grp,'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}]']; } foreach blufor_squad_inf;
+if ( GRLIB_blufor_defenders ) then {
+	_grp = creategroup WEST;
+	{ _x createUnit [ _thispos, _grp,'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}]']; } foreach blufor_squad_inf;
+};
+
+sleep 3;
+
+_grp setCombatMode "GREEN";
+_grp setBehaviour "COMBAT";
 
 sleep 60;
 
 _ownership = [ _thispos ] call F_sectorOwnership;
 if ( _ownership == WEST ) exitWith {
-	{
-		if ( alive _x ) then { deleteVehicle _x };
-	} foreach units _grp;
+	if ( GRLIB_blufor_defenders ) then {
+		{
+			if ( alive _x ) then { deleteVehicle _x };
+		} foreach units _grp;
+	};
 };
 
-[ [ _thispos , 1 ] , "remote_call_fob" ] call BIS_fnc_MP;
+[ _thispos , 1 ] remoteExec ["remote_call_fob"];
 _attacktime = GRLIB_vulnerability_timer;
 
 while { _attacktime > 0 && ( _ownership == EAST || _ownership == RESISTANCE ) } do {
@@ -34,7 +43,7 @@ waitUntil {
 
 if ( GRLIB_endgame == 0 ) then {
 	if ( _attacktime <= 1 && ( [ _thispos ] call F_sectorOwnership == EAST ) ) then {
-		[ [ _thispos , 2 ] , "remote_call_fob" ] call BIS_fnc_MP;
+		[ _thispos , 2 ] remoteExec ["remote_call_fob"];
 		sleep 3;
 		GRLIB_all_fobs = GRLIB_all_fobs - [_thispos];
 		publicVariable "GRLIB_all_fobs";
@@ -44,13 +53,15 @@ if ( GRLIB_endgame == 0 ) then {
 		[] call recalculate_caps;
 		stats_fobs_lost = stats_fobs_lost + 1;
 	} else {
-		[ [ _thispos , 3 ] , "remote_call_fob" ] call BIS_fnc_MP;
+		[ _thispos , 3 ] remoteExec ["remote_call_fob"];
 		{ [_x] spawn prisonner_ai; } foreach ( [ _thispos nearEntities [ "Man", GRLIB_capture_size * 0.8], { side group _x == EAST } ] call BIS_fnc_conditionalSelect );
 	};
 };
 
 sleep 60;
 
-{
-	if ( alive _x ) then { deleteVehicle _x };
-} foreach units _grp;
+if ( GRLIB_blufor_defenders ) then {
+	{
+		if ( alive _x ) then { deleteVehicle _x };
+	} foreach units _grp;
+};

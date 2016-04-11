@@ -7,12 +7,12 @@ Call Script on Server only!
 
 Example with Marker:
 if (isServer) then {
-	[[getMarkerPos "markername", 'normal','white'] ,"callFireworks",true,true] spawn BIS_fnc_MP;
+	[getMarkerPos "markername", 'normal','white'] remoteExec ["callFireworks"];
 };
 
 Example with Object:
 if (isServer) then {
-	[[getPos objectname, 'random','red'] ,"callFireworks",true,true] spawn BIS_fnc_MP;
+	[getPos objectname, 'random','red'] remoteExec ["callFireworks"];
 };
 
 
@@ -179,7 +179,7 @@ if (isServer || isDedicated) then {
 
 
 	// send all precalculated stuff to clients
-	[[
+	[
 	_firing_position,
 	_type,
 	_initial_velocity,
@@ -197,5 +197,5 @@ if (isServer || isDedicated) then {
 	_singleFizz,
 	_groupFizz,
 	_randomSleepShort
-	], "GRAD_Fireworks"] spawn BIS_fnc_MP;
+	] remoteExec ["GRAD_Fireworks"];
 };

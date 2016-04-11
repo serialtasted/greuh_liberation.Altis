@@ -16,5 +16,5 @@ if ( isServer ) then {
 		_littlebird allowdamage true;
 	};
 	
-	[[_littlebird], "ace_fastroping_fnc_equipFRIES", true, false] call BIS_fnc_MP;
+	[_littlebird] remoteExec ["ace_fastroping_fnc_equipFRIES", 0, true];
 };

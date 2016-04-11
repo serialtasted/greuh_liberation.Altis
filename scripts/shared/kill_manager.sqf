@@ -88,7 +88,7 @@ if ( isServer ) then {
 					};
 
 					resources_ammo = resources_ammo + _bounty;
-					[ [ typeOf _unit, _bounty, _killer ] , "remote_call_ammo_bounty" ] call BIS_fnc_MP;
+					[ typeOf _unit, _bounty, _killer ] remoteExec ["remote_call_ammo_bounty"];
 				};
 
 			};

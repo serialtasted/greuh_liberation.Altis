@@ -13,6 +13,8 @@ if ( !(isNil "GRLIB_param_wipe_savegame_1") && !(isNil "GRLIB_param_wipe_savegam
 	};
 };
 
+_isForce = false;
+
 date_year = date select 0;
 date_month = date select 1;
 date_day = date select 2;
@@ -22,6 +24,7 @@ buildings_to_save= [];
 mines_to_save = [];
 combat_readiness = 0;
 saved_ammo_res = 0;
+_recycled_ammo_res = 0;
 stats_opfor_soldiers_killed = 0;
 stats_opfor_killed_by_players = 0;
 stats_blufor_soldiers_killed = 0;
@@ -74,6 +77,7 @@ _classnames_to_save_blu = [];
 _classnames_to_save = _classnames_to_save + _classnames_to_save_blu + all_hostile_classnames + AmmoFactory_allclasses;
 
 trigger_server_save = false;
+trigger_server_save_force = false;
 greuh_liberation_savegame = profileNamespace getVariable GRLIB_save_key;
 
 if ( !isNil "greuh_liberation_savegame" ) then {
@@ -86,7 +90,6 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 	date_year = greuh_liberation_savegame select 5;
 	date_month = greuh_liberation_savegame select 6;
 	date_day = greuh_liberation_savegame select 7;
-	saved_ammo_res = greuh_liberation_savegame select 8;
 
 	if ( "capture_13_1_2_26_25" in blufor_sectors ) then { // Patching Molos Airfield which was a town instead of a factory
 		blufor_sectors = blufor_sectors - [ "capture_13_1_2_26_25" ];
@@ -175,8 +178,54 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 		_nextclass = _x select 0;
 		_nextpos = [];
 		_nextdir = 0;
+		_allowload = true;
+		
+		if ( GRLIB_param_resetbuildings != 0 ) then {
+			switch GRLIB_param_resetbuildings do{
+				case 1: { // Recycle all buidings and vehicles
+					if ( _nextclass isEqualTo FOB_typename ) then {
+						_allowload = true;
+					} else {
+						_allowload = false;
+						
+						if ( _nextclass in all_vehicles_classnames ) then {
+							{
+								if ( _nextclass isEqualTo (_x select 0) ) then {
+									_recycled_ammo_res = _recycled_ammo_res + ( (_x select 2) * GRLIB_recycling_percentage );
+								};
+							} forEach all_vehicles;
+						};
+					};
+				};
+				case 2: { // Recycle all buidings, keep vehicles
+					if ( _nextclass isEqualTo FOB_typename || _nextclass in all_vehicles_classnames ) then {
+						_allowload = true;
+					} else {
+						_allowload = false;
+					};
+				};
+				case 3: { // Recycle all vehicles, keep buildings
+					if ( _nextclass isEqualTo FOB_typename || _nextclass in buildings_classnames ) then {
+						_allowload = true;
+					} else {
+						_allowload = false;
+						
+						if ( _nextclass in all_vehicles_classnames ) then {
+							{
+								if ( _nextclass isEqualTo (_x select 0) ) then {
+									_recycled_ammo_res = _recycled_ammo_res + ( (_x select 2) * GRLIB_recycling_percentage );
+								};
+							} forEach all_vehicles;
+						};
+					};
+				};
+				default {
+					_allowload = true;
+				};
+			};
+		};
 
-		if ( _nextclass in _classnames_to_save ) then {
+		if ( _nextclass in _classnames_to_save && _allowload ) then {
 			_nextpos = [] + (_x select 1);
 			_nextdir = 0 + (_x select 2);
 			_hascrew = false;
@@ -194,8 +243,6 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 				_animstate = [];
 				_animstate = _x select 6;
 			};
-			
-			diag_log format["OBJ: %1 | NEXTPOS: %2 | NEXTDIR: %3", _nextclass, _nextpos, _nextdir];
 			
 			_nextbuilding = _nextclass createVehicle _nextpos;
 			_nextbuilding setPosATL _nextpos;
@@ -252,7 +299,7 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 						};	
 					};
 				} else {
-					_nextbuilding allowDamage false;
+					_nextbuilding addEventHandler ["HandleDamage", {0}];
 				};
 					
 				_nextbuilding setFuel _vehfuel;
@@ -325,11 +372,13 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 				_nextbuilding setVariable [ "GRLIB_captured", 1, true ];
 			};
 			
-			if ( _nextclass == FOB_typename ) then {
+			if ( _nextclass isEqualTo FOB_typename ) then {
 				_nextbuilding addEventHandler ["HandleDamage", { 0 }];
  			};
 		};
 	} foreach buildings_to_save;
+	
+	saved_ammo_res = (greuh_liberation_savegame select 8) + _recycled_ammo_res;
 	
 	_mines = [] + mines_to_save;
 	{
@@ -356,8 +405,6 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 			_mine setdamage 0;
 		};
 	} foreach _mines;
-
-	sleep 0.1;
 
 	{
 		private [ "_nextgroup", "_grp" ];
@@ -401,16 +448,14 @@ if ( count GRLIB_vehicle_to_military_base_links == 0 ) then {
 	} foreach _classnames_to_check;
 };
 publicVariable "GRLIB_vehicle_to_military_base_links";
-
 publicVariable "GRLIB_permissions";
 
-uiSleep 1;
 save_is_loaded = true; publicVariable "save_is_loaded";
 
 while { true } do {
 	waitUntil {
 		sleep 0.3;
-		trigger_server_save || GRLIB_endgame == 1;
+		trigger_server_save || trigger_server_save_force || GRLIB_endgame == 1;
 	};
 	
 	diag_log "-- SAVING GAME --";
@@ -422,6 +467,8 @@ while { true } do {
 	} else {
 
 		trigger_server_save = false;
+		_isForce = trigger_server_save_force;
+		trigger_server_save_force = false;
 		buildings_to_save = [];
 		ai_groups = [];
 		
@@ -438,7 +485,7 @@ while { true } do {
 								private [ "_grouparray" ];
 								_grouparray = [];
 								{
-									if ( alive _x && (vehicle _x == _x ) ) then {
+									if ( alive _x && (vehicle _x == _x ) && (_x getVariable [ "SAVEUNIT", true ]) ) then {
 										_grouparray pushback [ typeof _x, getPosATL _x, getDir _x ];
 									};
 								} foreach (units _nextgroup);
@@ -626,5 +673,4 @@ while { true } do {
 	};
 	
 	diag_log "** GAME SAVED **";
-	systemChat "** GAME SAVED **";
 };

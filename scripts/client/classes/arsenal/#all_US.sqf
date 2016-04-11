@@ -75,6 +75,8 @@ all_arsenal_weapons = [
 	"rhs_weap_M590_8RD",
 	"rhs_weap_M590_5RD",
 	
+	"rhs_weap_m27iar",
+	
 	//flares
 	"rhs_weap_rsp30_white",
 	"rhs_weap_rsp30_red",
@@ -336,48 +338,24 @@ all_arsenal_items = [
 	"G_Shades_Green",
 	"G_Shades_Red",
 	"G_B_Diving",
-	
-	//TRYK items
-	"TRYK_Beard",
-	"TRYK_Beard_BW",
-	"TRYK_Beard_BK",
-	"TRYK_Beard_Gr",
-	"TRYK_Beard2",
-	"TRYK_Beard_BW2",
-	"TRYK_Beard_BK2",
-	"TRYK_Beard_Gr2",
-	"TRYK_Beard3",
-	"TRYK_Beard_BW3",
-	"TRYK_Beard_BK3",
-	"TRYK_Beard_Gr3",
-	"TRYK_Beard4",
-	"TRYK_Beard_BW4",
-	"TRYK_Beard_BK4",
-	"TRYK_Beard_Gr4",
-	"TRYK_Kio_Balaclava",
-	"TRYK_kio_balaclava_WH",
-	"TRYK_kio_balaclava_BLK",
-	"TRYK_kio_balaclavas",
-	"TRYK_kio_balaclava_BLK_ear",
-	"TRYK_kio_balaclava_ear",
-	"TRYK_kio_balaclava_ESS",
 
 	//uniforms
 	"rhs_uniform_cu_ocp",
 	"rhs_uniform_cu_ucp",
 
 	//vests
+	
 	//IOTV
-	//"rhsusf_iotv_ocp",
+	"rhsusf_iotv_ocp",
 	"rhsusf_iotv_ocp_Grenadier",
 	"rhsusf_iotv_ocp_Medic",
 	"rhsusf_iotv_ocp_Repair",
 	"rhsusf_iotv_ocp_Rifleman",
 	"rhsusf_iotv_ocp_SAW",
 	//"rhsusf_iotv_ocp_Squadleader",
-	//"rhsusf_iotv_ocp_teamleader",
+	"rhsusf_iotv_ocp_teamleader",
 
-	//"rhsusf_iotv_ucp",
+	"rhsusf_iotv_ucp",
 	"rhsusf_iotv_ucp_Grenadier",
 	"rhsusf_iotv_ucp_Medic",
 	"rhsusf_iotv_ucp_Repair",
