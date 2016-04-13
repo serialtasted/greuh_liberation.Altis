@@ -144,7 +144,7 @@ while {true} do {
 		[] call F_setRank;
 		
 		// set unit insignia
-		[ player, format["%1FlagWS", [player] call F_getPlayerCountry] ] remoteExec ["BIS_fnc_setUnitInsignia", 0, true];
+		[ player, format["%1FlagWS", [player] call F_getPlayerCountry] ] remoteExecCall ["BIS_fnc_setUnitInsignia", 0, true];
 		
 		// lower weapon
 		if ( primaryWeapon player != "" ) then {

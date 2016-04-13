@@ -1,4 +1,4 @@
-private [ "_idact_build",  "_idact_arsenal", "_idact_buildfob", "_idact_builddevice", "_idact_buildsolar", "_idact_medical", "_idact_sparewheel", "_idact_sparetrack", "_idact_fuelbarrel", "_idact_fuelsling", "_idact_fuelcannister", "_idact_buildgenerator", "_idact_redeploy", "_idact_tutorial", "_distfob", "_distarsenal",  "_distbuildfob", "_distspptbuilding", "_distspawn", "_distredeploy", "_distammofactory", "_distsatbox" ];
+private [ "_idact_build",  "_idact_arsenal", "_idact_buildfob", "_idact_builddevice", "_idact_buildsolar", "_idact_medical", "_idact_sparewheel", "_idact_sparetrack", "_idact_fuelbarrel", "_idact_fuelsling", "_idact_fuelcannister", "_idact_buildgenerator", "_idact_redeploy", "_idact_tutorial", "_idact_squad", "_idact_repackage", "_idact_halo", "_idact_secondary", "_distfob", "_distarsenal",  "_distbuildfob", "_distspptbuilding", "_distspawn", "_distredeploy", "_distammofactory", "_distsatbox" ];
 
 action_manager_alive = true;
 action_manager_dead = false;

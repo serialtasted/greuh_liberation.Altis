@@ -30,12 +30,21 @@ player addEventHandler ["Respawn", {
 	["EastWind"] call BIS_fnc_setPPeffectTemplate;
 	
 	playableUnitOccupier_PV = _this select 0; publicVariableServer "playableUnitOccupier_PV";
+	
 	playerTeam = (_this select 1) getVariable ["St_team", "PTr_alpha"];  [playerTeam] call F_setPlayerTeam;
+	[ _this select 1, format["%1FlagWS", [_this select 1] call F_getPlayerCountry] ] remoteExec ["BIS_fnc_setUnitInsignia", 0, true];
 	
 	[_this select 1] spawn {
 		sleep 120;
 		deleteVehicle (_this select 0);
 	};
+}];
+
+// fire control
+weapon_safe = true;
+inside_fob = true;
+player addEventHandler["Fired",{
+	if ( weapon_safe ) then { deleteVehicle (_this select 6); ["<t size='0.6'>FOB FIRE SAFETY MODE ENABLED!</t>"] spawn bis_fnc_dynamicText; }
 }];
 
 // add arsenal items
@@ -93,6 +102,7 @@ do_load_box = compileFinal preprocessFileLineNumbers "scripts\client\ammoboxes\d
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\spot_timer.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\broadcast_squad_colors.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\disable_remote_sensors.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\fire_control.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\offload_diag.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\permissions_warning.sqf";
 //[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\resupply_manager.sqf";

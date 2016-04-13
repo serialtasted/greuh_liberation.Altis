@@ -37,6 +37,7 @@ if ( [] call F_isAdmin ) then {
 		};
 };
 
+
 // actions *ME*
 _action = ["ME",(name player),"",{},{true}] call ace_interact_menu_fnc_createAction;
 [player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
@@ -52,3 +53,16 @@ _action = ["ME",(name player),"",{},{true}] call ace_interact_menu_fnc_createAct
 	// reset radio frequencies
 	_action = ["ME_RESETFRQ","Reset Radio","",{ [] call F_resetComms },{true}] call ace_interact_menu_fnc_createAction;
 	[player, 1, ["ACE_SelfActions", "ME"], _action] call ace_interact_menu_fnc_addActionToObject;
+
+
+// action *FIRE CONTROL*
+_action = ["FIRE_CONTROL","FOB Fire Control","",{},{ inside_fob }] call ace_interact_menu_fnc_createAction;
+[player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
+
+	// allow fire
+	_action = ["ALLOW_FIRE","Switch Safety Off","",{ weapon_safe = false; hint parseText format["FOB Fire Safety Control:<br/><t color='#00CC00' size='1.5'>Disabled</t>"]; },{ weapon_safe }] call ace_interact_menu_fnc_createAction;
+	[player, 1, ["ACE_SelfActions", "FIRE_CONTROL"], _action] call ace_interact_menu_fnc_addActionToObject;
+
+	// disallow fire
+	_action = ["DISALLOW_FIRE","Switch Safety On","",{ weapon_safe = true; hint parseText format["FOB Fire Safety Control:<br/><t color='#CC0000' size='1.5'>Enabled</t>"]; },{ !weapon_safe }] call ace_interact_menu_fnc_createAction;
+	[player, 1, ["ACE_SelfActions", "FIRE_CONTROL"], _action] call ace_interact_menu_fnc_addActionToObject;

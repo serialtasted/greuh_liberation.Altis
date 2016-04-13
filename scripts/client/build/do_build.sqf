@@ -1,4 +1,4 @@
-private [ "_maxdist", "_truepos", "_price", "_pos", "_grp", "_classname", "_idx", "_unitrank", "_posfob", "_ghost_spot", "_vehicle", "_dist", "_actualdir", "_near_objects", "_near_objects_25", "_allowbis", "_allowcancel", "_debug_colisions", "_objectheight" ];
+private [ "_maxdist", "_truepos", "_price", "_pos", "_grp", "_classname", "_idx", "_unitrank", "_posfob", "_ghost_spot", "_vehicle", "_dist", "_actualdir", "_near_objects", "_near_objects_25", "_allowbis", "_allowcancel", "_debug_colisions", "_objectheight", "_builddone" ];
 
 build_confirmed = 0;
 _maxdist = GRLIB_fob_range;
@@ -29,6 +29,7 @@ while { true } do {
 	_allowcancel = false;
 	_classname = "";
 	_objectheight = 0;
+	_builddone = false;
 	
 	switch ( buildtype ) do {
 		case 99: {
@@ -640,6 +641,7 @@ while { true } do {
 							{ _x addMPEventHandler ["MPKilled", {_this spawn kill_manager}]; } foreach (crew _vehicle);
 						};
 						
+						_builddone = true;
 						player switchmove "";
 					},
 					{
@@ -686,6 +688,8 @@ while { true } do {
 	};
 
 	if ( repeatbuild ) then {
+		waitUntil { _builddone };
+		sleep 2;
 		dobuild = 1;
 		repeatbuild = false;
 	} else {
