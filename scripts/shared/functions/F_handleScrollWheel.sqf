@@ -4,7 +4,7 @@ private [ "_maxHeight", "_minHeight" ];
 _maxheight = 2;
 _minheight = -2;
 
-if ( (heightmodifier >= _minheight && heightmodifier <= _maxheight) && heightmodifierctrl ) then { _scrollAmount = (round _scrollAmount) * 0.001; }
+if ( (heightmodifier >= _minheight && heightmodifier <= _maxheight) && heightmodifierctrl ) then { _scrollAmount = (round _scrollAmount) * 0.15; }
 else { 
 	_scrollAmount = 0;
 	if ( heightmodifier > _maxheight ) then { heightmodifier = _maxheight };

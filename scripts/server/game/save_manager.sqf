@@ -304,7 +304,7 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 						};	
 					};
 				} else {
-					_nextbuilding addEventHandler ["HandleDamage", {0}];
+					[_nextbuilding, false] remoteExec ["allowDamage"];
 				};
 					
 				_nextbuilding setFuel _vehfuel;

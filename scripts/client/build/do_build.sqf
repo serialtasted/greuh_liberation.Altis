@@ -644,7 +644,7 @@ while { true } do {
 						};
 						
 						if ( _classname in disable_damage ) then {
-							_vehicle addEventHandler ["HandleDamage", {0}];
+							[_vehicle, false] remoteExec ["allowDamage"];
 						};
 						
 						if ( _classname in carryable_objects ) then {
