@@ -340,6 +340,9 @@ arsena_backpacks = [
 	// remote designator
 	"B_Static_Designator_01_weapon_F",
 	
+	// UAV
+	"B_UAV_01_backpack_F",
+	
 	// ACE backpacks
 	"ACE_TacticalLadder_Pack"
 ];

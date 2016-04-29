@@ -28,15 +28,15 @@ if ( isMultiplayer ) then {
  	GRLIB_autodanger = [ "Autodanger",0] call bis_fnc_getParamValue;
 	GRLIB_maximum_fobs = [ "MaximumFobs",26] call bis_fnc_getParamValue;
 } else {
-	GRLIB_difficulty_modifier = 1;
+	GRLIB_difficulty_modifier = 2.5;
 	GRLIB_time_factor = 12;
 	GRLIB_resources_multiplier = 1;
 	GRLIB_fatigue = 0;
 	GRLIB_revive = 3;
 	GRLIB_introduction = 0;
 	GRLIB_deployment_cinematic = 0;
-	GRLIB_adaptive_opfor = 1;
-	GRLIB_unitcap = 1;
+	GRLIB_adaptive_opfor = 0;
+	GRLIB_unitcap = 0.75;
 	GRLIB_civilian_activity = 1;
 	GRLIB_teamkill_penalty = 0;
 	GRLIB_build_first_fob = 0;
@@ -48,7 +48,7 @@ if ( isMultiplayer ) then {
 	GRLIB_permissions_param = 1;
 	GRLIB_halo_param = 1;
 	GRLIB_cleanup_vehicles = 2;
-	GRLIB_csat_aggressivity = 1;
+	GRLIB_csat_aggressivity = 2.5;
 	GRLIB_weather_param = 3;
 	GRLIB_shorter_nights = 0;
 	GRLIB_ammo_bounties = 1;

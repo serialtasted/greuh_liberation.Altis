@@ -17,7 +17,7 @@ class Difficulty {
 	title = $STR_PARAMS_DIFFICULTY;
 	values[] = { 50, 75, 100, 125, 150, 250, 400, 1000 };
 	texts[] = { $STR_PARAMS_DIFFICULTY1, $STR_PARAMS_DIFFICULTY2, $STR_PARAMS_DIFFICULTY3, $STR_PARAMS_DIFFICULTY4, $STR_PARAMS_DIFFICULTY5, $STR_PARAMS_DIFFICULTY6, $STR_PARAMS_DIFFICULTY7, $STR_PARAMS_DIFFICULTY8 };
-	default = 400;
+	default = 250;
 	paramCode = "";
 };
 class Aggressivity{
@@ -31,7 +31,7 @@ class AdaptToPlayercount{
 	title = $STR_PARAM_ADAPT_TO_PLAYERCOUNT;
 	values[] = {1,0};
 	texts[] = {$STR_PARAMS_ENABLED,$STR_PARAMS_DISABLED};
-	default = 0;
+	default = 1;
 	paramCode = "";
 };
 class DayDuration {
@@ -80,7 +80,7 @@ class Civilians{
 	title = $STR_PARAMS_CIVILIANS;
 	values[] = {0,50,150,500};
 	texts[] = {$STR_PARAMS_CIVILIANS1,$STR_PARAMS_CIVILIANS2,$STR_PARAMS_CIVILIANS3,$STR_PARAMS_CIVILIANS4};
-	default = 150;
+	default = 50;
 	paramCode = "";
 };
 class TeamkillPenalty{
@@ -94,7 +94,7 @@ class PassiveIncome{
 	title = $STR_PARAM_PASSIVE_INCOME;
 	values[] = {1,0};
 	texts[] = { $STR_PARAMS_ENABLED, $STR_PARAMS_DISABLED };
-	default = 0;
+	default = 1;
 	paramCode = "";
 };
 class DisableRemoteSensors{
@@ -115,7 +115,7 @@ class DisableRemoteSensors{
  	title = $STR_PARAM_AUTODANGER;
  	values[] = {1,0};
  	texts[] = { $STR_PARAMS_ENABLED, $STR_PARAMS_DISABLED };
- 	default = 0;
+ 	default = 1;
 	paramCode = "";
  };
 class spacer4 {

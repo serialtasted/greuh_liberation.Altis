@@ -133,7 +133,8 @@ class RscTitles
 	  PictureFuelShadow,PictureCapShadow,PictureManpower,PictureAmmo,PictureFuel,PictureCap,PictureCombatReadinessShadow,PictureCombatReadiness,
 	  PictureIntelShadow, PictureIntel, LabelIntel,
 	  BGPictureSector,CaptureFrame_OPFOR, CaptureFrame_BLUFOR, CaptureFrame, LabelPoint, LabelCombatReadiness, CentralShadow, CentralLabel, ActiveSectors,
-	  AlertBGPicture, AlertLabel, AlertTimer };
+	  AlertBGPicture, AlertLabel, AlertTimer
+	  };
 	  class BGPicture {
 	  	idc = -1;
 		type =  CT_STATIC;
@@ -220,7 +221,7 @@ class RscTitles
 	  };
 	  class PictureIntel : GenericPicture69 {
 	  	colorText[] = {0,0.45,0.95,1};
-		y = (0.4 + ( ICONE_SPACY * 5 ) - 0.0025) * safezoneH + safezoneY;
+		y = (0.4 + ( ICONE_SPACY * 5) - 0.0025) * safezoneH + safezoneY;
 		text = "\A3\Ui_f\data\GUI\Cfg\Ranks\general_gs.paa";
 	  };
 	  class PictureManpowerShadow : PictureManpower {
@@ -272,7 +273,7 @@ class RscTitles
 		y = (0.39 + ( ICONE_SPACY * 2 ) ) * safezoneH + safezoneY;
 		colorText[] = {0.75, 0.75, 0, 1};
 	  };
-	  	class LabelCap : GenericLabel69 {
+	  class LabelCap : GenericLabel69 {
 	  	idc = 104;
 		text = "";
 		y = (0.39 + ( ICONE_SPACY * 3 ) ) * safezoneH + safezoneY;

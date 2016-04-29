@@ -1,9 +1,11 @@
 private [ "_maxdist", "_truepos", "_price", "_pos", "_grp", "_classname", "_idx", "_unitrank", "_posfob", "_ghost_spot", "_vehicle", "_dist", "_actualdir", "_near_objects", "_near_objects_25", "_allowbis", "_allowcancel", "_debug_colisions", "_objectheight", "_builddone" ];
 
 build_confirmed = 0;
+build_done = false;
 _maxdist = GRLIB_fob_range;
 _truepos = [];
 _debug_colisions = false;
+
 
 GRLIB_preview_spheres = [];
 while { count GRLIB_preview_spheres < 36 } do {
@@ -16,10 +18,19 @@ if (isNil "manned") then { manned = false };
 if (isNil "gridmode" ) then { gridmode = 0 };
 if (isNil "levelmode" ) then { levelmode = 0 };
 if (isNil "heightmodifier" ) then { heightmodifier = 0 };
+if (isNil "heightmodifierctrl" ) then { heightmodifierctrl = false };
 if (isNil "repeatbuild" ) then { repeatbuild = false };
 if (isNil "build_rotation" ) then { build_rotation = 0 };
 
 waitUntil { sleep 0.2; !isNil "dobuild" };
+
+waituntil {!isnull (finddisplay 46)};
+(findDisplay 46) displayAddEventHandler ["MouseZChanged", "(_this select 1) call F_handleScrollWheel"];
+(findDisplay 46) displayAddEventHandler ["KeyDown", "
+	_keyDown = _this select 1; 
+	if (_keyDown == " + str (29) + ") then { heightmodifierctrl = true }
+	else { heightmodifierctrl = false };
+"];
 
 while { true } do {
 	waitUntil { sleep 0.2; dobuild != 0 };
@@ -29,7 +40,6 @@ while { true } do {
 	_allowcancel = false;
 	_classname = "";
 	_objectheight = 0;
-	_builddone = false;
 	
 	switch ( buildtype ) do {
 		case 99: {
@@ -86,7 +96,7 @@ while { true } do {
 		if ( manned ) then {
 			_grp = createGroup WEST;
 		};
-		_classname createUnit [_pos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]", 0.5, "private"];
+		_aiunit = _classname createUnit [_pos, _grp,"this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]", 0.5, "private"];
 		build_confirmed = 0;
 	} else {
 		if ( buildtype == 8 ) then {
@@ -149,7 +159,7 @@ while { true } do {
 
 			while { build_confirmed == 1 && alive player } do {
 				
-				if ( heightmodifier < 2 && _idactraise == -1 && (buildtype == 6 || buildtype == 99)) then {
+				/*if ( heightmodifier < 2 && _idactraise == -1 && (buildtype == 6 || buildtype == 99)) then {
 					_idactraise = player addAction ["<t color='#B0FF00'>" + localize "STR_OBJUP" + "</t>","scripts\client\build\do_objup.sqf","",-735,false,false,"","build_confirmed == 1"];
 				} else {
 					if ( heightmodifier >= 2 ) then { player removeAction _idactraise; _idactraise = -1;  };
@@ -159,7 +169,7 @@ while { true } do {
 					_idactlower = player addAction ["<t color='#B0FF00'>" + localize "STR_OBJDOWN" + "</t>","scripts\client\build\do_objdown.sqf","",-735,false,false,"","build_confirmed == 1"];
 				} else {
 					if ( heightmodifier <= -2 ) then { player removeAction _idactlower; _idactlower = -1; };
-				};
+				};*/
 				
 				_truedir = 90 - (getdir player);
 				
@@ -257,7 +267,7 @@ while { true } do {
 					GRLIB_conflicting_objects = [];
 				};
 
-				if (count _near_objects == 0 && ( ((!surfaceIsWater _truepos) && (!surfaceIsWater getPosATL player)) || (player distance nimitz) < 60 ) ) then {
+				if (count _near_objects == 0 && ( ((!surfaceIsWater _truepos) && (!surfaceIsWater getPosATL player)) || (player distance nimitz) < 100 ) ) then {
 
 					if ( (buildtype == 6 || buildtype == 99 || buildtype == 5) && ((gridmode % 2) == 1) ) then {
 						_vehicle setPosATL [round (_truepos select 0),round (_truepos select 1), _truepos select 2];
@@ -278,7 +288,7 @@ while { true } do {
 
 				} else {
 					
-					if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship") ) then {
+					if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship" || _classname in can_build_on_water) ) then {
 					
 						_vehicle setPosASL _truepos;
 						_vehicle setVectorUp [0,0,1];
@@ -308,7 +318,7 @@ while { true } do {
 								hint format [ "Colisions : %1", _objs_classnames ];
 							};
 						};
-						if( ((surfaceIsWater _truepos) || (surfaceIsWater getPosATL player)) && !(_classname isKindOf "Ship") && (player distance nimitz) > 60 ) then {
+						if( ((surfaceIsWater _truepos) || (surfaceIsWater getPosATL player)) && !(_classname isKindOf "Ship" && _classname in can_build_on_water) && (player distance nimitz) > 100 ) then {
 							GRLIB_ui_notif = localize "STR_BUILD_ERROR_WATER";
 						};
 						
@@ -329,7 +339,7 @@ while { true } do {
 
 			if ( build_confirmed == 2 ) then {
 			
-				if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship") ) then {
+				if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship" || _classname in can_build_on_water) ) then {
 					_vehpos = getPosASL _vehicle;
 				} else {
 					_vehpos = getPosATL _vehicle;
@@ -370,7 +380,10 @@ while { true } do {
 							_airportid = parseNumber ((_airportmarker splitString "_") select 1);
 							
 							_waypoint = _truepos;
-							_truepos = [ (getMarkerPos "blufor_airspawn") select 0, (getMarkerPos "blufor_airspawn") select 1, 800 ];
+							_spawnmarker = "blufor_airspawn";
+							if ( _airportid == 6 ) then { _spawnmarker = "blufor_airspawn_nimitz" };
+							
+							_truepos = [ (getMarkerPos _spawnmarker) select 0, (getMarkerPos _spawnmarker) select 1, 800 ];
 							_vehdir = (markerDir "blufor_airspawn");
 							_buildtime = _buildtime / 4;
 						} else {
@@ -386,6 +399,8 @@ while { true } do {
 					_container setDir (random 360);
 					
 				};
+				
+				build_done = false;
 				
 				[
 					_buildtime,
@@ -406,7 +421,9 @@ while { true } do {
 						_vehicle = objNull;
 						if ( _classname in air_vehicles_classnames ) then {
 							_grp = createGroup west;
-							_vehicle = createVehicle [_classname, _truepos, [], 10, "FLY"];
+							_radius = 150;
+							if ( _airportid == 6 ) then { _radius = 0 };
+							_vehicle = createVehicle [_classname, _truepos, [], _radius, "FLY"];
 							createVehicleCrew _vehicle;
 							
 							_driverseat = [driver _vehicle];
@@ -422,7 +439,8 @@ while { true } do {
 									removeBackpack _x;
 									
 									_x setVariable [ "SAVEUNIT", false ];
-									[_x, ["<t color='#FFFF00'>" + "-- DISMISS PILOT" + "</t>", "scripts\client\ai\pilotdismiss.sqf", [_x, _grp]]] remoteExec ["addAction", 0, true];
+									/*[_x, ["<t color='#FFFF00'>" + "-- DISMISS PILOT" + "</t>", "scripts\client\ai\pilotdismiss.sqf", [_x, _grp]]] remoteExec ["addAction", 0, true];*/
+									_x addEventHandler ["GetOutMan", { deleteVehicle (_this select 0) }];
 								} else {
 									deleteVehicle _x;
 								};
@@ -437,8 +455,13 @@ while { true } do {
 							_wp setWaypointCombatMode "BLUE";
 							
 							if ( _vehicle isKindOf "Plane" ) then {
-								_vehicle land "LAND";
-								_vehicle landAt _airportid;
+								
+								if ( _airportid != 6 ) then {
+									_vehicle land "LAND";
+									_vehicle landAt _airportid;
+								} else {
+									[_vehicle] spawn F_landOnNimitz;
+								};
 								
 								_airportname = "";
 								switch (_airportid) do {
@@ -448,6 +471,7 @@ while { true } do {
 									case 3: {_airportname = "Selakano Airfield"};
 									case 4: {_airportname = "Molos Airfield"};
 									case 5: {_airportname = "Almyra Salt Lake Airstrip"};
+									case 6: {_airportname = "USS Nimitz"};
 								};
 								
 								_airnotifmsg = _airnotifmsg + format [" Heading to %1.", _airportname];
@@ -473,7 +497,7 @@ while { true } do {
 							};
 						};
 						
-						if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship") ) then {
+						if ( ( ((surfaceIsWater _truepos) && (surfaceIsWater getPosATL player)) ) && (_classname isKindOf "Ship" || _classname in can_build_on_water) ) then {
 							_vehicle setPosASL _truepos;
 						} else {
 							_vehicle setPosATL _truepos;
@@ -489,6 +513,13 @@ while { true } do {
 						
 						if ( _vehicle isKindOf "Helicopter" ) then {
 							[_vehicle] remoteExec ["ace_fastroping_fnc_equipFRIES"];
+						};
+						
+						if ( _vehicle isKindOf "Plane" ) then {
+							[_vehicle] call TTT_fnc_syncIflols;
+							[_vehicle] spawn TTT_fnc_syncTailhook;
+							[_vehicle] call TTT_fnc_syncFuelAction;
+							[_vehicle, nimitz_catapult] spawn TTT_fnc_syncCatapult;
 						};
 						
 						if ( _classname == "C_Offroad_01_repair_F" ) then {
@@ -641,12 +672,13 @@ while { true } do {
 							{ _x addMPEventHandler ["MPKilled", {_this spawn kill_manager}]; } foreach (crew _vehicle);
 						};
 						
-						_builddone = true;
+						build_done = true;
 						player switchmove "";
 					},
 					{
 						_container = (_this select 0) select 3;
 						if ( !isNull _container ) then { deleteVehicle _container };
+						build_done = true;
 						player switchmove "";
 						
 						_msg = format ["Action cancelled"];
@@ -688,8 +720,8 @@ while { true } do {
 	};
 
 	if ( repeatbuild ) then {
-		waitUntil { _builddone };
-		sleep 2;
+		waitUntil { build_done };
+		sleep 0.5;
 		dobuild = 1;
 		repeatbuild = false;
 	} else {

@@ -6,6 +6,13 @@ if ( _vehicle isKindOf "Helicopter" ) then {
 	[_vehicle] remoteExec ["ace_fastroping_fnc_equipFRIES"];
 };
 
+if ( _vehicle isKindOf "Plane" ) then {
+	[_vehicle] call TTT_fnc_syncIflols;
+	[_vehicle] spawn TTT_fnc_syncTailhook;
+	[_vehicle] call TTT_fnc_syncFuelAction;
+	[_vehicle, nimitz_catapult] spawn TTT_fnc_syncCatapult;
+};
+
 if ( _classname == "C_Offroad_01_repair_F" ) then {
 	[
 		_vehicle,
@@ -50,7 +57,7 @@ if ( _classname == Medical_typename ) then {
 };
 
 if ( _classname == Repair_typename ) then {
-	_vehicle setVariable ["ACE_isRepairFacility", 1, true];					
+	_vehicle setVariable ["ACE_isRepairFacility", 1, true];
 };
 
 if ( _classname in repair_vehicles ) then {

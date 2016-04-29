@@ -9,8 +9,14 @@ if ( classtogo != "" ) then {
 
 	comment "Add containers";
 	player forceAddUniform "U_B_HeliPilotCoveralls";
-	player addHeadgear "rhsusf_hgu56p";
 	
+	/*switch (getPlayerUID player) do {
+		case "76561198035670394": { player addHeadgear "Patcho_HeliHelmet_Serialtasted" };
+		case "76561198080606334": { player addHeadgear "Patcho_HeliHelmet_Whiplash" };
+		default { player addHeadgear "rhsusf_hgu56p" };
+	};*/
+	
+	player addHeadgear "rhsusf_hgu56p";
 };
 
 
@@ -43,12 +49,12 @@ arsenal_magazines = [
 
 arsenal_items = [
 	"itemMap",
-	"itemCompass",
+	"itemCompass;",
 	"itemWatch",
 	
 	"H_Cap_headphones",
-	"rhsusf_hgu56p",
-	"RHS_jetpilot_usaf",
+	"H_PilotHelmetHeli_B",
+	"H_PilotHelmetFighter_B",
 	
 	"U_B_PilotCoveralls",
 	"U_B_HeliPilotCoveralls",

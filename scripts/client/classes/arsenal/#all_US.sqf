@@ -300,8 +300,8 @@ all_arsenal_items = [
 	
 	//pilot helmets
 	"H_Cap_headphones",
-	"rhsusf_hgu56p",
-	"RHS_jetpilot_usaf",
+	"H_PilotHelmetHeli_B",
+	"H_PilotHelmetFighter_B",
 	
 	//pilot uniforms
 	"U_B_PilotCoveralls",
@@ -567,6 +567,9 @@ all_arsena_backpacks = [
 	// remote designator
 	"B_Static_Designator_01_weapon_F",
 	
+	// UAV
+	"B_UAV_01_backpack_F",
+	
 	// ACE backpacks
 	"ACE_TacticalLadder_Pack"
 ];
@@ -590,11 +593,6 @@ if(ace_medical_level == 2) then {
 	
 	all_arsenal_items = all_arsenal_items + _advancedMedicalItems;
 };
-
-/*[missionNamespace, all_arsenal_items,false,false] call XLA_fnc_addVirtualItemCargo;
-[missionNamespace, all_arsenal_weapons,false,false] call XLA_fnc_addVirtualWeaponCargo;
-[missionNamespace, all_arsena_backpacks,false,false] call XLA_fnc_addVirtualBackpackCargo;
-[missionNamespace, all_arsenal_magazines,false,false] call XLA_fnc_addVirtualMagazineCargo;*/
 
 [missionNamespace, all_arsenal_items,false,false] call BIS_fnc_addVirtualItemCargo;
 [missionNamespace, all_arsenal_weapons,false,false] call BIS_fnc_addVirtualWeaponCargo;

@@ -30,7 +30,7 @@ while { true } do {
 								((locked _x == 0 || locked _x == 1))) || ( typeof _x in _building_classnames )) &&
 								(alive _x) &&
 								(_x distance lhd > 1000) &&
-								( (_x distance ( [] call F_getNearestFob) < GRLIB_fob_range ) || (_x distance ( [] call F_getNearestBuildingTruck ) < GRLIB_fob_range ) || (_x distance nimitz) < (2 * GRLIB_fob_range) ) &&
+								( (_x distance ( [] call F_getNearestFob) < GRLIB_fob_range ) || (_x distance ( [] call F_getNearestBuildingTruck ) < GRLIB_fob_range ) || (_x distance nimitz < GRLIB_fob_range) ) &&
 								( getObjectType _x >= 8 ) } ]
 							call BIS_fnc_conditionalSelect;
 							

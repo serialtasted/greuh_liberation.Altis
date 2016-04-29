@@ -153,7 +153,6 @@ air_vehicles = [
 	["USAF_A10",0,700,85],
 	["JS_JC_FA18E",0,650,75],
 	["JS_JC_FA18F",0,650,75],
-	["B_UAV_01_F",0,0,5],
 	["B_UAV_02_F",0,50,25],
 	["B_UAV_02_CAS_F",0,250,25],
 	["USAF_F16",0,500,75],
@@ -165,7 +164,7 @@ air_vehicles = [
 	["USAF_C17",0,0,130],
 	["USAF_C130J",0,0,95],
 	["USAF_C130J_Cargo",0,0,95],
-	["USAF_AC130U",0,800,95]
+	["LDL_C130J",0,800,95]
 ];
 
 static_vehicles = [
@@ -213,13 +212,11 @@ buildings = [
 	["Land_BagFence_Short_F",0,0,0],
 	["Land_Razorwire_F",0,0,0],
 	["Land_BagBunker_Tower_F",0,0,0],
+	["Land_Pier_small_F",0,0,0],
 	["Land_PierLadder_F",0,0,0],
 	["Land_PortableLight_single_F",0,0,0],
 	["Land_PortableLight_double_F",0,0,0],
 	["Land_Camping_Light_F",0,0,0],
-	["Land_MetalCase_01_large_F",0,0,0],
-	["Land_MetalCase_01_medium_F",0,0,0],
-	["Land_MetalCase_01_small_F",0,0,0],
 	["Land_PaperBox_open_full_F",0,0,0],
 	["Land_PaperBox_closed_F",0,0,0],
 	["Land_Pallet_MilBoxes_F",0,0,0],
@@ -230,10 +227,12 @@ buildings = [
 	[Repair_typename,0,0,0],
 	["Land_Cargo_House_V1_F",0,0,0],
 	["Land_Cargo_Patrol_V1_F",0,0,0],
+	
 	["Flag_NATO_F",0,0,0],
 	["Flag_US_F",0,0,0],
 	["Flag_Red_F",0,0,0],
 	["Flag_Green_F",0,0,0],
+	
 	["Land_TentHangar_V1_F",0,0,0],
 	["Land_HelipadSquare_F",0,0,0],
 	["Land_HelipadRescue_F",0,0,0],
@@ -241,7 +240,9 @@ buildings = [
 	["PortableHelipadLight_01_red_F",0,0,0],
 	["PortableHelipadLight_01_green_F",0,0,0],
 	["PortableHelipadLight_01_yellow_F",0,0,0],
+	
 	[Build_helper_typename,0,0,0],
+	
 	["Land_FireExtinguisher_F",0,0,0],
 	["MapBoard_altis_F",0,0,0],
 	["Land_ChairPlastic_F",0,0,0],
@@ -250,9 +251,8 @@ buildings = [
 	["Land_CampingTable_F",0,0,0],
 	["Land_CampingTable_small_F",0,0,0],
 	["Land_WaterCooler_01_new_F",0,0,0],
-	["Land_Printer_01_F",0,0,0],
-	["Land_Projector_01_F",0,0,0],
 	["Land_Campfire_F",0,0,0],
+	
 	["Land_Obstacle_Bridge_F",0,0,0],
 	["Land_Obstacle_Climb_F",0,0,0],
 	["Land_Obstacle_Crawl_F",0,0,0],
@@ -260,20 +260,31 @@ buildings = [
 	["Land_Obstacle_Pass_F",0,0,0],
 	["Land_Obstacle_Ramp_F",0,0,0],
 	["Land_Obstacle_RunAround_F",0,0,0],
+	
 	["TargetP_Inf_F",0,0,0],
 	["TargetP_Inf_Acc1_F",0,0,0],
 	["TargetP_Inf_Acc2_F",0,0,0],
+	
+	["Land_Shoot_House_Wall_F",0,0,0],
+	["Land_Shoot_House_Wall_Long_F",0,0,0],
+	["Land_Shoot_House_Panels_Window_F",0,0,0],
+	["Land_Shoot_House_Corner_F",0,0,0],
+	["Land_Shoot_House_Tunnel_F",0,0,0],
+	
 	["Land_Sign_WarningMilAreaSmall_F",0,0,0],
 	["Land_Sign_WarningMilitaryArea_F",0,0,0],
 	["Land_Sign_Mines_F",0,0,0],
 	["Land_Sign_WarningMilitaryVehicles_F",0,0,0],
 	["ArrowDesk_L_F",0,0,0],
 	["ArrowDesk_R_F",0,0,0],
+	
 	["RoadBarrier_F",0,0,0],
 	["RoadCone_F",0,0,0],
 	["RoadCone_L_F",0,0,0],
+	
 	["ACE_Wheel",0,0,0],
 	["ACE_Track",0,0,0],
+	
 	["Land_MetalBarrel_F",0,0,1],
 	["FlexibleTank_01_forest_F",0,0,1],
 	["StorageBladder_01_fuel_forest_F",0,0,5],
@@ -373,21 +384,21 @@ militia_squad = [ "rhs_g_Soldier_AA_F","rhs_g_Soldier_exp_F","rhs_g_engineer_F",
 militia_vehicles = [ "rhs_uaz_ags_chdkz","rhs_uaz_dshkm_chdkz","rhs_uaz_spg9_chdkz","rhs_btr60_chdkz","rhs_t72bb_chdkz" ];
 
 // All the vehicles that can spawn as sector defenders and patrols
-opfor_vehicles = [ "rhs_bmd4_vdv","rhs_prp3_vdv","rhs_btr60_vdv","rhs_2s3_tv" ];
-// Same with lighter choices to be used  when the alert level is low
-opfor_vehicles_low_intensity = [ "rhs_tigr_m_vdv","rhs_tigr_sts_vdv","rhs_uaz_open_vdv" ];
+opfor_vehicles_low_intensity = [ "rhs_tigr_m_vdv", "rhs_tigr_sts_vdv", "rhs_uaz_open_vdv" ];
+opfor_vehicles = [ "rhs_bmd4_vdv", "rhs_btr60_vdv", "rhs_zsu234_aa" ] + opfor_vehicles_low_intensity;
+
+// All the vehicles that can spawn as battlegroup members (see below) and hold 8 soldiers as passengers.
+// If something can't hold all 8 soldiers then buggy behaviours may occur 
+opfor_troup_transports_low_intensity = [ "RHS_Ural_Open_VDV_01", "RHS_Ural_VDV_01" ];
+opfor_troup_transports = [ "RHS_Mi8mt_vdv", "rhs_ka60_c" ] + opfor_troup_transports_low_intensity;
 
 // All the vehicles that can spawn as battlegroup members
-opfor_battlegroup_vehicles = [ "rhs_btr80a_vdv","rhs_sprut_vdv","rhs_zsu234_aa" ];
-// Same with lighter choices to be used  when the alert level is low
-opfor_battlegroup_vehicles_low_intensity = [ "rhs_tigr_m_vdv","rhs_tigr_sts_vdv" ];
-
-// All the vehicles that can spawn as battlegroup members (see above) and hold 8 soldiers as passengers.
-// If something can't hold all 8 soldiers then buggy behaviours may occur 
-opfor_troup_transports = [ "RHS_Ural_Open_VDV_01","RHS_Ural_VDV_01","RHS_Mi8mt_vvsc","rhs_ka60_c" ];
+opfor_battlegroup_vehicles_low_intensity = [ "rhs_tigr_m_vdv","rhs_tigr_sts_vdv" ] + opfor_troup_transports_low_intensity;
+opfor_battlegroup_vehicles = [ "rhs_btr80a_vdv", "rhs_sprut_vdv" ] + (opfor_battlegroup_vehicles_low_intensity - opfor_troup_transports_low_intensity) + opfor_troup_transports;
 
 // Battlegroup members that will need to spawn in flight. Should be only helos but, who knows
-opfor_choppers = [ "RHS_Ka52_vvsc","RHS_Ka52_UPK23_vvsc", "RHS_Mi24V_AT_vvsc" ];
+opfor_choppers_transport = [ "RHS_Mi8mt_vdv", "rhs_ka60_c" ];
+opfor_choppers = [ "RHS_Ka52_vvsc", "RHS_Mi24V_AT_vvsc" ] + opfor_choppers_transport;
 
 // Opfor attack aircrafts to choose from
 opfor_air = [ "RHS_Su25SM_vvs" ];
@@ -482,6 +493,7 @@ cant_parachute = [
 	"JNS_Skycrane_Pod_Bench_BLU_Green"
 ] + boat_classnames + air_vehicles_classnames + static_vehicles_classnames;
 can_parachute = all_vehicles_classnames - cant_parachute;
+can_build_on_water = [ "Land_Pier_small_F" ];
 
 box_transport_config = [
 	[ "B_Truck_01_transport_F", -6.5, [0,	-0.4,	0.4], [0,	-2.1,	0.4], [0,	-3.8,	0.4] ],

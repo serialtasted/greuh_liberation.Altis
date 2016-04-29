@@ -36,11 +36,19 @@ while { true } do {
 	_cam camCommit 1505;
 	
 	player spawn {
-		sleep 600;
+		
+		private _delayrespawn = 0;
+		while { _delayrespawn < 600 } do {
+			sleep 1;
+			if ( player getVariable ["ACE_isUnconscious", false] ) then { _delayrespawn = _delayrespawn + 1 }
+			else { _delayrespawn = 600 };
+		};
+		
 		if ( player getVariable ["ACE_isUnconscious", false] ) then {
 			_dialog = createDialog "St_DeadScreen";
 			waitUntil { dialog };
 		};
+		
 	};
 	
 	waitUntil {	player getVariable ["ACE_isUnconscious", true] isEqualTo false	};

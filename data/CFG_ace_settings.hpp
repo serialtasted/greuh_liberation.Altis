@@ -380,7 +380,7 @@ class ACE_Settings {
 		force = 1;
 	};
 	class ace_repair_addSpareParts {
-		value = 1;
+		value = 0;
 		typeName = "BOOL";
 		force = 1;
 	};

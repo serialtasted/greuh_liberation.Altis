@@ -15,7 +15,7 @@ waitUntil {
 };
 
 // TFAR Plugin check
-if((getPlayerUID player) != "_SP_PLAYER_" && isDedicated) then {
+if((getPlayerUID player) != "_SP_PLAYER_") then {
 	waitUntil {
 		titleText ["Detecting TFR... (Make sure that your TaskForce Radio plugin is enabled on TeamSpeak!)", "BLACK FADED"];
 		player enableSimulation false;
@@ -46,6 +46,9 @@ inside_fob = true;
 player addEventHandler["Fired",{
 	if ( weapon_safe ) then { deleteVehicle (_this select 6); ["<t size='0.6'>FOB FIRE SAFETY MODE ENABLED!</t>"] spawn bis_fnc_dynamicText; }
 }];
+
+// init nimitz features
+[player, (nimitz_boat getVariable "Type")] call TTT_fnc_syncBoatAction;
 
 // add arsenal items
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\classes\arsenal\#all_US.sqf";

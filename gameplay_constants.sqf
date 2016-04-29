@@ -6,7 +6,6 @@ if ( serverName isEqualTo "" ) then {
 } else {
 	{ _serverName = format ["%1%2",_serverName,_x] } foreach (toArray serverName);
 };
-
 GRLIB_client_key = format ["GREUH_LIBERATION_CLIENT_%1", _serverName];	// change this value if you want different savegames on different map (unique per server)
 
 GRLIB_save_interval = 45;
@@ -23,7 +22,7 @@ GRLIB_blufor_cap = 100								* GRLIB_unitcap;
 GRLIB_sector_cap = 180								* GRLIB_unitcap;
 GRLIB_battlegroup_cap = 150							* GRLIB_unitcap;
 GRLIB_patrol_cap = 150								* GRLIB_unitcap;
-GRLIB_battlegroup_size = 6							* GRLIB_unitcap * (sqrt GRLIB_csat_aggressivity);
+GRLIB_battlegroup_size = 6							* (sqrt GRLIB_unitcap) * (sqrt GRLIB_csat_aggressivity);
 GRLIB_civilians_amount = 10	 						* GRLIB_civilian_activity;
 GRLIB_fob_range = 100;
 GRLIB_cleanup_delay = 1200;
