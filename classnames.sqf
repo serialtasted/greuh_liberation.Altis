@@ -183,28 +183,52 @@ buildings = [
 	["Land_BarGate_F",0,0,0],
 	["Land_RampConcrete_F",0,0,0],
 	["BlockConcrete_F",0,0,0],
+	
 	["Dirthump_2_F",0,0,0],
 	["Dirthump_3_F",0,0,0],
 	["Dirthump_4_F",0,0,0],
 	["Dirthump_1_F",0,0,0],
+	
 	["Land_CncBarrierMedium_F",0,0,0],
 	["Land_CncBarrierMedium4_F",0,0,0],
+	
+	["Land_Shoot_House_Wall_F",0,0,0],
+	["Land_Shoot_House_Wall_Crouch_F",0,0,0],
+	["Land_Shoot_House_Wall_Prone_F",0,0,0],
+	["Land_Shoot_House_Wall_Long_F",0,0,0],
+	["Land_Shoot_House_Wall_Long_Crouch_F",0,0,0],
+	["Land_Shoot_House_Wall_Long_Prone_F",0,0,0],
+	["Land_Shoot_House_Panels_Window_F",0,0,0],
+	["Land_Shoot_House_Corner_F",0,0,0],
+	["Land_Shoot_House_Corner_Crouch_F",0,0,0],
+	["Land_Shoot_House_Corner_Prone_F",0,0,0],
+	["Land_Shoot_House_Tunnel_F",0,0,0],
+	["Land_Shoot_House_Tunnel_Crouch_F",0,0,0],
+	["Land_Shoot_House_Tunnel_Prone_F",0,0,0],
+	
 	["Land_CncShelter_F",0,0,0],
 	["Land_CncWall4_F",0,0,0],
 	["Land_CncWall1_F",0,0,0],
+	
+	["Land_Pier_small_F",0,0,0],
+	["Land_PierLadder_F",0,0,0],
+	
 	["Land_Mil_WiredFence_F",0,0,0],
 	["Land_Mil_WiredFence_Gate_F",0,0,0],
 	["Land_Net_Fence_Gate_F",0,0,0],
 	["Land_Concrete_SmallWall_4m_F",0,0,0],
 	["Land_Concrete_SmallWall_8m_F",0,0,0],
 	["Land_Mil_ConcreteWall_F",0,0,0],
+	
 	["Land_Crash_barrier_F",0,0,0],
 	["Land_CncBarrier_F",0,0,0],
 	["Land_CncBarrier_stripes_F",0,0,0],
+	
 	["Land_HBarrier_1_F",0,0,0],
 	["Land_HBarrier_3_F",0,0,0],
 	["Land_HBarrier_5_F",0,0,0],
 	["Land_HBarrierBig_F",0,0,0],
+	
 	["Land_BagBunker_Large_F",0,0,0],
 	["Land_BagBunker_Small_F",0,0,0],
 	["Land_BagFence_Long_F",0,0,0],
@@ -212,17 +236,19 @@ buildings = [
 	["Land_BagFence_Short_F",0,0,0],
 	["Land_Razorwire_F",0,0,0],
 	["Land_BagBunker_Tower_F",0,0,0],
-	["Land_Pier_small_F",0,0,0],
-	["Land_PierLadder_F",0,0,0],
+	
 	["Land_PortableLight_single_F",0,0,0],
 	["Land_PortableLight_double_F",0,0,0],
 	["Land_Camping_Light_F",0,0,0],
+	
 	["Land_PaperBox_open_full_F",0,0,0],
 	["Land_PaperBox_closed_F",0,0,0],
 	["Land_Pallet_MilBoxes_F",0,0,0],
+	
 	["Land_Scaffolding_F",0,0,0],
 	["CamoNet_BLUFOR_open_F",0,0,0],
 	["CamoNet_BLUFOR_big_F",0,0,0],
+	
 	[Medical_typename,0,0,0],
 	[Repair_typename,0,0,0],
 	["Land_Cargo_House_V1_F",0,0,0],
@@ -264,12 +290,6 @@ buildings = [
 	["TargetP_Inf_F",0,0,0],
 	["TargetP_Inf_Acc1_F",0,0,0],
 	["TargetP_Inf_Acc2_F",0,0,0],
-	
-	["Land_Shoot_House_Wall_F",0,0,0],
-	["Land_Shoot_House_Wall_Long_F",0,0,0],
-	["Land_Shoot_House_Panels_Window_F",0,0,0],
-	["Land_Shoot_House_Corner_F",0,0,0],
-	["Land_Shoot_House_Tunnel_F",0,0,0],
 	
 	["Land_Sign_WarningMilAreaSmall_F",0,0,0],
 	["Land_Sign_WarningMilitaryArea_F",0,0,0],
@@ -331,7 +351,7 @@ fuel_cannister = [ "Land_CanisterFuel_F" ];
 repair_container = [ "B_Slingload_01_Repair_F","JNS_Skycrane_Pod_Repair_BLU_Green" ];
 fireworks_base = [ "C_Rubberboat","B_G_Offroad_01_repair_F" ];
 
-disable_damage = [ "Land_BarGate_F","CamoNet_BLUFOR_open_F","CamoNet_BLUFOR_big_F","RoadBarrier_F","RoadCone_F","RoadCone_L_F" ];
+disable_damage = [ "Land_BarGate_F","CamoNet_BLUFOR_open_F","CamoNet_BLUFOR_big_F","RoadBarrier_F","RoadCone_F","RoadCone_L_F","Land_Crash_barrier_F","Land_CncBarrier_F","Land_CncBarrier_stripes_F","Land_Mil_WiredFence_F","Land_Mil_WiredFence_Gate_F","Land_Net_Fence_Gate_F","Land_Concrete_SmallWall_4m_F","Land_Concrete_SmallWall_8m_F", ];
 carryable_objects = [ "Land_PortableLight_single_F","Land_PortableLight_double_F","Land_BagFence_Long_F","Land_BagFence_Round_F","Land_BagFence_Short_F","RoadBarrier_F","RoadCone_F","RoadCone_L_F","Land_Camping_Light_F","Land_MetalCase_01_large_F","Land_MetalCase_01_medium_F","Land_MetalCase_01_small_F","MapBoard_altis_F","Land_ChairPlastic_F","Land_CampingChair_V1_F","Land_CampingChair_V2_F","Land_CampingTable_F","Land_DataTerminal_01_F","Land_CampingTable_small_F","Land_WaterCooler_01_new_F","Land_Laptop_unfolded_F","Land_Printer_01_F","Land_Projector_01_F","Land_Document_01_F","Land_File1_F","Land_FilePhotos_F","Land_File2_F","Land_File_research_F","Land_Map_altis_F","Land_Microwave_01_F","Land_GasCooker_F","Land_Ketchup_01_F","Land_Mustard_01_F","Land_Can_V1_F","Land_Can_V2_F","Land_Can_V3_F","Land_Tableware_01_stackOfNapkins_F","Land_FireExtinguisher_F","PortableHelipadLight_01_blue_F","PortableHelipadLight_01_red_F","PortableHelipadLight_01_green_F","PortableHelipadLight_01_yellow_F","TargetP_Inf_Acc2_F","Target_PopUp_Moving_Acc2_F","Target_PopUp_Moving_90deg_Acc2_F","Land_Sign_WarningMilAreaSmall_F","Land_Sign_WarningMilitaryArea_F","Land_Sign_WarningMilitaryVehicles_F" ];
 draggable_objects = [ Arsenal_typename,"Land_MetalBarrel_F","FlexibleTank_01_forest_F","Land_PaperBox_open_full_F","Land_PaperBox_closed_F","Land_Pallet_MilBoxes_F" ];
 
@@ -474,6 +494,7 @@ buildings_classnames = [];
 markers_reset = [99999,99999,0];
 zeropos = [0,0,0];
 squads_names = [ localize "STR_LIGHT_RIFLE_SQUAD", localize "STR_RIFLE_SQUAD", localize "STR_AT_SQUAD", localize "STR_AA_SQUAD",  localize "STR_RECON_SQUAD", localize "STR_PARA_SQUAD" ];
+
 boat_classnames = [ 
 	"B_Boat_Transport_01_F", 
 	"B_Boat_Armed_01_minigun_F",
