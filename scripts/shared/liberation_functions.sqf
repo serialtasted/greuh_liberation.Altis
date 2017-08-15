@@ -1,3 +1,7 @@
+// WHITELIST
+Whitelist = compileFinal preprocessFileLineNumbers "whitelist.sqf";
+
+// LIBERATION FUNCTIONS
 F_getNearestFob = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getNearestFob.sqf";
 F_getMobileRespawns = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getMobileRespawns.sqf";
 F_getUnitsCount = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getUnitsCount.sqf";
@@ -25,6 +29,7 @@ F_swapInventory = compileFinal preprocessFileLineNumbers "scripts\shared\functio
 F_spawnRegularSquad = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_spawnRegularSquad.sqf";
 F_spawnCivilians = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_spawnCivilians.sqf";
 F_limitSkill = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_limitSkill.sqf";
+F_getNearbyEnemies = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getNearbyEnemies.sqf";
 F_getNearbyPlayers = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getNearbyPlayers.sqf";
 F_lessLoadedHC = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_lessLoadedHC.sqf";
 F_setMass = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_setMass.sqf";
@@ -55,5 +60,18 @@ F_setRank = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_s
 F_skipTime = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_skipTime.sqf";
 F_getNearestBuildingTruck = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_getNearestBuildingTruck.sqf";
 F_initObjects = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_initObjects.sqf";
-F_landOnNimitz = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_landOnNimitz.sqf";
 F_handleScrollWheel = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_handleScrollWheel.sqf";
+F_hasInventory = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_hasInventory.sqf";
+F_setArsenalSpecials = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_setArsenalSpecials.sqf";
+F_setRadioTFAR = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_setRadioTFAR.sqf";
+F_openClassSelector = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_openClassSelector.sqf";
+F_openArmoury = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_openArmoury.sqf";
+F_applyColorCorrection = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_applyColorCorrection.sqf";
+F_mortarAttack = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_mortarAttack.sqf";
+F_sectorManipulation = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_sectorManipulation.sqf";
+
+// LV FUNCTIONS
+F_LVambientCombat = compileFinal preprocessFileLineNumbers "LV\ambientCombat.sqf";
+F_LVheliParadrop = compileFinal preprocessFileLineNumbers "LV\heliParadrop.sqf";
+F_LVmilitarize = compileFinal preprocessFileLineNumbers "LV\militarize.sqf";
+F_LVreinforcementChopper = compileFinal preprocessFileLineNumbers "LV\reinforcementChopper.sqf";

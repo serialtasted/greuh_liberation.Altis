@@ -1,8 +1,9 @@
 private [ "_oldbuildtype", "_cfg", "_initindex", "_dialog", "_iscommandant", "_squadname", "_buildpages", "_build_list", "_classnamevar", "_entrytext", "_icon", "_affordable", "_affordable_crew", "_selected_item", "_linked", "_linked_unlocked", "_base_link", "_link_color", "_link_str" ];
 
-if ( ( [ getpos player , 500 , EAST ] call F_getUnitsCount ) > 4 ) exitWith { hint localize "STR_BUILD_ENEMIES_NEARBY"; };
+if ( ( [ getpos player , 400 , GRLIB_side_enemy  ] call F_getUnitsCount ) > 4 ) exitWith { hint localize "STR_BUILD_ENEMIES_NEARBY"; };
 
 if ( isNil "buildtype" ) then { buildtype = 1 };
+if ( isNil "buildtype_special" ) then { buildtype = 0 };
 if ( isNil "buildindex" ) then { buildindex = -1 };
 dobuild = 0;
 _oldbuildtype = -1;
@@ -12,39 +13,71 @@ _initindex = buildindex;
 _dialog = createDialog "liberation_build";
 waitUntil { dialog };
 
-_isfob = false;
-_isnimitz = false;
-_istruck = false;
-if ( (player distance ([] call F_getNearestFob)) < (2 * GRLIB_fob_range) ) then {
-	_isfob = true;
-} else { 
-	if ( (player distance nimitz) < 70 ) then {
-		_isnimitz = true;
+buildtype = 2;
+buildtype_special = 0;
+
+_isFob = false;
+_isStartBase = false;
+_isUSSFreedom = false;
+_isTruck = false;
+_isBarracks = false;
+_isSpecial = false;
+_howSpecial = "";
+if ( count (_this select 3) > 0 ) then { 
+	_howSpecial = (_this select 3) select 0;
+	_isSpecial = true;
+	
+	switch ( _howSpecial ) do {
+		case "medicalFacility":{ buildtype = 7; buildtype_special = 100; };
+		case "repairFacility":{ buildtype = 7; buildtype_special = 101; };
+		case "barracksFacility":{ buildtype = 7; buildtype_special = 102; _isBarracks = true; };
+		default{ };
+	};
+} else {
+	if ( (player distance ussfreedom) < (2 * GRLIB_fob_range) ) then {
+		_isUSSFreedom = true;
 		buildtype = 4;
-	} else {
-		_istruck = true;
-		buildtype = 6;
+	} else { 
+		if ( (player distance startbase) < (2 * GRLIB_fob_range) ) then {
+			_isStartBase = true;
+			buildtype = 2;
+		} else {
+			if ( (player distance ([] call F_getNearestFob)) < (2 * GRLIB_fob_range) || (player distance startbase) < (2 * GRLIB_fob_range) ) then {
+				_isFob = true;
+			} else {
+				_isTruck = true;
+				buildtype = 6;
+			};
+		};
 	};
 };
 
-ctrlShow [ 102, _isfob ];
-ctrlShow [ 1025, _isfob ];
-ctrlShow [ 103, _isfob ];
-ctrlShow [ 1035, _isfob ];
-ctrlShow [ 104, _isfob ];
-ctrlShow [ 1045, _isfob ];
-if (_isfob || _isnimitz) then {
+if (_isFob || _isStartBase) then { // LIGHT VEH
+	ctrlShow [ 103, true ];
+	ctrlShow [ 1035, true ];
+} else {
+	ctrlShow [ 103, false ];
+	ctrlShow [ 1035, false ];
+};
+ctrlShow [ 104, _isFob ]; // HEAVY VEH
+ctrlShow [ 1045, _isFob ];
+if (_isFob || _isUSSFreedom || _isStartBase) then { // AIR VEH
 	ctrlShow [ 105, true ];
 	ctrlShow [ 1055, true ];
 } else {
 	ctrlShow [ 105, false ];
 	ctrlShow [ 1055, false ];
 };
-ctrlShow [ 1106, _isfob ];
-ctrlShow [ 11065, _isfob ];
-ctrlShow [ 107, _isfob ];
-ctrlShow [ 1075, _isfob ];
-if (_isfob || _istruck) then {
+ctrlShow [ 1106, _isFob ]; // STATICS
+ctrlShow [ 11065, _isFob ];
+if (_isFob || _isSpecial) then { // LOGISTICS
+	ctrlShow [ 107, true ];
+	ctrlShow [ 1075, true ];
+} else {
+	ctrlShow [ 107, false ];
+	ctrlShow [ 1075, false ];
+};
+if (_isFob || _isTruck) then { // BUILDINGS
 	ctrlShow [ 109, true ];
 	ctrlShow [ 1095, true ];
 } else {
@@ -53,12 +86,14 @@ if (_isfob || _istruck) then {
 };
 
 _iscommandant = false;
-if ( player == [] call F_getCommander && _isfob ) then {
+if ( player == [] call F_getCommander && _isBarracks ) then {
 	_iscommandant = true;
 };
-ctrlShow [ 108, _iscommandant ];
+ctrlShow [ 102, _iscommandant ]; // UNITS
+ctrlShow [ 1025, _iscommandant ];
+ctrlShow [ 108, _iscommandant ]; // SQUADS
 ctrlShow [ 1085, _iscommandant ];
-ctrlShow [ 121, _iscommandant ];
+ctrlShow [ 121, _iscommandant ]; // BUILD CREW BTN
 
 _squadname = "";
 _buildpages = [
@@ -73,13 +108,28 @@ localize "STR_BUILD8"
 ];
 
 while { dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
-	_build_list = build_lists select buildtype;
-
-	if ( buildtype == 7 ) then {
-		_build_list = [];
-		while { count _build_list < (count (build_lists select buildtype)) - 5 } do {
-			_build_list pushback ((build_lists select buildtype) select (count _build_list));
+	
+	_build_list = [];
+	
+	if ( _isSpecial || buildtype == 7 ) then {
+		switch ( _howSpecial ) do {
+			case "medicalFacility":{
+				_build_list = medical_type;
+			};
+			case "repairFacility":{
+				_build_list = repair_type;
+			};
+			case "barracksFacility":{ 
+				_build_list = barracks_type;
+			};
+			default{ 
+				while { count _build_list < (count (build_lists select buildtype)) - 2 } do {
+					_build_list pushback ((build_lists select buildtype) select (count _build_list));
+				};
+			};
 		};
+	} else {
+		_build_list = build_lists select buildtype;
 	};
 
 	if (_oldbuildtype != buildtype || synchro_done ) then {
@@ -88,7 +138,7 @@ while { dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 
 		lbClear 110;
 		{
-			ctrlSetText [ 151, _buildpages select ( buildtype - 1) ];
+			ctrlSetText [ 151, _buildpages select ( buildtype - 1 ) ];
 			if ( buildtype != 8 ) then {
 				_classnamevar = (_x select 0);
 				_entrytext = getText (_cfg >> _classnamevar >> "displayName");
@@ -110,20 +160,20 @@ while { dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 				if ( _classnamevar == Repair_typename ) then {
 					_entrytext = localize "STR_REPAIR_FACILITY";
 				};
+				if ( _classnamevar == Barracks_typename ) then {
+					_entrytext = localize "STR_BARRACKS_FACILITY";
+				};
 				if ( _classnamevar == Build_helper_typename ) then {
 					_entrytext = localize "STR_BUILD_HELPER";
-				};
-				if ( _classnamevar == AmmoFactory_solarBox_typename ) then {
-					_entrytext = localize "STR_SOLAR_BOX";
-				};
-				if ( _classnamevar == AmmoFactory_generatorBox_typename ) then {
-					_entrytext = localize "STR_GENERATOR_BOX";
 				};
 				if ( _classnamevar == "Flag_Red_F" ) then {
 					_entrytext = "Flag (PT)";
 				};
 				if ( _classnamevar == "Flag_Green_F" ) then {
 					_entrytext = "Flag (PTrangers)";
+				};
+				if ( _classnamevar == "Box_NATO_Wps_F" ) then {
+					_entrytext = "Medical Supplies Box (Basic)";
 				};
 				((findDisplay 5501) displayCtrl (110)) lnbAddRow [ _entrytext, format [ "%1" ,_x select 1], format [ "%1" ,_x select 2], format [ "%1" ,_x select 3]];
 
@@ -173,7 +223,7 @@ while { dialog && alive player && (dobuild == 0 || buildtype == 1)} do {
 	_selected_item = lbCurSel 110;
 	_affordable = false;
 	_squad_full = false;
-	if ((buildtype == 1) && (count (units group player) >= 10)) then {
+	if ((buildtype == 1) && (count (units group player) >= GRLIB_max_squad_size)) then {
 		_squad_full = true;
 	};
 	_linked = false;

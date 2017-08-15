@@ -7,6 +7,8 @@ class liberation_deploy {
 	
 	objects[] = {};	
 	
+	
+	
 	class RecycleBG : BgPicture {
 		x = (0.1 * safezoneW + safezoneX) - ( 2 * BORDERSIZE); 
 		y = (0.15 * safezoneH + safezoneY) - (3 * BORDERSIZE);
@@ -19,8 +21,16 @@ class liberation_deploy {
 		y = (0.55 * safezoneH + safezoneY);
 		w = (0.15 * safezoneW);  
 		h = (0.25 * safezoneH) - ( 1.5 * BORDERSIZE);
+		
+		class LineMarker
+		{
+			lineDistanceMin = 3e-005;
+			lineLengthMin = 5;
+			lineWidthThick = 0.014;
+			lineWidthThin = 0.008;
+			textureComboBoxColor = "#(argb,8,8,3)color(1,1,1,1)";
+		};
 	};
-	
 	class OuterBG : StdBG{
 		colorBackground[] = COLOR_BROWN;
 		x = (0.1 * safezoneW + safezoneX) - ( 2 * BORDERSIZE); 

@@ -22,7 +22,7 @@ class RscTitles
 		w = 0.4 * safezoneW;
 		y = 0.65 * safezoneH + safezoneY;
 		h = 0.1 * safezoneH;
-		text = "[GREUH] presents";
+		text = "Squadrão PTr presents";
 		shadow = 1;
 	  };
 	  class GenericLabelShadow : GenericLabel2{

@@ -85,4 +85,4 @@ call {
 		SEN_tfar_ch_lr = _tfr_ch_support;
 	};
 };
-call St_fnc_setRadioTFAR;
+[] call F_setRadioTFAR;

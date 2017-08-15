@@ -37,8 +37,8 @@ greuh_liberation_client = profileNamespace getVariable GRLIB_client_key;
 
 if ( !isNil "greuh_liberation_client" ) then {
 	"dynamicBlur" ppEffectEnable true; // enables ppeffect
-	"dynamicBlur" ppEffectAdjust [3]; // intensity of blur
-	"dynamicBlur" ppEffectCommit 0; // time till vision is fully blurred
+	"dynamicBlur" ppEffectAdjust [2]; // intensity of blur
+	"dynamicBlur" ppEffectCommit 2; // time till vision is fully blurred
 	titleText ["Loading Client Data...", "PLAIN", 0, true];
 	diag_log "-- LOADING CLIENT --";
 	
@@ -53,6 +53,11 @@ if ( !isNil "greuh_liberation_client" ) then {
 	player_team = greuh_liberation_client select 5;
 	player_stance = greuh_liberation_client select 6;
 	player_damage = greuh_liberation_client select 7;
+	
+	player_hasearplugs = false;
+	if ( count greuh_liberation_savegame > 8 ) then {
+		player_hasearplugs = greuh_liberation_client select 8;
+	};
 	
 	player setPosATL player_position;
 	player setDir player_direction;
@@ -74,6 +79,9 @@ if ( !isNil "greuh_liberation_client" ) then {
 	
 	player allowDamage true;
 	player setVariable ["ace_medical_allowDamage", true];
+	if ( player_hasearplugs ) then {
+		[player] call ace_hearing_fnc_putInEarplugs
+	};
 	
 	// set damage head
 	player spawn {
@@ -113,8 +121,9 @@ if ( !isNil "greuh_liberation_client" ) then {
 	
 	if ( player_isunconscious ) then {
 		player spawn {
-			[player, true, 600] call ace_medical_fnc_setUnconscious;
-			sleep 600;
+			_sleep = 300 + random(300);
+			[player, true, _sleep] call ace_medical_fnc_setUnconscious;
+			sleep _sleep;
 			[player, false] call ace_medical_fnc_setUnconscious;
 			trigger_client_save = true;
 		};
@@ -150,7 +159,7 @@ while { true } do {
 		while { true } do { sleep 300; };
 	} else {
 		
-		waitUntil { vehicle player == player && (player distance (getmarkerpos "respawn_west") > 50) };
+		waitUntil { vehicle player == player && (player distance (getmarkerpos GRLIB_respawn_marker) > 50) };
 		trigger_client_save = false;
 		_isForce = trigger_client_save_force;
 		trigger_client_save_force = false;
@@ -177,8 +186,10 @@ while { true } do {
 			(player getHitPointDamage "HitLeftLeg")
 		];
 		
+		player_hasearplugs = player getVariable ["ACE_hasEarPlugsIn", false];
+		
 		//------------------------------------------------------------------------------------
-		greuh_liberation_saveclient = [ player_class,player_position,player_direction,player_inventory,player_isunconscious,player_team,player_stance,player_damage ];
+		greuh_liberation_saveclient = [ player_class,player_position,player_direction,player_inventory,player_isunconscious,player_team,player_stance,player_damage, player_hasearplugs ];
 		
 		profileNamespace setVariable [ GRLIB_client_key, greuh_liberation_saveclient ];
 		saveProfileNamespace;

@@ -1,17 +1,24 @@
 private [ "_recycleable_vehicles", "_recycleable_classnames", "_building_classnames", "_detected_vehicles", "_next_vehicle", "_next_vehicle_already_in_list", "_idact_next" ];
 
 _recycleable_vehicles = [];
+_allow_all_recycle = [];
 _recycleable_classnames = [];
 veh_action_distance = 10;
 
 {
 	_recycleable_classnames pushBack ( _x select 0 );
-} foreach (light_vehicles + heavy_vehicles + air_vehicles + static_vehicles + support_vehicles );
+} foreach (light_vehicles + heavy_vehicles + air_vehicles + static_vehicles + support_vehicles);
 
 _building_classnames = [];
 {
 	_building_classnames pushBack ( _x select 0 );
-} foreach (buildings);
+} foreach (buildings + medical_type + repair_type + barracks_type);
+
+{
+	_building_classnames pushBack ( _x select 0 );
+	_allow_all_recycle pushBack ( _x select 0 );
+} foreach (medical_type + repair_type + barracks_type);
+
 _building_classnames = _building_classnames + [ "B_supplyCrate_F", "B_Slingload_01_Cargo_F", "B_Slingload_01_Repair_F", "B_Slingload_01_Fuel_F", "B_Slingload_01_Ammo_F", ammobox_b_typename, ammobox_o_typename ];
 
 waitUntil { sleep 1; !isNil "GRLIB_all_fobs" };
@@ -19,7 +26,7 @@ waitUntil { sleep 1; !isNil "GRLIB_all_fobs" };
 while { true } do {
 
 	//waitUntil { sleep 1; count GRLIB_all_fobs > 0 };
-	waitUntil { sleep 1; (player distance ([] call F_getNearestFob)) < (2 * GRLIB_fob_range) || (player distance ([] call F_getNearestBuildingTruck)) < GRLIB_fob_range || (player distance nimitz) < (2 * GRLIB_fob_range) };
+	waitUntil { sleep 1; (player distance ([] call F_getNearestFob)) < (2 * GRLIB_fob_range) || (player distance ([] call F_getNearestBuildingTruck)) < GRLIB_fob_range || (player distance startbase) < (2 * GRLIB_fob_range)  };
 
 	if (  [ player, 4 ] call F_fetchPermission ) then {
 
@@ -28,15 +35,15 @@ while { true } do {
 								(((typeof _x in _recycleable_classnames ) &&
 								((count crew _x) == 0 || (typeof _x) in uavs) &&
 								((locked _x == 0 || locked _x == 1))) || ( typeof _x in _building_classnames )) &&
-								(alive _x) &&
-								(_x distance lhd > 1000) &&
-								( (_x distance ( [] call F_getNearestFob) < GRLIB_fob_range ) || (_x distance ( [] call F_getNearestBuildingTruck ) < GRLIB_fob_range ) || (_x distance nimitz < GRLIB_fob_range) ) &&
+								( alive _x ) &&
+								( _x getVariable ["ALLOWRECYCLE", false] ) &&
+								( (_x distance ( [] call F_getNearestFob) < GRLIB_fob_range ) || (_x distance ( [] call F_getNearestBuildingTruck ) < GRLIB_fob_range ) || (_x distance startbase < GRLIB_fob_range) ) &&
 								( getObjectType _x >= 8 ) } ]
 							call BIS_fnc_conditionalSelect;
 							
 		private _remove_vehicles = [];
 		{
-			if (_x isKindOf Build_truck_typename && (_x distance ( [] call F_getNearestFob) > GRLIB_fob_range ) ) then {
+			if (_x isKindOf FOB_truck_typename && ( (_x distance ([] call F_getNearestFob) > GRLIB_fob_range) && (_x distance startbase > 2 * GRLIB_fob_range) ) ) then {
 				_remove_vehicles pushBack _x;
 			};
 		} forEach _detected_vehicles;

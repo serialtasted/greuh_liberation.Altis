@@ -2,13 +2,16 @@
         <Project name="Liberation">
                 <Package name="Liberation">
         	<Key ID="STR_MISSION_TITLE">
-        		<Original>Liberation 0.923</Original>
+        		<Original>Liberation PTrangers</Original>
+        	</Key>
+			<Key ID="STR_MISSION_2ND_TITLE">
+        		<Original>Liberation Altis 0.924</Original>
         	</Key>
                 <Key ID="STR_MISSION_VERSION">
-                        <Original>v0.923 (PTr Edition)</Original>
+                        <Original>v0.924 (PTr Edition)</Original>
                 </Key>
                 <Key ID="STR_MISSION_DESCRIPTION">
-                        <Original>With the power of Freedom and Democracy you shall liberate Altis from the Russian oppression. 'Mérica F**k YEAH!</Original>
+                        <Original>With the power of Freedom and Democracy you shall liberate the territory from the Russian oppression. 'TUGA F**K YEAH!</Original>
                         <French>Avec le pouvoir de la Liberté et de la Démocratie votre mission est de libérer Altis de l'oppression du CSAT.</French>
                 </Key>
                 <Key ID="STR_Deploy_OnPoint">
@@ -42,7 +45,7 @@
                         <German>Ich bin gefallen! Sanitäter!</German>
                 </Key>
                 <Key ID="STR_REVIVE_LABEL">
-                        <Original>YOU ARE WOUNDED</Original>
+                        <Original>YOU ARE UNCONSCIOUS</Original>
                         <French>VOUS ETES BLESSE</French>
                         <German>DU BIST VERWUNDET</German>
                 </Key>
@@ -201,6 +204,9 @@
                 </Key>
 				<Key ID="STR_REPAIR_FACILITY">
                         <Original>Repair facility</Original>
+                </Key>
+				<Key ID="STR_BARRACKS_FACILITY">
+                        <Original>Barracks</Original>
                 </Key>
 				<Key ID="STR_BUILD_HELPER">
                         <Original>Build helper</Original>
@@ -1616,5 +1622,33 @@ Ce rôle n'est pas obligatoire, mais fortement recommandé pour les petits group
  					<Original>You are not allowed to deploy more than %1 FOBs at the same time.</Original>
  					<French>Vous n'êtes pas autorisé à déployer plus de %1 FOBs en même temps.</French>
  				</Key>
+				
+				<!-- Added in v0.924 -->
+				<Key ID="STR_CIV_PENALTIES">
+						<Original>Penalty for killing civilians</Original>
+						<French>Pénalité pour les pertes civiles</French>
+						<German>Strafe für zivile Verluste</German>
+				</Key>
+				<Key ID="STR_CIV_PENALTY_MESSAGE">
+						<Original>Penalty of %1 for killing of civilian named %2 by %3</Original>
+						<French>Penalty de %1 pour avoir tué le civil %2 par %3</French>
+						<German>Strafe von %1 für die Ermordung des Zivilisten %2 durch %3</German>
+				</Key>
+				<Key ID="STR_PARAM_SQUAD_SIZE">
+						<Original>AI recruitment limit per squad</Original>
+						<French>Limite de recrutement d'IA par escouade</French>
+				</Key>
+				<Key ID="STR_NOTIFICATION_SAR_STARTED">
+						<Original>Crashed helicopter near %1.</Original>
+						<French>Helicopter crashé près de %1.</French>
+				</Key>
+				<Key ID="STR_NOTIFICATION_SAR_FAILED">
+						<Original>SAR mission failed, both crew are KIA.</Original>
+						<French>Mission SAR échouée, les deux équipages sont morts.</French>
+				</Key>
+				<Key ID="STR_NOTIFICATION_SAR_SUCCESS">
+						<Original>SAR mission succeeded.</Original>
+						<French>Mission SAR réussie.</French>
+				</Key>
         </Package>
 </Project>

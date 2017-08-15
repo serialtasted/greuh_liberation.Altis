@@ -13,14 +13,14 @@ while { GRLIB_endgame == 0 } do {
 
 		if ( _opforcount < GRLIB_sector_cap ) then {
 
-			if ( ( [ getmarkerpos _nextsector , [ _opforcount ] call F_getCorrectedSectorRange , WEST ] call F_getUnitsCount > 0 ) && !( _nextsector in active_sectors ) ) then {
+			if ( ( [ getmarkerpos _nextsector , [ _opforcount ] call F_getCorrectedSectorRange , GRLIB_side_friendly ] call F_getUnitsCount > 0 ) && !( _nextsector in active_sectors ) ) then {
 
 				_hc = [] call F_lessLoadedHC;
 
 				if ( isNull _hc ) then {
 					[ _nextsector ] spawn manage_one_sector;
 				} else {
-					[ _nextsector ] remoteExec ["manage_one_sector", _hc];
+					[ [ _nextsector ] , "manage_one_sector", _hc ] call BIS_fnc_MP;
 				};
 
 				if ( _nextsector in sectors_military ) then {

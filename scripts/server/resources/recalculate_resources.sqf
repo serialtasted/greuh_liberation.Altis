@@ -12,8 +12,8 @@ while { true } do {
 	_new_fuel_used = 0;
 
 	{
-		if ( ( side group _x == WEST ) && ( !isPlayer _x ) ) then {
-			if ( ( _x distance lhd > 250 ) && ( _x distance ( getmarkerpos "respawn_west") > 100 ) && ( alive _x ) ) then {
+		if ( ( side group _x == GRLIB_side_friendly ) && ( !isPlayer _x ) ) then {
+			if ( ( _x getVariable ["ALLOWRECYCLE", false] ) && ( _x distance ( getmarkerpos GRLIB_respawn_marker) > 50 ) && ( alive _x ) ) then {
 				_unit = _x;
 				{
 					if ( ( _x select 0 ) == typeof _unit ) then {
@@ -26,14 +26,14 @@ while { true } do {
 	} foreach allUnits;
 
 	{
-		if ( ( _x distance lhd > 250 ) && ( alive _x ) ) then {
+		if ( ( _x getVariable ["ALLOWRECYCLE", false] ) && ( alive _x ) ) then {
 			_unit = _x;
 			{
 				if ( ( _x select 0 ) == typeof _unit ) then {
 					_new_manpower_used = _new_manpower_used + (_x select 1);
 					_new_fuel_used = _new_fuel_used + (_x select 3);
 				};
-			} foreach ( buildings + light_vehicles + heavy_vehicles + air_vehicles + static_vehicles + support_vehicles );
+			} foreach ( buildings + light_vehicles + heavy_vehicles + air_vehicles + static_vehicles + support_vehicles + medical_type + repair_type + barracks_type );
 
 		};
 	} foreach vehicles;

@@ -6,9 +6,9 @@ class Header
 };
 
 loadScreen="res\liberation.jpg";
-onLoadMission = $STR_MISSION_TITLE;
-author = "[GREUH] Zbug, [GREUH] McKeewa, Serialtasted";
 onLoadName = $STR_MISSION_TITLE;
+author = "[GREUH] Zbug, [GREUH] McKeewa, Serialtasted, Whiplash";
+onLoadMission = $STR_MISSION_2ND_TITLE;
 
 //------------------------- Misc
 
@@ -36,12 +36,11 @@ RespawnButton = 0;
 //------------------------- Includes / Functions
 
 // Original includes
-#include "GREUH\UI\GREUH_interface.hpp"
 #include "ui\liberation_interface.hpp"
 
 // PTr includes
-#include "LT\LTmenu.hpp"
 #include "data\CFG_ace_settings.hpp"
+#include "CS\LTmenu.hpp"
 #include "CS\CSmenu.hpp"
 #include "CS\CSdeadscreen.hpp"
 
@@ -54,8 +53,7 @@ class CfgNotifications {
 };
 
 class CfgFunctions {
-	#include "data\CFG_functions.hpp"
-	#include "LT\cfgfunctions.hpp"
+	#include "CS\cfgfunctions.hpp"
 };
 
 class CfgSounds

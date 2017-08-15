@@ -1,3 +1,5 @@
+
+
 params [ "_sector" ];
 private [ "_sectorpos", "_stopit", "_spawncivs", "_building_ai_max", "_infsquad", "_building_range", "_local_capture_size", "_iedcount","_combat_readiness_increase","_vehtospawn","_managed_units","_squad1", "_squad2", "_squad3", "_squad4", "_minimum_building_positions", "_popfactor", "_sector_despawn_tickets", "_opforcount" ];
 
@@ -36,7 +38,7 @@ _opforcount = [] call F_opforCap;
 
 diag_log format [ "Sector %2 checkpoint C at %1", time, _sector ];
 
-if ( (!(_sector in blufor_sectors)) &&  ( ( [ getmarkerpos _sector , [ _opforcount ] call F_getCorrectedSectorRange , WEST ] call F_getUnitsCount ) > 0 ) ) then {
+if ( (!(_sector in blufor_sectors)) &&  ( ( [ getmarkerpos _sector , [ _opforcount ] call F_getCorrectedSectorRange , GRLIB_side_friendly ] call F_getUnitsCount ) > 0 ) ) then {
 
 	diag_log format [ "Sector %2 checkpoint D at %1", time, _sector ];
 
@@ -187,28 +189,26 @@ if ( (!(_sector in blufor_sectors)) &&  ( ( [ getmarkerpos _sector , [ _opforcou
 
 	diag_log format [ "Sector %2 checkpoint K at %1", time, _sector ];
 
-	[ _sector, _building_range, _iedcount ] spawn ied_manager;
-
 	diag_log format [ "Sector %2 checkpoint L at %1", time, _sector ];
 
 	sleep 10;
 
 	if ( ( _sector in sectors_factory ) || (_sector in sectors_capture ) || (_sector in sectors_bigtown ) || (_sector in sectors_military ) ) then {
-		[ _sector ] remoteExec ["reinforcements_remote_call"];
+		[ [ _sector ] , "reinforcements_remote_call" ] call BIS_fnc_MP;
 	};
 
 	diag_log format [ "Sector %2 checkpoint M at %1", time, _sector ];
 
 	while { !_stopit } do {
 
-		if ( ( [_sectorpos, _local_capture_size] call F_sectorOwnership == WEST ) && ( GRLIB_endgame == 0 ) ) then {
+		if ( ( [_sectorpos, _local_capture_size] call F_sectorOwnership == GRLIB_side_friendly ) && ( GRLIB_endgame == 0 ) ) then {
 
 			diag_log format [ "Sector %2 checkpoint N at %1", time, _sector ];
 
 			if (isServer) then {
 				[ _sector ] spawn sector_liberated_remote_call;
 			} else {
-				[ _sector ] remoteExec ["sector_liberated_remote_call"];
+				[ [ _sector ] , "sector_liberated_remote_call" ] call BIS_fnc_MP;
 			};
 
 			_stopit = true;
@@ -227,7 +227,7 @@ if ( (!(_sector in blufor_sectors)) &&  ( ( [ getmarkerpos _sector , [ _opforcou
 
 			{
 				if (_x isKindOf "Man") then {
-					if ( side group _x != WEST ) then {
+					if ( side group _x != GRLIB_side_friendly ) then {
 						deleteVehicle _x;
 					};
 				} else {
@@ -239,7 +239,7 @@ if ( (!(_sector in blufor_sectors)) &&  ( ( [ getmarkerpos _sector , [ _opforcou
 
 			diag_log format [ "Sector %2 checkpoint Q at %1", time, _sector ];
 
-			if ( ( [_sectorpos, ( ( [ _opforcount ] call F_getCorrectedSectorRange ) + 300 ), WEST ] call F_getUnitsCount ) == 0 ) then {
+			if ( ( [_sectorpos, ( ( [ _opforcount ] call F_getCorrectedSectorRange ) + 300 ), GRLIB_side_friendly ] call F_getUnitsCount ) == 0 ) then {
 				_sector_despawn_tickets = _sector_despawn_tickets - 1;
 			} else {
 				_sector_despawn_tickets = 12;

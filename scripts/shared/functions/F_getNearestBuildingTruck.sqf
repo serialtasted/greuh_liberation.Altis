@@ -5,7 +5,7 @@ _alltrucks = [];
 _retvalue = [];
 
 {
-	if ( _x isKindOf Build_truck_typename ) then {
+	if ( _x isKindOf FOB_truck_typename ) then {
 		_alltrucks pushBack _x;
 	};
 } foreach vehicles;

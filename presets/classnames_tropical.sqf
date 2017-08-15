@@ -1,0 +1,466 @@
+// This file allows you to add content to the mission without conflict issues after each update of the original classnames.sqf
+// If you want more modifications to be supported by this file, let's discuss it on the forums.
+
+
+
+// *** SUPPORT STUFF ***
+
+// Setting a value here will overwrite the original value found from the mission. Do that if you're doing a total conversion.
+// Each of these should be unique, the same classnames for different purposes may cause various unpredictable issues with player actions. Or not. Just don't try.
+FOB_typename = "Land_Cargo_HQ_V4_F";							// Default "Land_Cargo_HQ_V1_F";
+FOB_box_typename = "B_Slingload_01_Cargo_F";					// Default "B_Slingload_01_Cargo_F";
+FOB_truck_typename = "B_Truck_01_box_F";						// Default "B_Truck_01_box_F";
+Medical_typename = "Land_Medevac_house_V1_F";					// Default "Land_Medevac_house_V1_F"
+Repair_typename = "Land_Research_house_V1_F";					// Default "Land_Research_house_V1_F"
+Barracks_typename = "Land_Cargo_House_V4_F";					// Default "Land_Cargo_House_V4_F"
+Build_helper_typename = "Pole_F";								// Default "Pole_F"
+Arsenal_typename = "B_supplyCrate_F";							// Default "B_supplyCrate_F";
+Respawn_truck_typename = "B_Truck_01_medical_F";				// Default "B_Truck_01_medical_F";
+huron_typename = "ffaa_famet_cougar_olive";						// Default "B_Heli_Transport_03_unarmed_F";
+little_bird_typename = "RHS_MELB_MH6M";							// Default "B_Heli_Light_01_F;
+ammobox_b_typename = "Box_NATO_AmmoVeh_F";						// Default "Box_NATO_AmmoVeh_F";
+ammobox_o_typename = "Box_East_AmmoVeh_F";						// Default "Box_East_AmmoVeh_F";
+opfor_ammobox_transport = "O_Truck_03_transport_F";				// Default "O_Truck_03_transport_F";    // Make sure this thing can transport ammo boxes (see box_transport_config down below) otherwise things will break
+commander_classname = "B_officer_F";							// Default "B_officer_F"
+
+
+// Ambient Units
+BLU_AirVehHeli = ["RHS_AH64D_wd_AA", "RHS_AH64D_wd"];
+BLU_AirVehPlane = ["JS_JC_FA18E"];
+BLU_LandVeh = ["ffaa_et_vamtac_m2"];
+BLU_WaterVeh = [];
+
+OPF_AirVehHeli = ["RHS_Ka_52_vvsc", "rhs_mi28n_vvsc"];
+OPF_AirVehPlane = ["RHS_Su25SM_vvs"];
+OPF_LandVeh = ["rhs_tigr_sts_vdv","rhs_tigr_m_vdv"];
+OPF_WaterVeh = [];
+
+IND_AirVehHeli = [];
+IND_AirVehPlane = [];
+IND_LandVeh = [];
+IND_WaterVeh = [];
+
+// Paradrop Vehicles
+BLU_ParaHeli = "RHS_CH_47F";
+OPF_ParaHeli = "rhsgref_ins_Mi8amt";
+IND_ParaHeli = "I_Heli_Transport_02_F";
+
+
+// *** FRIENDLIES ***
+
+// All BLUFOR infantry. Defining a value here will replace the default value from the original mission.
+blufor_squad_leader = "pmf_erdl_Soldier_SL_F";
+blufor_rifleman = "pmf_erdl_soldier_F";
+blufor_grenadier = "pmf_erdl_Soldier_GL_F";
+blufor_machinegunner = "pmf_erdl_soldier_AR_F";
+blufor_medic = "pmf_erdl_medic_F";
+blufor_engineer = "pmf_erdl_soldier_repair_F";
+blufor_marksman = "pmf_erdl_soldier_M_F";
+blufor_sniper = "pmf_erdl_soldier_sniper_F";
+blufor_explosives = "pmf_erdl_soldier_exp_F";
+blufor_aa = "pmf_erdl_soldier_AA_F";
+blufor_at = "pmf_erdl_soldier_LAT_F";
+blufor_crewman = "rhsusf_usmc_marpat_wd_crewman";
+blufor_pilot = "rhsusf_usmc_marpat_wd_pilot";
+
+
+// Each array below represents one page of the build menu
+// Format : [ "classname", manpower, ammo, fuel ]
+// Example : [ "B_APC_Tracked_01_AA_F", 0, 40, 15 ],
+
+// If overwrite is set to true, then the extension list will entirely replace the original list defined in classnames.sqf. Otherwise it will be appended to it.
+// Useful for total conversions to RHS and such, without having to alter the original file.
+infantry_units = [
+	[blufor_squad_leader,3,0,0],
+	[blufor_rifleman,3,0,0],
+	[blufor_grenadier,4,0,0],
+	[blufor_machinegunner,3,0,0],
+	[blufor_medic,3,0,0],
+	[blufor_engineer,3,0,0],
+	[blufor_marksman,6,0,0],
+	[blufor_sniper,10,0,0],
+	[blufor_explosives,5,0,0],
+	[blufor_aa,5,10,0],
+	[blufor_at,5,10,0],
+	[blufor_crewman,1,0,0],
+	[blufor_pilot,1,0,0]
+];
+
+light_vehicles = [
+	["B_Quadbike_01_F",0,0,1],
+	["B_LSV_01_unarmed_F",0,0,2],
+	["ffaa_et_anibal",0,0,2],
+	["ffaa_et_vamtac_m2",0,10,2],
+	["ffaa_et_vamtac_lag40",0,20,2],
+	["ffaa_et_vamtac_tow",0,35,2],
+	["B_MRAP_01_F",0,0,5],
+	["B_MRAP_01_hmg_F",0,25,5],
+	["B_Truck_01_transport_F",0,0,6],
+	["B_Truck_01_covered_F",0,0,6],
+	["ffaa_et_m250_recuperacion_blin",0,0,6],
+	["B_UGV_01_F",0,0,6],
+	["B_UGV_01_rcws_F",0,60,6],
+	["B_Boat_Transport_01_F",0,0,2],
+	["ffaa_ar_zodiac_hurricane",0,0,6],
+	["ffaa_ar_lcm",0,0,8],
+	["Burnes_LCAC_1",0,0,12],
+	["B_SDV_01_F",0,5,15]
+];
+
+heavy_vehicles = [
+	["rhsusf_m113_usarmy",0,50,15],
+	["rhsusf_m113_usarmy_M240",0,50,15],
+	["RHS_M2A2_wd",0,85,15],
+	["RHS_M2A2_BUSKI_wd",0,95,15],
+	["RHS_M2A3_wd",0,100,15],
+	["RHS_M2A3_BUSKI_wd",0,110,15],
+	["RHS_M2A3_BUSKIII_wd",0,120,15],
+	["ffaa_et_m250_sistema_nasams_blin",0,115,10],
+	["ffaa_et_m250_estacion_nasams_blin",0,0,20],
+	["rhsusf_m1a1aimwd_usarmy",0,105,20],
+	["rhsusf_m1a2sep1tuskiwd_usarmy",0,120,25],
+	["rhsusf_m109_usarmy",0,750,30],
+	["rhsusf_mkvsoc",0,55,30]
+];
+
+air_vehicles = [
+	["RHS_MELB_MH6M",0,0,10],
+	["RHS_MELB_AH6M_L",0,30,10],
+	["RHS_UH60M",0,25,12],
+	["RHS_CH_47F",0,25,20],
+	["B_Heli_Attack_01_F",0,200,30],
+	["RHS_AH1Z_wd_GS",0,175,30],
+	["RHS_AH1Z_wd",0,175,30],
+	["RHS_AH64D_wd_GS",0,400,50],
+	["RHS_AH64D_wd",0,400,50],
+	["RHS_A10",0,700,85],
+	["FIR_F16C",0,650,75],
+	["FIR_F16D",0,650,75],
+	["JS_JC_FA18E",0,800,90],
+	["JS_JC_FA18F",0,800,90],
+	["ffaa_et_searcherIII",0,50,35],
+	["ffaa_reaper_gbu",0,160,35],
+	["ffaa_reaper_maverick",0,160,35],
+	["rhsusf_f22",0,500,75],
+	["ffaa_ea_hercules",0,0,90],
+	["ffaa_ea_hercules_cargo",0,0,90],
+	["B_T_VTOL_01_INFANTRY_F",0,0,120],
+	["B_T_VTOL_01_VEHICLE_F",0,0,120],
+	["B_T_VTOL_01_ARMED_F",0,800,120]
+];
+
+static_vehicles = [
+	["RHS_M2StaticMG_MiniTripod_WD",0,10,0],
+	["RHS_M2StaticMG_WD",0,10,0],
+	["RHS_MK19_TriPod_WD",0,20,0],
+	["RHS_M119_WD",0,50,0],
+	["RHS_M252_WD",0,35,0],
+	["RHS_Stinger_AA_pod_WD",0,25,0],
+	["RHS_TOW_TriPod_WD",0,30,0],
+	["B_SearchLight",0,0,0]
+];
+
+buildings = [
+	["Land_BarGate_F",0,0,0],
+	["Land_RampConcrete_F",0,0,0],
+	["BlockConcrete_F",0,0,0],
+	["Dirthump_2_F",0,0,0],
+	["Dirthump_3_F",0,0,0],
+	["Dirthump_4_F",0,0,0],
+	["Dirthump_1_F",0,0,0],
+	
+	["Land_CncBarrierMedium_F",0,0,0],
+	["Land_CncBarrierMedium4_F",0,0,0],
+	
+	["Land_Shoot_House_Wall_F",0,0,0],
+	["Land_Shoot_House_Wall_Crouch_F",0,0,0],
+	["Land_Shoot_House_Wall_Prone_F",0,0,0],
+	["Land_Shoot_House_Wall_Long_F",0,0,0],
+	["Land_Shoot_House_Wall_Long_Crouch_F",0,0,0],
+	["Land_Shoot_House_Wall_Long_Prone_F",0,0,0],
+	["Land_Shoot_House_Panels_Window_F",0,0,0],
+	["Land_Shoot_House_Corner_F",0,0,0],
+	["Land_Shoot_House_Corner_Crouch_F",0,0,0],
+	["Land_Shoot_House_Corner_Prone_F",0,0,0],
+	["Land_Shoot_House_Tunnel_F",0,0,0],
+	["Land_Shoot_House_Tunnel_Crouch_F",0,0,0],
+	["Land_Shoot_House_Tunnel_Prone_F",0,0,0],
+	
+	["Land_CncShelter_F",0,0,0],
+	["Land_CncWall4_F",0,0,0],
+	["Land_CncWall1_F",0,0,0],
+	
+	["Land_PierLadder_F",0,0,0],
+	
+	["Land_Concrete_SmallWall_4m_F",0,0,0],
+	["Land_Concrete_SmallWall_8m_F",0,0,0],
+	["Land_Mil_ConcreteWall_F",0,0,0],
+	
+	["Land_Crash_barrier_F",0,0,0],
+	["Land_CncBarrier_F",0,0,0],
+	["Land_CncBarrier_stripes_F",0,0,0],
+	
+	["Land_PlasticBarrier_03_F",0,0,0],
+	["Land_PlasticBarrier_02_F",0,0,0],
+	["Land_PlasticBarrier_02_grey_F",0,0,0],
+	
+	["RoadBarrier_F",0,0,0],
+	["RoadBarrier_small_F",0,0,0],
+	["RoadCone_F",0,0,0],
+	["RoadCone_L_F",0,0,0],
+	
+	["Land_HBarrier_01_line_1_green_F",0,0,0],
+	["Land_HBarrier_01_line_3_green_F",0,0,0],
+	["Land_HBarrier_01_line_5_green_F",0,0,0],
+	["Land_HBarrier_01_big_4_green_F",0,0,0],
+	
+	["Land_BagBunker_01_large_green_F",0,0,0],
+	["Land_BagBunker_01_small_green_F",0,0,0],
+	["Land_BagFence_01_long_green_F",0,0,0],
+	["Land_BagFence_01_round_green_F",0,0,0],
+	["Land_BagFence_01_short_green_F",0,0,0],
+	["Land_Razorwire_F",0,0,0],
+	["Land_HBarrier_01_tower_green_F",0,0,0],
+	
+	["Land_PortableLight_single_F",0,0,0],
+	["Land_PortableLight_double_F",0,0,0],
+	["Land_Camping_Light_F",0,0,0],
+	
+	["Land_PaperBox_open_full_F",0,0,0],
+	["Land_PaperBox_closed_F",0,0,0],
+	["Land_Pallet_MilBoxes_F",0,0,0],
+	
+	["Land_Scaffolding_F",0,0,0],
+	["CamoNet_ghex_F",0,0,0],
+	["CamoNet_ghex_open_F",0,0,0],
+	["CamoNet_ghex_big_F",0,0,0],
+	
+	[Medical_typename,0,0,0],
+	[Repair_typename,0,0,0],
+	[Barracks_typename,0,0,0],
+	["Land_Cargo_Patrol_V4_F",0,0,0],
+	
+	["Flag_NATO_F",0,0,0],
+	["Flag_US_F",0,0,0],
+	["Flag_Red_F",0,0,0],
+	["Flag_Green_F",0,0,0],
+	
+	["Land_TentHangar_V1_F",0,0,0],
+	["Land_HelipadSquare_F",0,0,0],
+	["Land_HelipadRescue_F",0,0,0],
+	["PortableHelipadLight_01_blue_F",0,0,0],
+	["PortableHelipadLight_01_red_F",0,0,0],
+	["PortableHelipadLight_01_green_F",0,0,0],
+	["PortableHelipadLight_01_yellow_F",0,0,0],
+	
+	[Build_helper_typename,0,0,0],
+	
+	["Land_MapBoard_F",0,0,0],
+	["Land_ChairPlastic_F",0,0,0],
+	["Land_CampingChair_V1_F",0,0,0],
+	["Land_CampingChair_V2_F",0,0,0],
+	["Land_CampingTable_F",0,0,0],
+	["Land_CampingTable_small_F",0,0,0],
+	["Land_Campfire_F",0,0,0],
+	
+	["Land_Obstacle_Bridge_F",0,0,0],
+	["Land_Obstacle_Climb_F",0,0,0],
+	["Land_Obstacle_Crawl_F",0,0,0],
+	["Land_Obstacle_Cross_F",0,0,0],
+	["Land_Obstacle_Pass_F",0,0,0],
+	["Land_Obstacle_Ramp_F",0,0,0],
+	["Land_Obstacle_RunAround_F",0,0,0],
+	
+	["TargetP_Inf_F",0,0,0],
+	["TargetP_Inf_Acc1_F",0,0,0],
+	["TargetP_Inf_Acc2_F",0,0,0],
+	
+	["Land_SignM_WarningMilAreaSmall_english_F",0,0,0],
+	["Land_SignM_WarningMilitaryArea_english_F",0,0,0],
+	["Land_Sign_MinesTall_English_F",0,0,0],
+	["Land_Sign_MinesDanger_English_F",0,0,0],
+	["Land_SignM_WarningMilitaryVehicles_english_F",0,0,0],
+	["ArrowDesk_L_F",0,0,0],
+	["ArrowDesk_R_F",0,0,0],
+	
+	["Land_MetalCase_01_large_F",0,0,0],
+	["Land_MetalCase_01_medium_F",0,0,0],
+	["Land_MetalCase_01_small_F",0,0,0]
+];
+
+support_vehicles = [
+	[Arsenal_typename,10,15,0],
+	["B_Truck_01_medical_F",10,0,25],
+	["rhsusf_m113_usarmy_medical",15,0,25],
+	[FOB_box_typename,30,50,0],
+	[FOB_truck_typename,30,50,5],
+	["B_G_Offroad_01_repair_F",5,0,2],
+	["B_Truck_01_Repair_F",10,0,5],
+	["B_Truck_01_fuel_F",10,0,5],
+	[AmmoFactory_truck_typename,10,25,5],
+	[AmmoFactory_box_typename,0,25,0],
+	["B_Slingload_01_Repair_F",5,0,0],
+	["B_Slingload_01_Fuel_F",0,0,5],
+	
+	[ammobox_b_typename,0,180,0],
+	[ammobox_o_typename,0,180,0]
+];
+
+// *** BADDIES ***
+
+// All OPFOR infantry. Defining a value here will replace the default value from the original mission.
+opfor_sentry = "LOP_Afr_Opf_Infantry_Rifleman";
+opfor_rifleman = "LOP_Afr_Opf_Infantry_Rifleman";
+opfor_grenadier = "LOP_Afr_Opf_Infantry_GL";
+opfor_squad_leader = "LOP_Afr_Opf_Infantry_SL";
+opfor_team_leader = "LOP_Afr_Opf_Infantry_SL";
+opfor_marksman = "LOP_Afr_Opf_Infantry_Marksman";
+opfor_machinegunner = "LOP_Afr_Opf_Infantry_AR";
+opfor_heavygunner = "LOP_Afr_Opf_Infantry_AR";
+opfor_medic = "LOP_Afr_Opf_Infantry_Corpsman";
+opfor_rpg = "LOP_Afr_Opf_Infantry_AT";
+opfor_at = "LOP_Afr_Opf_Infantry_AT";
+opfor_aa = "LOP_Afr_Opf_Infantry_AT";
+opfor_officer = "LOP_Afr_Opf_Infantry_Rifleman_2";
+opfor_sharpshooter = "LOP_Afr_Opf_Infantry_Rifleman_3";
+opfor_sniper = "LOP_Afr_Opf_Infantry_Marksman";
+opfor_engineer = "LOP_Afr_Opf_Infantry_IED";
+opfor_paratrooper = "LOP_Afr_Opf_Infantry_Rifleman";
+
+// OPFOR Vehicles to be used in secondary objectives
+opfor_mrap = "rhsgref_BRDM2UM_ins_g";
+opfor_mrap_armed = "rhsgref_BRDM2_HQ_ins_g";
+opfor_transport_helo = "I_C_Heli_Light_01_civil_F";
+opfor_transport_truck = "rhsgref_ins_g_gaz66";
+opfor_fuel_truck = "rhsgref_cdf_ural_fuel";
+opfor_ammo_truck = "rhsgref_cdf_gaz66_ammo";
+opfor_fuel_container = nil;
+opfor_ammo_container = nil;
+opfor_flag = "Flag_Syndikat_F";
+
+// Militia vehicles to choose from
+militia_vehicles = [
+	"rhsgref_nat_uaz_dshkm",
+	"rhsgref_nat_uaz_ags",
+	"rhsgref_ins_g_bmd1",
+	"rhsgref_BRDM2_ins_g"
+];
+
+// All the vehicles that can spawn as sector defenders and patrols
+opfor_vehicles = [
+	"rhsgref_ins_g_btr70",
+	"rhsgref_ins_g_zsu234",
+	"rhsgref_ins_g_t72bc",
+	"rhsgref_ins_g_bmd1",
+	"rhsgref_BRDM2_HQ_ins_g"
+];
+
+// Same with lighter choices to be used  when the alert level is low
+opfor_vehicles_low_intensity = [
+	"rhsgref_ins_g_uaz_dshkm_chdkz",
+	"rhsgref_ins_g_gaz66_zu23",
+	"rhsgref_ins_g_uaz_ags",
+	"rhsgref_ins_g_uaz_spg9",
+	"rhsgref_BRDM2_ins_g"
+];
+
+opfor_vehicles = opfor_vehicles + opfor_vehicles_low_intensity;
+
+// All the vehicles that can spawn as battlegroup members
+opfor_battlegroup_vehicles = [
+	"rhsgref_ins_g_bmp2d",
+	"rhsgref_ins_g_t72bc",
+	"rhsgref_ins_g_bmd1",
+	"rhsgref_ins_g_BM21",
+	"RHS_Ka_52_vvsc",
+	"rhs_mi28n_vvsc"
+];
+
+// Same with lighter choices to be used  when the alert level is low
+opfor_battlegroup_vehicles_low_intensity = [
+	"rhsgref_BRDM2_HQ_ins_g",
+	"rhsgref_ins_g_uaz_spg9",
+	"rhsgref_ins_g_uaz_dshkm_chdkz",
+	"rhsgref_ins_g_gaz66",
+	"rhsgref_ins_g_gaz66o",
+	"rhsgref_ins_g_ural_open",
+	"rhsgref_BRDM2_ins_g"
+];
+
+opfor_battlegroup_vehicles = opfor_battlegroup_vehicles + opfor_battlegroup_vehicles_low_intensity;
+
+// All the vehicles that can spawn as battlegroup members (see above) and also hold 8 soldiers as passengers.
+// If something in here can't hold all 8 soldiers then buggy behaviours may occur
+opfor_troup_transports = [
+	"rhsgref_ins_g_gaz66",
+	"rhsgref_ins_g_gaz66o",
+	"rhsgref_ins_g_ural_open"
+];
+
+// Battlegroup members that will need to spawn in flight. Should be only helos but, who knows
+opfor_choppers = [
+	"RHS_Ka_52_vvsc",
+	"rhs_mi28n_vvsc"
+];
+
+// Opfor military aircrafts
+opfor_air = [
+	"rhs_l39_cdf",
+	"rhsgref_cdf_su25",
+	"rhs_l159_CDF_CAS"
+];
+
+
+
+
+
+
+
+// Other stuff
+
+// Civilians
+civilians = [
+	"LOP_Afr_Civ_Man_01",
+	"LOP_Afr_Civ_Man_01_S",
+	"LOP_Afr_Civ_Man_02",
+	"LOP_Afr_Civ_Man_02_S",
+	"LOP_Afr_Civ_Man_03",
+	"LOP_Afr_Civ_Man_03_S",
+	"LOP_Afr_Civ_Man_04",
+	"LOP_Afr_Civ_Man_04_S",
+	"LOP_Afr_Civ_Man_05",
+	"LOP_Afr_Civ_Man_05_S",
+	"LOP_Afr_Civ_Man_06",
+	"LOP_Afr_Civ_Man_06_S"
+];
+
+// Civilian vehicles
+civilian_vehicles = [
+	"C_Van_02_vehicle_F",
+	"C_Van_02_transport_F",
+	"LOP_Afr_Civ_Landrover",
+	"LOP_Afr_Civ_Offroad",
+	"LOP_Afr_Civ_UAZ",
+	"LOP_Afr_Civ_UAZ_open",
+	"LOP_Afr_Civ_Ural",
+	"LOP_Afr_Civ_Ural_open"
+];
+
+
+// Elite vehicles that should be unlocked through military base capture.
+elite_vehicles = [
+	"JS_JC_FA18E",
+	"JS_JC_FA18F",
+	"rhsusf_f22",
+	"ffaa_reaper_gbu",
+	"ffaa_reaper_maverick",
+	"B_UGV_01_rcws_F",
+	"B_T_VTOL_01_ARMED_F",
+	"RHS_A10",
+	"RHS_M2A2_wd",
+	"RHS_M2A2_BUSKI_wd",
+	"CUP_B_M1A2_TUSK_MG_US_Army",
+	"RHS_AH64D_wd_GS",
+	"RHS_AH64D_wd",
+	"B_Heli_Attack_01_F"
+];

@@ -1,9 +1,6 @@
 if (!hasInterface) exitWith {}; // headless client exit
 waitUntil { alive player };
 
-// include fast rope script
-#include "fastrope\SHK_Fastrope.sqf"
-
 // initialize playerRank global var
 playerRank = "";
 
@@ -15,7 +12,7 @@ waitUntil {
 };
 
 // TFAR Plugin check
-if((getPlayerUID player) != "_SP_PLAYER_") then {
+if((getPlayerUID player) != "_SP_PLAYER_") then { 
 	waitUntil {
 		titleText ["Detecting TFR... (Make sure that your TaskForce Radio plugin is enabled on TeamSpeak!)", "BLACK FADED"];
 		player enableSimulation false;
@@ -27,7 +24,8 @@ if((getPlayerUID player) != "_SP_PLAYER_") then {
 playableUnitOccupier_PV = player; publicVariableServer "playableUnitOccupier_PV";	
 player addEventHandler ["Respawn", {	
 	(_this select 0) setVariable ["ACE_isUnconscious", false];
-	["EastWind"] call BIS_fnc_setPPeffectTemplate;
+	
+	[GRLIB_worldType] call F_applyColorCorrection;
 	
 	playableUnitOccupier_PV = _this select 0; publicVariableServer "playableUnitOccupier_PV";
 	
@@ -40,30 +38,34 @@ player addEventHandler ["Respawn", {
 	};
 }];
 
-// fire control
-weapon_safe = true;
-inside_fob = true;
-player addEventHandler["Fired",{
-	if ( weapon_safe ) then { deleteVehicle (_this select 6); ["<t size='0.6'>FOB FIRE SAFETY MODE ENABLED!</t>"] spawn bis_fnc_dynamicText; }
-}];
+// fix arsenal options and actions
+[] spawn {
+	while {true} do {
+		player removeAction (player getVariable ["bis_fnc_arsenal_action", 0]);
+		waitUntil { player getVariable ["bis_fnc_arsenal_action", 0] != 0 };
+	};
+};
 
-// init nimitz features
-[player, (nimitz_boat getVariable "Type")] call TTT_fnc_syncBoatAction;
-
-// add arsenal items
-[] spawn compileFinal preprocessFileLineNumbers "scripts\client\classes\arsenal\#all_US.sqf";
+[ missionNamespace, "arsenalOpened", {
+    disableSerialization;
+    _display = _this select 0;
+    {
+        ( _display displayCtrl _x ) ctrlSetText "Not Available";
+        ( _display displayCtrl _x ) ctrlSetTooltip ("");
+        ( _display displayCtrl _x ) ctrlSetTextColor [ 0.7, 0.7, 0.7, 0.25 ];
+        ( _display displayCtrl _x ) ctrlRemoveAllEventHandlers "buttonclick";
+    }forEach [ 44145, 44146, 44147, 44148, 44149 ];
+} ] call BIS_fnc_addScriptedEventHandler;
 
 // setup ACE3
 player setVariable ["ACE_canMoveRallypoint", false];
 
-// handle parameters
-call St_fnc_setParams;
+// color correction
+[GRLIB_worldType] call F_applyColorCorrection;
 
-// add pp effect
-["EastWind"] call BIS_fnc_setPPeffectTemplate;
 
 // camera restriction
-[] spawn compileFinal preprocessFileLineNumbers "scripts\misc\restrict_view.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\restrict_view.sqf";
 
 // carry on...
 player enableSimulation true;
@@ -83,8 +85,6 @@ if ( typeOf player == "VirtualSpectator_F" ) exitWith {
 	[] spawn compileFinal preprocessFileLineNumbers "scripts\client\ui\ui_manager.sqf";
 };
 
-respawn_lhd = compileFinal preprocessFileLineNumbers "scripts\client\spawn\respawn_lhd.sqf";
-respawn_nimitz = compileFinal preprocessFileLineNumbers "scripts\client\spawn\respawn_nimitz.sqf";
 spawn_camera = compileFinal preprocessFileLineNumbers "scripts\client\spawn\spawn_camera.sqf";
 cinematic_camera = compileFinal preprocessFileLineNumbers "scripts\client\ui\cinematic_camera.sqf";
 write_credit_line = compileFinal preprocessFileLineNumbers "scripts\client\ui\write_credit_line.sqf";
@@ -94,7 +94,6 @@ do_load_box = compileFinal preprocessFileLineNumbers "scripts\client\ammoboxes\d
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\actions\intel_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\actions\recycle_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\actions\unflip_manager.sqf";
-[] spawn compileFinal preprocessFileLineNumbers "scripts\client\classes\arsenal_restrictor.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\build\build_overlay.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\build\do_build.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\markers\fob_markers.sqf";
@@ -116,13 +115,31 @@ do_load_box = compileFinal preprocessFileLineNumbers "scripts\client\ammoboxes\d
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\update_comms.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\vehicle_comms.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\vehicle_permissions.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\pilotCheck.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\misc\lowerWeapon.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\player\dead_cam.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\client\player\medical_facility.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\player\save_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\ui\ui_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\ui\tutorial_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\client\classes\class_manager.sqf";
 
-player addMPEventHandler ["MPKilled", {_this spawn kill_manager}];
+// player event handlers
+player addMPEventHandler ["MPKilled", {
+	_this spawn kill_manager;
+}];
+
+player addEventHandler ["TaskSetAsCurrent",{
+	_newTask = "";
+	_tmp1 = format ["%1", _this select 1];
+	_tmp2 = _tmp1 splitString " ";
+	_tmpNewTask = _tmp2 select 1;
+	_tmpUnit = _this select 0;
+	GRLIB_addUnitTask = [_tmpUnit,_tmpNewTask];
+	publicVariableServer "GRLIB_addUnitTask";
+}];
+
+player addEventHandler ["GetInMan", {[_this select 2] execVM "scripts\client\misc\fuel_consumption.sqf";}];
 
 {
 	[_x] call BIS_fnc_drawCuratorLocations;

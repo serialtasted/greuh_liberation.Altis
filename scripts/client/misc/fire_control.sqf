@@ -1,33 +1,28 @@
-private ["_leftFOB"];
-waitUntil { !isNil "weapon_safe" };
+private ["_left_fob", "_inside_fob"];
 
-_leftFOB = true;
-inside_fob = true;
+waitUntil { !isNil "client_is_loaded" };
+waitUntil { client_is_loaded && (player distance (getmarkerpos GRLIB_respawn_marker) > 50) };
 
-_nearfob = [] call F_getNearestFob;
-_fobdistance = 9999;
-if ( count _nearfob == 3 ) then { _fobdistance = player distance _nearfob };
-if ( _fobdistance < 100 || (player distance lhd) < 150 || (player distance nimitz) < 150 ) then { _leftFOB = true; inside_fob = true; } 
-else { _leftFOB = false; inside_fob = false; };
+_left_fob = true;
+_inside_fob = false;
 
 while { true } do {
 	_nearfob = [] call F_getNearestFob;
 	_fobdistance = 9999;
 	if ( count _nearfob == 3 ) then { _fobdistance = player distance _nearfob };
 	
-	if ( _fobdistance < 100 || (player distance lhd) < 150 || (player distance nimitz) < 150 ) then {
-		if ( _leftFOB ) then { 
-			if ( !weapon_safe ) then { hint parseText format["FOB Fire Safety Control:<br/><t color='#CC0000' size='1.5'>Enabled</t>"] };
-			weapon_safe = true 
+	if ( _fobdistance < 100 || (player distance startbase) < 150 ) then {
+		if ( _left_fob ) then {
+			[player, currentWeapon player, currentMuzzle player] call ace_safemode_fnc_lockSafety;
+			forceLowerWeapon = true;
 		};
-		inside_fob = true;
-		_leftFOB = false;
+		_inside_fob = true;
+		_left_fob = false;
 	} else {
-		if ( !_leftFOB ) then { 
-			if ( weapon_safe ) then { hint parseText format["FOB Fire Safety Control:<br/><t color='#00CC00' size='1.5'>Disabled</t>"] };
-			weapon_safe = false
+		if ( !_left_fob ) then { 
+			[player, currentWeapon player, currentMuzzle player] call ace_safemode_fnc_unlockSafety;
 		};
-		inside_fob = false;
-		_leftFOB = true;
+		_inside_fob = false;
+		_left_fob = true;
 	};
 };

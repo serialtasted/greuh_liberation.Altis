@@ -21,6 +21,9 @@ dostartgame = 0;
 howtoplay = 0;
 _dialog = createDialog "liberation_menu";
 waitUntil { dialog };
+
+(findDisplay 5651) displayAddEventHandler ["KeyDown", "if ((_this select 1) == 1) then { true }"];
+
 waitUntil { dostartgame == 1 || howtoplay == 1 || !dialog };
 
 closeDialog 0;
@@ -28,7 +31,7 @@ closeDialog 0;
 classtogo = "";
 _clientsave = profileNamespace getVariable GRLIB_client_key;
 if ( isNil "_clientsave" ) then {
-	[false] spawn St_fnc_openClassSelector;
+	[false] spawn F_openClassSelector;
 };
 
 waitUntil { classtogo != "" || !isNil "_clientsave" };

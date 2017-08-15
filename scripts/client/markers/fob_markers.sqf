@@ -11,14 +11,16 @@ while { true } do {
 	if ( count _markers != count GRLIB_all_fobs ) then {
 		{ deleteMarkerLocal _x } foreach _markers;
 		_markers = [];
-		for [ {_idx=0},{_idx < count GRLIB_all_fobs},{_idx=_idx+1}] do {
-			_marker = createMarkerLocal [format ["fobmarker%1",_idx], markers_reset];
-			_marker setMarkerTypeLocal "b_hq";
-			_marker setMarkerSizeLocal [ 1.5, 1.5 ];
-			_marker setMarkerPosLocal (GRLIB_all_fobs select _idx);
-			_marker setMarkerTextLocal format ["FOB %1",military_alphabet select _idx];
-			_marker setMarkerColorLocal "ColorYellow";
-			_markers pushback _marker;
+		if ( (GRLIB_allow_fob_deploy == 2 || count allPlayers <= 5) && GRLIB_allow_fob_deploy != 0 ) then {
+			for [ {_idx=0},{_idx < count GRLIB_all_fobs},{_idx=_idx+1}] do {
+				_marker = createMarkerLocal [format ["fobmarker%1",_idx], markers_reset];
+				_marker setMarkerTypeLocal "b_hq";
+				_marker setMarkerSizeLocal [ 1.5, 1.5 ];
+				_marker setMarkerPosLocal (GRLIB_all_fobs select _idx);
+				_marker setMarkerTextLocal format ["FOB %1",military_alphabet select _idx];
+				_marker setMarkerColorLocal "ColorYellow";
+				_markers pushback _marker;
+			};
 		};
 	};
 
@@ -26,7 +28,7 @@ while { true } do {
 	if ( count _markers_mobilespawns != count _respawn_trucks ) then {
 		{ deleteMarkerLocal _x; } foreach _markers_mobilespawns;
 		_markers_mobilespawns = [];
-		if ( PARAMS_AllowMobileDeploy == 1 || count allPlayers <= 3 ) then {
+		if ( (GRLIB_allow_mobile_deploy == 2 || count allPlayers <= 3) && GRLIB_allow_mobile_deploy != 0 ) then {
 			for [ {_idx=0} , {_idx < (count _respawn_trucks)} , {_idx=_idx+1} ] do {
 				_marker = createMarkerLocal [format ["mobilespawn%1",_idx], markers_reset];
 				_marker setMarkerTypeLocal "mil_end";
@@ -36,7 +38,7 @@ while { true } do {
 		};
 	};
 
-	if ( count _respawn_trucks == count _markers_mobilespawns && PARAMS_AllowMobileDeploy == 1 && count playableUnits <= 3 ) then {
+	if ( count _respawn_trucks == count _markers_mobilespawns && (GRLIB_allow_mobile_deploy == 2 || count playableUnits <= 3) && GRLIB_allow_mobile_deploy != 0 ) then {
 		for [ {_idx=0},{_idx < (count _markers_mobilespawns)},{_idx=_idx+1} ] do {
 			(_markers_mobilespawns select _idx) setMarkerPosLocal getpos (_respawn_trucks select _idx);
 			(_markers_mobilespawns select _idx) setMarkerTextLocal format ["%1 %2",localize "STR_RESPAWN_TRUCK",mapGridPosition (_respawn_trucks select _idx)];

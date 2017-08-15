@@ -9,7 +9,6 @@ patrol_ai = compileFinal preprocessFileLineNumbers "scripts\server\ai\patrol_ai.
 prisonner_ai = compileFinal preprocessFileLineNumbers "scripts\server\ai\prisonner_ai.sqf";
 troup_transport = compileFinal preprocessFileLineNumbers "scripts\server\ai\troup_transport.sqf";
 
-ied_manager = compileFinal preprocessFileLineNumbers "scripts\server\sector\ied_manager.sqf";
 manage_one_sector = compileFinal preprocessFileLineNumbers "scripts\server\sector\manage_one_sector.sqf";
 wait_to_spawn_sector = compileFinal preprocessFileLineNumbers "scripts\server\sector\wait_to_spawn_sector.sqf";
 

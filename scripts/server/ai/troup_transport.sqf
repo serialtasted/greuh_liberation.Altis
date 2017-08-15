@@ -1,21 +1,25 @@
-_troup_transport = _this select 0;
+params [ "_troup_transport" ];
 _transport_group = (group (driver _troup_transport));
 _start_pos = getpos _troup_transport;
-_dat_objective =  ([getpos _troup_transport] call F_getNearestBluforObjective) select 0;
-_unload_distance = 1000;
+_dat_objective = ([getpos _troup_transport] call F_getNearestBluforObjective) select 0;
+_unload_distance = 450;
 sleep 1;
 _initial_crewcount = count crew _troup_transport;
 
 waitUntil { sleep 0.2; !(alive _troup_transport) || !(alive (driver _troup_transport)) || (((_troup_transport distance _dat_objective) < _unload_distance) && (!(surfaceIsWater (getpos _troup_transport)))) };
 
 if ((alive _troup_transport) && (alive (driver _troup_transport))) then {
-	_troupgrp = createGroup EAST;
+	_troupgrp = createGroup GRLIB_side_enemy;
+	_vehspots = getNumber (configFile >> "CfgVehicles" >> (typeOf _troup_transport) >> "transportSoldier");
+	diag_log format["## TROUP TRANSPORT"];
+	diag_log format["## VEH: %1", _troup_transport];
+	diag_log format["## SPOTS: %1", _vehspots];
 
 	while {(count (waypoints _troupgrp)) != 0} do {deleteWaypoint ((waypoints _troupgrp) select 0);};
-
+	
 	{
 		_x createUnit [_start_pos, _troupgrp,"this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]", 0.5, "private"];
-	} foreach ([] call F_getAdaptiveSquadComp);
+	} foreach ([_vehspots] call F_getAdaptiveSquadComp);
 
 	{ _x moveInCargo _troup_transport } foreach (units _troupgrp);
 	while {(count (waypoints _troupgrp)) != 0} do {deleteWaypoint ((waypoints _troupgrp) select 0);};
@@ -34,7 +38,7 @@ if ((alive _troup_transport) && (alive (driver _troup_transport))) then {
 
 	{ unassignVehicle _troup_transport } forEach (units _troupgrp);
 	_troupgrp leaveVehicle _troup_transport;
-	(units _troupgrp) allowGetIn false;
+	//(units _troupgrp) allowGetIn false;
 
 	_troops_waypoint_2 = _troupgrp addWaypoint [getpos _troup_transport, 250];
 	_troops_waypoint_2 setWaypointType "MOVE";

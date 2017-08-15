@@ -33,7 +33,7 @@ if ( dorepackage > 0 ) then {
 	if ( dorepackage == 1 ) then {
 		_fobbox = FOB_box_typename createVehicle _spawnpos;
 		_fobbox setVariable ["truePos", _spawnpos, true];
-		//[_newbox, 300] remoteExec ["F_setMass"];
+		[ [_fobbox, 1000 ] , "F_setMass" ] call BIS_fnc_MP;
 	};
 
 	if ( dorepackage == 2 ) then {

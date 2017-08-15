@@ -22,7 +22,7 @@ while { true } do {
 			_markers pushback _marker;
 			_idx = _idx + 1;
 		};
-	} forEach allPlayers;
+	} forEach playableUnits;
 	
 	sleep 3;
 	

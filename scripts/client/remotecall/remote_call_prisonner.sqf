@@ -15,9 +15,9 @@ sleep 2;
 _unit enableAI "ANIM";
 _unit enableAI "MOVE";
 sleep 2;
-[ _unit ] remoteExec ["remote_call_switchmove"];
+[ [ _unit ], "remote_call_switchmove" ] call bis_fnc_mp;
 
-if ( typeof _unit == pilot_classname ) exitWith {};
+if ( typeof _unit == blufor_pilot ) exitWith {};
 
 waitUntil { sleep 5;
 
@@ -43,20 +43,20 @@ if (alive _unit) then {
 	if ( _is_near_fob ) then {
 
 		sleep 5;
-		_grp = createGroup WEST;
+		_grp = createGroup GRLIB_side_friendly;
 		[_unit] joinSilent _grp;
 		_unit playmove "AmovPercMstpSnonWnonDnon_AmovPsitMstpSnonWnonDnon_ground";
 		_unit disableAI "ANIM";
 		_unit disableAI "MOVE";
 		sleep 5;
-		[ _unit, "AidlPsitMstpSnonWnonDnon_ground00" ] remoteExec ["remote_call_switchmove"];
-		[_unit] remoteExec ["prisonner_remote_call"];
+		[ [ _unit, "AidlPsitMstpSnonWnonDnon_ground00" ], "remote_call_switchmove" ] call bis_fnc_mp;
+		[ [_unit] , "prisonner_remote_call" ] call BIS_fnc_MP;
 		sleep 600;
 		deleteVehicle _unit;
 
 	} else {
 
-		_grp = createGroup EAST;
+		_grp = createGroup GRLIB_side_enemy;
 		[_unit] joinSilent _grp;
 		_unit setUnitPos "AUTO";
 		_unit setCaptive false;

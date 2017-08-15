@@ -7,7 +7,7 @@ sectors_tower = [];
 sectors_opfor = [];
 sectors_airspawn = [];
 sectors_airports = [];
-
+sectors_harbors = [];
 {
 	_ismissionsector = false;
 	_tempmarker = toArray _x; _tempmarker resize 11;
@@ -23,6 +23,11 @@ sectors_airports = [];
 	_tempmarker = toArray _x; _tempmarker resize 7;
  	if ( toString _tempmarker == "airport" ) then {
  		sectors_airports pushback _x;
+ 		_ismissionsector = false;
+ 	};
+	_tempmarker = toArray _x; _tempmarker resize 6;
+ 	if ( toString _tempmarker == "harbor" ) then {
+ 		sectors_harbors pushback _x;
  		_ismissionsector = false;
  	};
 	_tempmarker = toArray _x; _tempmarker resize 7;

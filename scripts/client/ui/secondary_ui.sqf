@@ -10,8 +10,8 @@ waitUntil { dialog };
 	lbAdd [ 101, localize _x ];
 } foreach [
 	"STR_SECONDARY_MISSION0",
-	"STR_SECONDARY_MISSION1"
-	//"STR_SECONDARY_MISSION2"
+	"STR_SECONDARY_MISSION1",
+	"STR_SECONDARY_MISSION2"
 ];
 
 private [ "_oldchoice", "_images", "_briefings", "_missioncost" ];
@@ -66,7 +66,7 @@ while { dialog && alive player && dostartsecondary == 0 } do {
 };
 
 if ( dostartsecondary == 1 ) then {
-	[ lbCurSel 101 ] remoteExec ["start_secondary_remote_call"];
+	[ [ lbCurSel 101 ], "start_secondary_remote_call" ] call BIS_fnc_MP;
 };
 
 if ( dialog ) then {

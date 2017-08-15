@@ -1,7 +1,8 @@
 //******************************************************************
 //WARNING /!\ - ONLY UNCOMMENT TO RESET GAME IN EDITOR!!!!!!!!!
 //
-//GRLIB_param_wipe_savegame_1 = 1;GRLIB_param_wipe_savegame_2 = 1;GRLIB_build_first_fob=true;
+//GRLIB_param_wipe_savegame_1 = 1;GRLIB_param_wipe_savegame_2 = 1;
+//GRLIB_build_first_fob=true;
 //
 //WARNING /!\ - ONLY UNCOMMENT TO RESET GAME IN EDITOR!!!!!!!!!
 //******************************************************************
@@ -61,6 +62,7 @@ GRLIB_permissions = [];
 ai_groups = [];
 saved_intel_res = 0;
 GRLIB_player_scores = [];
+saved_unitcap = 0;
 
 no_kill_handler_classnames = [FOB_typename, huron_typename];
 _classnames_to_save = [FOB_typename, huron_typename];
@@ -68,13 +70,13 @@ _classnames_to_save_blu = [];
 {
 	no_kill_handler_classnames pushback (_x select 0);
 	_classnames_to_save pushback (_x select 0);
-} foreach buildings;
+} foreach (buildings + medical_type + repair_type + barracks_type);
 
 {
 	_classnames_to_save_blu pushback (_x select 0);
 } foreach (static_vehicles + air_vehicles + heavy_vehicles + light_vehicles + support_vehicles);
 
-_classnames_to_save = _classnames_to_save + _classnames_to_save_blu + all_hostile_classnames + AmmoFactory_allclasses;
+_classnames_to_save = _classnames_to_save + _classnames_to_save_blu + all_hostile_classnames;
 
 trigger_server_save = false;
 trigger_server_save_force = false;
@@ -157,6 +159,10 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 	
 	if ( count greuh_liberation_savegame > 16 ) then {
  		mines_to_save = greuh_liberation_savegame select 16;
+ 	};
+	
+	if ( count greuh_liberation_savegame > 17 ) then {
+		[missionNamespace, ["specops_mode", (greuh_liberation_savegame select 17)]] remoteExec ["setVariable", 0, true];
  	};
 
 	setDate [date_year, date_month, date_day, time_of_day, 0];
@@ -251,14 +257,14 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 			_nextbuilding setVariable ["trueDir", _nextdir, true];
 			_nextbuilding setdamage 0;
 			
-			//	0			1				2			3				4					5					6					7				8			9					10					11			12
-			//[	_vehammo,	_vehcargoammo,	_vehfuel,	_vehcargofuel,	_vehweaponcargo,	_vehmagazinecargo,	_vehbackpackcargo,	_vehitemcargo,	_vehdamage,	_vehhitpointdamage,	_vehcargorepair, 	_vehticker, _acecargo ]
+			clearItemCargoGlobal _nextbuilding;
+			clearBackpackCargoGlobal _nextbuilding;
+			clearMagazineCargoGlobal _nextbuilding;
+			clearWeaponCargoGlobal _nextbuilding;
+			
+			//	0			1				2			3				4					5					6					7				8			9					10					11			12			13
+			//[	_vehammo,	_vehcargoammo,	_vehfuel,	_vehcargofuel,	_vehweaponcargo,	_vehmagazinecargo,	_vehbackpackcargo,	_vehitemcargo,	_vehdamage,	_vehhitpointdamage,	_vehcargorepair, 	_vehticker, _acecargo,	_vehcontainercargo ]
 			if ( (_nextbuilding isKindOf "Air" || _nextbuilding isKindOf "LandVehicle" || _nextbuilding isKindOf "Ship") && count(_x select 5) > 10 ) then {
-				clearItemCargoGlobal _nextbuilding;
-				clearBackpackCargoGlobal _nextbuilding;
-				clearMagazineCargoGlobal _nextbuilding;
-				clearWeaponCargoGlobal _nextbuilding;
-				
 				_vehdamage = (_x select 5) select 8;
 				_vehfuel = (_x select 5) select 2;
 				_vehhitpointdamage = str formatText ["%1", ((_x select 5) select 9)];
@@ -280,6 +286,11 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 				_acecargo = [];
 				if ( count (_x select 5) > 12 ) then {
 					_acecargo = (_x select 5) select 12;
+				};
+				
+				_vehcontainercargo = [];
+				if ( count (_x select 5) > 13 ) then {
+					_vehcontainercargo = (_x select 5) select 13;
 				};
 			
 				if ( !(_nextclass in disable_damage) ) then {
@@ -304,20 +315,20 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 						};	
 					};
 				} else {
-					[_nextbuilding, false] remoteExec ["allowDamage"];
+					_nextbuilding addEventHandler ["HandleDamage", { 0 }];
 				};
 					
 				_nextbuilding setFuel _vehfuel;
 				
-				if ( _nextclass in fuel_vehicles ) then {
+				if ( _nextclass in vehicle_refuel_sources ) then {
 					if (typename _vehcargofuel != "SCALAR") then { _vehcargofuel = 1 };
 					_nextbuilding setFuelCargo _vehcargofuel;
 				};
-				if ( _nextclass in ammo_vehicles ) then {
+				if ( _nextclass in vehicle_rearm_sources ) then {
 					if (typename _vehcargoammo != "SCALAR") then { _vehcargoammo = 1 };
 					_nextbuilding setAmmoCargo _vehcargoammo;
 				};
-				if ( _nextclass in repair_vehicles || _nextclass in repair_container ) then {
+				if ( _nextclass in vehicle_repair_sources || _nextclass in vehicle_repair_containers ) then {
 					if (typename _vehcargorepair != "SCALAR") then { _vehcargorepair = 1 };
 					_nextbuilding setRepairCargo _vehcargorepair;
 				};
@@ -338,12 +349,65 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 					} forEach (_vehmagazinecargo select 0);
 				};
 				
-				if ( count(_vehbackpackcargo select 0) > 0 ) then {
+				if ( count _vehcontainercargo > 0 ) then {
 					{	
-						_xclass = _x;
-						_xammount = ((_vehbackpackcargo select 1) select _forEachIndex);
-						_nextbuilding addBackpackCargoGlobal [_xclass, _xammount];
-					} forEach (_vehbackpackcargo select 0);
+						_nextbuilding addItemCargoGlobal [(_vehcontainercargo select _forEachIndex) select 0, 1];
+					} forEach _vehcontainercargo;
+					
+					diag_log "CARGO // CARGO // CARGO // CARGO // CARGO // CARGO // CARGO // CARGO // CARGO // CARGO";
+					diag_log _vehcontainercargo;
+					
+					{
+						_container = _x select 1;
+						_idx = _forEachIndex;
+						
+						{	
+							_xclass = _x;
+							_xammount = ((((_vehcontainercargo select _idx) select 1) select 1) select _forEachIndex);
+							_container addWeaponCargoGlobal [_xclass, _xammount];
+						} forEach (((_vehcontainercargo select _idx) select 1) select 0);
+						
+						{	
+							_xclass = _x;
+							_xammount = ((((_vehcontainercargo select _idx) select 2) select 1) select _forEachIndex);
+							_container addMagazineCargoGlobal [_xclass, _xammount];
+						} forEach (((_vehcontainercargo select _idx) select 2) select 0);
+						
+						{	
+							_xclass = _x;
+							_xammount = ((((_vehcontainercargo select _idx) select 3) select 1) select _forEachIndex);
+							_container addItemCargoGlobal [_xclass, _xammount];
+						} forEach (((_vehcontainercargo select _idx) select 3) select 0);
+					} forEach (everyContainer _nextbuilding);
+				};
+				
+				if ( count _vehbackpackcargo > 0 ) then {
+					{	
+						_nextbuilding addBackpackCargoGlobal [(_vehbackpackcargo select _forEachIndex) select 0, 1];
+					} forEach _vehbackpackcargo;
+					
+					{
+						_backpack = _x;
+						_idx = _forEachIndex;
+						
+						{	
+							_xclass = _x;
+							_xammount = ((((_vehbackpackcargo select _idx) select 1) select 1) select _forEachIndex);
+							_backpack addWeaponCargoGlobal [_xclass, _xammount];
+						} forEach (((_vehbackpackcargo select _idx) select 1) select 0);
+						
+						{	
+							_xclass = _x;
+							_xammount = ((((_vehbackpackcargo select _idx) select 2) select 1) select _forEachIndex);
+							_backpack addMagazineCargoGlobal [_xclass, _xammount];
+						} forEach (((_vehbackpackcargo select _idx) select 2) select 0);
+						
+						{	
+							_xclass = _x;
+							_xammount = ((((_vehbackpackcargo select _idx) select 3) select 1) select _forEachIndex);
+							_backpack addItemCargoGlobal [_xclass, _xammount];
+						} forEach (((_vehbackpackcargo select _idx) select 3) select 0);
+					} forEach (everyBackpack _nextbuilding);
 				};
 				
 				if ( count(_vehitemcargo select 0) > 0 ) then {
@@ -359,6 +423,50 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 				_nextbuilding setVariable [ "ace_cargo_loaded", _acecargo ];
 				
 				_nextbuilding setVariable [ "GRLIB_empty_vehicle_ticker", _vehticker ];
+			} else {
+				if ( [_nextclass] call F_hasInventory ) then {
+					_vehweaponcargo = (_x select 5) select 4;
+					_vehmagazinecargo = (_x select 5) select 5;
+					_vehbackpackcargo = (_x select 5) select 6;
+					_vehitemcargo = (_x select 5) select 7;
+					
+					_vehcontainercargo = [];
+					if ( count (_x select 5) > 13 ) then {
+						_vehcontainercargo = (_x select 5) select 13;
+					};
+					
+					if ( count(_vehweaponcargo select 0) > 0 ) then {
+						{	
+							_xclass = _x;
+							_xammount = ((_vehweaponcargo select 1) select _forEachIndex);
+							_nextbuilding addWeaponCargoGlobal [_xclass, _xammount];
+						} forEach (_vehweaponcargo select 0);
+					};
+					
+					if ( count(_vehmagazinecargo select 0) > 0 ) then {
+						{	
+							_xclass = _x;
+							_xammount = ((_vehmagazinecargo select 1) select _forEachIndex);
+							_nextbuilding addMagazineCargoGlobal [_xclass, _xammount];
+						} forEach (_vehmagazinecargo select 0);
+					};
+					
+					if ( count(_vehbackpackcargo select 0) > 0 ) then {
+						{	
+							_xclass = _x;
+							_xammount = ((_vehbackpackcargo select 1) select _forEachIndex);
+							_nextbuilding addBackpackCargoGlobal [_xclass, _xammount];
+						} forEach (_vehbackpackcargo select 0);
+					};
+					
+					if ( count(_vehitemcargo select 0) > 0 ) then {
+						{	
+							_xclass = _x;
+							_xammount = ((_vehitemcargo select 1) select _forEachIndex);
+							_nextbuilding addItemCargoGlobal [_xclass, _xammount];
+						} forEach (_vehitemcargo select 0);
+					};
+				};
 			};
 			
 			if ( _nextclass == "Land_BarGate_F" ) then {
@@ -414,27 +522,30 @@ if ( !isNil "greuh_liberation_savegame" ) then {
 			_mine setdamage 0;
 		};
 	} foreach _mines;
-
-	{
-		private [ "_nextgroup", "_grp" ];
-		_nextgroup = _x;
-		_grp = createGroup WEST;
-
+	
+	if ( GRLIB_param_removeunits != 1 ) then {
 		{
-			private [ "_nextpos","_nextdir","_nextunit", "_nextobj"];
-			_nextunit = _x;
-			_nextpos = [(_nextunit select 1) select 0, (_nextunit select 1) select 1, ((_nextunit select 1) select 2) + 0.2];
-			_nextdir = _nextunit select 2;
-			(_nextunit select 0) createUnit [ _nextpos, _grp, 'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}] '];
-			_nextobj = ((units _grp) select ((count (units _grp)) - 1));
-			_nextobj setPosATL _nextpos;
-			_nextobj setDir _nextdir;
-		} foreach _nextgroup;
-	} foreach ai_groups;
+			private [ "_nextgroup", "_grp" ];
+			_nextgroup = _x;
+			_grp = createGroup GRLIB_side_friendly;
+
+			{
+				private [ "_nextpos","_nextdir","_nextunit", "_nextobj"];
+				_nextunit = _x;
+				_nextpos = [(_nextunit select 1) select 0, (_nextunit select 1) select 1, ((_nextunit select 1) select 2) + 0.2];
+				_nextdir = _nextunit select 2;
+				(_nextunit select 0) createUnit [ _nextpos, _grp, 'this addMPEventHandler ["MPKilled", {_this spawn kill_manager}] '];
+				_nextobj = ((units _grp) select ((count (units _grp)) - 1));
+				_nextobj setPosATL _nextpos;
+				_nextobj setDir _nextdir;
+			} foreach _nextgroup;
+		} foreach ai_groups;
+	};
 };
 
 publicVariable "blufor_sectors";
 publicVariable "GRLIB_all_fobs";
+publicVariable "GRLIB_whitelisted_from_arsenal";
 
 if ( count GRLIB_vehicle_to_military_base_links == 0 ) then {
 	private [ "_assigned_bases", "_assigned_vehicles", "_nextbase", "_nextvehicle" ];
@@ -487,7 +598,7 @@ while { true } do {
 			
 			{
 				_nextgroup = _x;
-				if (  side _nextgroup == WEST ) then {
+				if (  side _nextgroup == GRLIB_side_friendly ) then {
 					if ( { isPlayer _x } count ( units _nextgroup ) == 0 ) then {
 						if ( { alive _x } count ( units _nextgroup ) > 0  ) then {
 							if ( _fobpos distance (leader _nextgroup) < GRLIB_fob_range * 2 ) then {
@@ -505,32 +616,32 @@ while { true } do {
 					};
 				};
 			} foreach allGroups;
+			
+			_mines = [ _fobpos nearobjects (GRLIB_fob_range * 2), {
+				(typeof _x) in GRLIB_mines_to_be_saved
+			} ] call BIS_fnc_conditionalSelect;
+			
+			{
+				_mine = _x;
+				_nextclass = typeof _mine;
+				
+				_nextpos = [] + [(getPosATL _mine) select 0, (getPosATL _mine) select 1, 0];
+				_nextdir = 0 + getDir _mine;
+				
+				mines_to_save pushback [ _nextclass,_nextpos,_nextdir ];
+			} foreach _mines;
+			diag_log format["MINES: %1",mines_to_save];
+			
 		} foreach GRLIB_all_fobs;
-		
-		{
-			if ( _x in sectors_military ) then {
-				_sectorpos = markerpos _x;
-				_nextbuildings = [ _sectorpos nearobjects (GRLIB_capture_size * 2), {
-					((typeof _x) in AmmoFactory_allclasses ) &&
-					( alive _x) &&
-					( speed _x < 5 ) &&
-					( isNull  attachedTo _x ) &&
-					(((getpos _x) select 2) < 10 ) &&
-					( getObjectType _x >= 8 )
-					} ] call BIS_fnc_conditionalSelect;
-
-				_all_buildings = _all_buildings + _nextbuildings;
-			};
-		} foreach blufor_sectors;
-		
+				
 		_nextbuildings = [ allMissionObjects "", {
 			( ((typeof _x) in _classnames_to_save) && !((typeof _x) in AmmoFactory_allclasses) ) &&
-			( alive _x) &&
+			( alive _x ) &&
 			( speed _x < 5 ) &&
 			( isNull  attachedTo _x ) &&
 			( ( (getPos _x) select 2 ) < 30 ) &&
 			( getObjectType _x >= 8 ) &&
-			( (count(_x getVariable ["truePos", []]) > 0) || ((typeof _x) in GRLIB_mines_to_be_saved) )
+			( count(_x getVariable ["truePos", []]) > 0 )
 		} ] call BIS_fnc_conditionalSelect;
 		
 		_all_buildings = _all_buildings + _nextbuildings;
@@ -542,94 +653,105 @@ while { true } do {
 			_nextpos = [];
 			_nextdir = 0;
 			
-			if ( _building isKindOf "AllVehicles" || (_building getVariable ["ace_dragging_canCarry", false] || _building getVariable ["ace_dragging_canDrag", false]) ) then {
-				if ( _building isKindOf "Air" ) then {
-					if ( isTouchingGround _building || speed _building < 5 ) then {
+			if ( alive _building ) then {
+			
+				if ( _building isKindOf "AllVehicles" || (_building getVariable ["ace_dragging_canCarry", false] || _building getVariable ["ace_dragging_canDrag", false]) ) then {
+					if ( _building isKindOf "Air" ) then {
+						if ( isTouchingGround _building || speed _building < 5 ) then {
+							_nextpos = [] + (getPosATL _building);
+							_nextdir = 0 + (getDir _building);
+						} else {
+							_nextpos = [] + (_building getVariable "truePos");
+							_nextdir = 0 + (_building getVariable "trueDir");
+						};
+					} else {
 						_nextpos = [] + (getPosATL _building);
 						_nextdir = 0 + (getDir _building);
-					} else {
-						_nextpos = [] + (_building getVariable "truePos");
-						_nextdir = 0 + (_building getVariable "trueDir");
 					};
 				} else {
-					_nextpos = [] + (getPosATL _building);
-					_nextdir = 0 + (getDir _building);
+					_nextpos = [] + (_building getVariable "truePos");
+					_nextdir = 0 + (_building getVariable "trueDir");
 				};
-			} else {
-				_nextpos = [] + (_building getVariable "truePos");
-				_nextdir = 0 + (_building getVariable "trueDir");
-			};
-			
-			_hascrew = false;
-			_vectorup = vectorUp _building;
-			
-			_excludemag = [];
-			_vehammo = [];
-			_curmag = "";
-			{
-				_weapon = _x;
-				_rounds = _building ammo _weapon;
-				_mags = 0;
-				_prevmag = "";
 				
+				_hascrew = false;
+				_vectorup = vectorUp _building;
+				
+				_excludemag = [];
+				_vehammo = [];
+				_curmag = "";
 				{
-					_curmag = _x;
-					if ((_curmag isEqualTo _prevmag || _prevmag isEqualTo "") && !(_curmag in _excludemag)) then { _mags = _mags + 1; _prevmag = _curmag; };
-				} forEach magazines _building;
+					_weapon = _x;
+					_rounds = _building ammo _weapon;
+					_mags = 0;
+					_prevmag = "";
+					
+					{
+						_curmag = _x;
+						if ((_curmag isEqualTo _prevmag || _prevmag isEqualTo "") && !(_curmag in _excludemag)) then { _mags = _mags + 1; _prevmag = _curmag; };
+					} forEach magazines _building;
+					
+					_excludemag pushBack _prevmag;
+					_vehammo pushBack [_weapon, _rounds, _mags];
+				} forEach weapons _building;
 				
-				_excludemag pushBack _prevmag;
-				_vehammo pushBack [_weapon, _rounds, _mags];
-			} forEach weapons _building;
-			
-			_vehcargoammo = getAmmoCargo _building;
-			_vehfuel = fuel _building;
-			_vehcargofuel = getFuelCargo _building;
-			_vehcargorepair = getRepairCargo _building;
-			
-			_vehweaponcargo = getWeaponCargo _building;
-			_vehmagazinecargo = getMagazineCargo _building;
-			_vehbackpackcargo = getBackpackCargo _building;
-			_vehitemcargo = getItemCargo _building;
-			
-			_acecargo = [];
-			{
-				if ( typeName _x isEqualTo "OBJECT" ) then {
-					_acecargo pushBack (typeOf _x);
-				} else {
-					_acecargo pushBack _x;
+				_vehcargoammo = getAmmoCargo _building;
+				_vehfuel = fuel _building;
+				_vehcargofuel = getFuelCargo _building;
+				_vehcargorepair = getRepairCargo _building;
+				
+				_vehweaponcargo = getWeaponCargo _building;
+				_vehmagazinecargo = getMagazineCargo _building;
+				
+				_vehbackpacks = everyBackpack _building;
+				_vehignorecontainers = [];
+				
+				_vehbackpackcargo = [];
+				_vehcontainercargo = [];
+				{
+					if ( (_x select 1) in _vehbackpacks ) then {
+						_vehbackpackcargo pushBack [ _x select 0, getWeaponCargo (_x select 1), getMagazineCargo (_x select 1), getItemCargo (_x select 1) ];
+					} else {
+						_vehcontainercargo pushBack [ _x select 0, getWeaponCargo (_x select 1), getMagazineCargo (_x select 1), getItemCargo (_x select 1) ];
+						_vehignorecontainers pushBack (_x select 0);
+					};
+				} forEach (everyContainer _building);
+				
+				_vehitemcargo = [[],[]];
+				{
+					if !( _x in _vehignorecontainers ) then {
+						(_vehitemcargo select 0) pushBack _x;
+						(_vehitemcargo select 1) pushBack (((getItemCargo _building) select 1) select _forEachIndex);
+					};
+				} forEach ((getItemCargo _building) select 0);
+				
+				_acecargo = [];
+				{
+					if ( typeName _x isEqualTo "OBJECT" ) then {
+						_acecargo pushBack (typeOf _x);
+					} else {
+						_acecargo pushBack _x;
+					};
+				} forEach (_building getVariable ["ace_cargo_loaded", []]);
+				
+				_vehdamage = damage _building;
+				_vehhitpointdamage = getAllHitPointsDamage _building;
+				
+				_vehticker = _building getVariable [ "GRLIB_empty_vehicle_ticker", 0 ];
+				
+				_animstate = [];
+				if ( _nextclass == "Land_BarGate_F" ) then {
+					_animstate pushBack ( _building animationPhase "Door_1_rot" );
 				};
-			} forEach (_building getVariable ["ace_cargo_loaded", []]);
-			
-			_vehdamage = damage _building;
-			_vehhitpointdamage = getAllHitPointsDamage _building;
-			
-			_vehticker = _building getVariable [ "GRLIB_empty_vehicle_ticker", 0 ];
-			
-			_animstate = [];
-			if ( _nextclass == "Land_BarGate_F" ) then {
-				_animstate pushBack ( _building animationPhase "Door_1_rot" );
-			};
-			
-			if ( _nextclass in _classnames_to_save_blu ) then {
-				if ( ( { !isPlayer _building } count (crew _building) ) > 0 ) then {
-					_hascrew = true;
+				
+				if ( _nextclass in _classnames_to_save_blu ) then {
+					if ( ( { !isPlayer _building } count (crew _building) ) > 0 ) then {
+						_hascrew = true;
+					};
 				};
+				buildings_to_save pushback [ _nextclass,_nextpos,_nextdir,_hascrew,_vectorup,[_vehammo,_vehcargoammo,_vehfuel,_vehcargofuel,_vehweaponcargo,_vehmagazinecargo,_vehbackpackcargo,_vehitemcargo,_vehdamage,_vehhitpointdamage,_vehcargorepair,_vehticker,_acecargo, _vehcontainercargo], _animstate ];
 			};
-			buildings_to_save pushback [ _nextclass,_nextpos,_nextdir,_hascrew,_vectorup,[_vehammo,_vehcargoammo,_vehfuel,_vehcargofuel,_vehweaponcargo,_vehmagazinecargo,_vehbackpackcargo,_vehitemcargo,_vehdamage,_vehhitpointdamage,_vehcargorepair,_vehticker,_acecargo], _animstate ];
 		} foreach _all_buildings;
 		
-		_mines = [ allMissionObjects "", { (typeof _x) in GRLIB_mines_to_be_saved } ] call BIS_fnc_conditionalSelect;
-		diag_log format["MINES: %1",_mines];
-		{
-			_mine = _x;
-			_nextclass = typeof _mine;
-			
-			_nextpos = [] + [(getPosATL _mine) select 0, (getPosATL _mine) select 1, 0];
-			_nextdir = 0 + getDir _mine;
-			
-			mines_to_save pushback [ _nextclass,_nextpos,_nextdir ];
-		} foreach _mines;
-
 		time_of_day = date select 3;
 
 		stats_saves_performed = stats_saves_performed + 1;
@@ -684,7 +806,7 @@ while { true } do {
 		_stats pushback stats_readiness_earned;
 
 		greuh_liberation_savegame = [ blufor_sectors, GRLIB_all_fobs, buildings_to_save, time_of_day,round combat_readiness, date select 0, date select 1, date select 2, round resources_ammo, _stats,
-		[ round infantry_weight, round armor_weight, round air_weight ], GRLIB_vehicle_to_military_base_links, GRLIB_permissions, ai_groups, resources_intel, GRLIB_player_scores, mines_to_save ];
+		[ round infantry_weight, round armor_weight, round air_weight ], GRLIB_vehicle_to_military_base_links, GRLIB_permissions, ai_groups, resources_intel, GRLIB_player_scores, mines_to_save, (missionNamespace getVariable ["specops_mode", 0]) ];
 
 		profileNamespace setVariable [ GRLIB_save_key, greuh_liberation_savegame ];
 		saveProfileNamespace;

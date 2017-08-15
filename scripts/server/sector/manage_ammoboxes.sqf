@@ -8,9 +8,11 @@ _compatible_classnames = [
 "Land_Cargo_House_V1_F",
 "Land_Cargo_House_V2_F",
 "Land_Cargo_House_V3_F",
+"Land_Cargo_House_V4_F",
 "Land_Cargo_HQ_V1_F",
 "Land_Cargo_HQ_V2_F",
 "Land_Cargo_HQ_V3_F",
+"Land_Cargo_HQ_V4_F",
 "Land_Medevac_house_V1_F",
 "Land_Medevac_HQ_V1_F",
 "Land_i_Barracks_V1_F",
@@ -18,6 +20,17 @@ _compatible_classnames = [
 "Land_i_Barracks_V2_F",
 "Land_i_Barracks_V2_dam_F",
 "Land_u_Barracks_V2_F",
+"Land_u_Barracks_01_dilapidated_F",
+"Land_u_Barracks_01_grey_F",
+"Land_u_Barracks_01_camo_F",
+"Land_Mil_Barracks_i",
+"Land_Mil_Barracks_EP1",
+"Land_Mil_Barracks_i_EP1",
+"Land_Barrack2_EP1",
+"Land_Budova4",
+"Land_Budova4_in",
+"Land_Barrack2",
+"Barrack2",
 "Land_MilOffices_V1_F",
 "Land_Research_HQ_F",
 "Land_Research_house_V1_F"
@@ -42,7 +55,7 @@ if ( !( _sector in GRLIB_military_sectors_already_activated )) then {
 
 			_spawnpos = zeropos;
 			while { _spawnpos distance zeropos < 1000 } do {
-				_spawnpos =  ( [ ( markerpos _sector), random 50, random 360 ] call BIS_fnc_relPos ) findEmptyPosition [10, 100, 'B_Heli_Transport_01_F'];
+				_spawnpos =  ( (markerpos _sector) getpos [ random 50, random 360 ] ) findEmptyPosition [10, 100, 'B_Heli_Transport_01_F'];
 				if ( count _spawnpos == 0 ) then { _spawnpos = zeropos; };
 			};
 
@@ -115,7 +128,7 @@ if ( !( _sector in GRLIB_military_sectors_already_activated )) then {
 
 				if ( _debug ) then {
 					_marker = createMarkerLocal [ format [ "markedveh%1" ,(getpos _intelobject) select 0 ], getpos _intelobject ];
-					_marker setMarkerColorLocal "ColorRED";
+					_marker setMarkerColorLocal GRLIB_color_enemy_bright;
 					_marker setMarkerTypeLocal "mil_dot";
 				};
 

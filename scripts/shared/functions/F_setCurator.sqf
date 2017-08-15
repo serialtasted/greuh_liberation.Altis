@@ -12,4 +12,4 @@ if ( _assign ) then {
 	_msg = format [ "%1 is no longer the Commander in charge.", ( name _unit ) ];
 };
 
-[_msg] remoteExec ["systemChat"];
+_msg remoteExec ["systemChat"];

@@ -1,5 +1,9 @@
 private [ "_cam" ];
 
+if ( isNil "forceGiveUp" ) then { forceGiveUp = false };
+if ( isNil "isAllDead" ) then { isAllDead = false };
+if ( isNil "deadDiag" ) then { deadDiag = false };
+
 while { true } do {
 	waitUntil {	player getVariable ["ACE_isUnconscious", false] };
 	
@@ -30,30 +34,79 @@ while { true } do {
 	
 	_cam camCommit 0;
 	
-	//"SmokeShellOrange" createVehicle [(getPosATL player) select 0, (getPosATL player) select 1, (getPosATL player) select 2];
-	
 	_cam camSetPos [(getPosASLW player) select 0, (getPosASLW player) select 1, ((getPosASLW player) select 2) + 250];
 	_cam camCommit 1505;
 	
 	player spawn {
-		
-		private _delayrespawn = 0;
+		_delayrespawn = 0;
+		_playersalive = 0;
 		while { _delayrespawn < 600 } do {
 			sleep 1;
-			if ( player getVariable ["ACE_isUnconscious", false] ) then { _delayrespawn = _delayrespawn + 1 }
+			_playersalive = count ( [ getpos player , 2500 ] call F_getNearbyPlayers );
+			if ( (player getVariable ["ACE_isUnconscious", false] ) && _playersalive > 0 && !forceGiveUp ) then { _delayrespawn = _delayrespawn + 1 }
 			else { _delayrespawn = 600 };
 		};
 		
 		if ( player getVariable ["ACE_isUnconscious", false] ) then {
-			_dialog = createDialog "St_DeadScreen";
-			waitUntil { dialog };
+			forceGiveUp = true;
+			if !( _playersalive > 0 ) then { isAllDead = true } else { isAllDead = false };
 		};
-		
 	};
 	
-	waitUntil {	player getVariable ["ACE_isUnconscious", true] isEqualTo false	};
+	if (dialog) then {
+		closeDialog 0;
+	};
 	
-	if ( dialog ) then {
+	player call {
+		
+		waitUntil { !dialog };
+		sleep 7;
+	
+		disableSerialization;
+		deadDiag = true;
+		
+		_dialog = createDialog "St_DeadScreen";
+		waitUntil { dialog };
+		
+		(findDisplay 2491) displayAddEventHandler ["KeyDown", "if ((_this select 1) == 1) then { true }"];
+		
+		_txtmsg = "";
+		_controlText = ((findDisplay 2491) displayCtrl 2451);
+		_controlButton = ((findDisplay 2491) displayCtrl 2450);
+		_controlButton ctrlShow false;
+		
+		while { dialog && deadDiag } do {
+			
+			if ( !(player getVariable ["ACE_isUnconscious", false]) || damage player == 1 ) then { deadDiag = false };
+			
+			if ( forceGiveUp ) then { 
+				_controlButton ctrlShow true;
+				
+				if ( isAllDead ) then {
+					_txtmsg = format["All friendly units nearby are dead!"];
+				} else {
+					_txtmsg = format["It seems no one's coming to help you... #foreveralone"];
+				};
+			} else {
+				_playersalive = count ( [ getpos player , 2500 ] call F_getNearbyPlayers );
+				
+				if ( _playersalive == 1 ) then {
+					_txtmsg = format["There are %1 friendly unit nearby... Hang on soldier!", _playersalive];
+				} else {
+					_txtmsg = format["There are %1 friendly units nearby... Hang on soldier!", _playersalive];
+				};
+			};
+			
+			_controlText ctrlSetText toUpper(_txtmsg);
+		};
+	};
+	
+	waitUntil {	!(player getVariable ["ACE_isUnconscious", false]) || damage player == 1  };
+	
+	forceGiveUp = false;
+	isAllDead = false;
+	
+	if (dialog) then {
 		closeDialog 0;
 	};
 	

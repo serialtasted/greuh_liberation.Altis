@@ -647,5 +647,15 @@ class St_ClassSelector {
 			w = 0.125;
 			h = 0.04;
 		};
+		class btn_reload: CS_RscButtonMenu
+		{
+			idc = 2415;
+			text = "Reload Class";
+			onButtonClick = " CSclosed = true; classtogo = 'reload'; closeDialog 0; ";
+			x = 0.665;
+			y = 0.985;
+			w = 0.195;
+			h = 0.04;
+		};
 	};
 };

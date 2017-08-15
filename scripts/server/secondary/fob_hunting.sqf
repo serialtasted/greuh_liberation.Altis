@@ -2,11 +2,11 @@
 _defenders_amount = 15 * ( sqrt ( GRLIB_unitcap ) );
 if ( _defenders_amount > 15 ) then { _defenders_amount = 15 };
 _fob_templates = [
-"scripts\fob_templates\template1.sqf",
-"scripts\fob_templates\template2.sqf",
-"scripts\fob_templates\template3.sqf",
+"scripts\fob_templates\template5.sqf",
 "scripts\fob_templates\template4.sqf",
-"scripts\fob_templates\template5.sqf"
+"scripts\fob_templates\template3.sqf",
+"scripts\fob_templates\template2.sqf",
+"scripts\fob_templates\template1.sqf"
 ];
 
 _spawn_marker = [2000,999999,false] call F_findOpforSpawnPoint;
@@ -65,7 +65,7 @@ sleep 1;
 
 { _x setDamage 0; } foreach (_base_objectives + _base_objects);
 
-_grpdefenders = createGroup EAST;
+_grpdefenders = createGroup GRLIB_side_enemy;
 _idxselected = [];
 while { count _idxselected < _defenders_amount } do {
 	_idx = floor (random (count _defenders_to_build));
@@ -88,7 +88,7 @@ while { count _idxselected < _defenders_amount } do {
 
 _sentry = ceil ((3 + (floor (random 4))) * ( sqrt ( GRLIB_unitcap ) ) );
 
-_grpsentry = createGroup EAST;
+_grpsentry = createGroup GRLIB_side_enemy;
 _base_sentry_pos = [(_base_position select 0) + ((_base_corners select 0) select 0), (_base_position select 1) + ((_base_corners select 0) select 1),0];
 for [ {_idx=0},{_idx < _sentry},{_idx=_idx+1} ] do {
 	opfor_sentry createUnit [_base_sentry_pos, _grpsentry,"this addMPEventHandler [""MPKilled"", {_this spawn kill_manager}]", 0.5, "private"];
@@ -113,7 +113,7 @@ secondary_objective_position_marker = [(((secondary_objective_position select 0)
 publicVariable "secondary_objective_position_marker";
 sleep 1;
 GRLIB_secondary_in_progress = 0; publicVariable "GRLIB_secondary_in_progress";
-[2] remoteExec ["remote_call_intel"];
+[ [ 2 ] , "remote_call_intel" ] call BIS_fnc_MP;
 
 waitUntil {
 	sleep 5;
@@ -126,6 +126,6 @@ sleep 1;
 trigger_server_save = true;
 sleep 3;
 
-[3] remoteExec ["remote_call_intel"];
+[ [ 3 ] , "remote_call_intel" ] call BIS_fnc_MP;
 
 GRLIB_secondary_in_progress = -1; publicVariable "GRLIB_secondary_in_progress";

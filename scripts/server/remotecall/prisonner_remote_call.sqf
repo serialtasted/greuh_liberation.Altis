@@ -1,5 +1,5 @@
 params [ "_unit" ];
-private [ "_yield", "_resistance_prisonner_ammo_yield", "_csat_prisonner_ammo_yield" ];
+private [ "_yield", "_resistance_prisonner_intel_yield", "_csat_prisonner_ammo_yield" ];
 
 _resistance_prisonner_intel_yield = 3;
 _csat_prisonner_intel_yield = 6;
@@ -12,5 +12,5 @@ if ( isServer ) then {
 	resources_intel = resources_intel + ( _yield + (round (random _yield)));
 	stats_prisonners_captured = stats_prisonners_captured + 1;
 
-	[ 0 ] remoteExec ["remote_call_intel"];
+	[ [ 0 ] , "remote_call_intel" ] call BIS_fnc_MP;
 };

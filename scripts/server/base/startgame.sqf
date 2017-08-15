@@ -4,6 +4,15 @@ waitUntil { !isNil "save_is_loaded" };
 
 private [ "_fobbox" ];
 
+medicalpod setVariable ["ace_medical_medicClass", 1, true];
+medicalpod enableRopeAttach false;
+medicalpod lock 2;
+[medicalpod,[0,"res\tex\pod_ext01_co.paa"]] remoteExec ["setObjectTexture",0,true];
+[medicalpod,[1,"res\tex\pod_ext02_co.paa"]] remoteExec ["setObjectTexture",0,true];
+medicalpod setVariable ['ace_dragging_canCarry', false]; 
+medicalpod setVariable ['ace_dragging_canDrag', false]; 
+medicalpod setVariable ['ace_cargo_canLoad', 0];
+
 if ( count GRLIB_all_fobs == 0 ) then {
 
 	if ( GRLIB_build_first_fob ) then {
@@ -28,23 +37,19 @@ if ( count GRLIB_all_fobs == 0 ) then {
 	} else {
 		while { count GRLIB_all_fobs == 0 } do {
 
-			if ( GRLIB_isAtlasPresent ) then {
-				_fobbox = FOB_box_typename createVehicle [0,0,50];
-				_fobbox enableSimulationGlobal false;
-				_fobbox allowDamage false;
-				_fobbox setposasl [(getpos lhd select 0) + 10, (getpos lhd select 1) + 62, (18.5   + (getposasl lhd select 2))];
-				clearItemCargoGlobal _fobbox;
-				_fobbox setDir 130;
-				sleep 1;
-				_fobbox enableSimulationGlobal true;
-				_fobbox allowDamage true;
-			} else {
-				_fobbox = FOB_box_typename createVehicle (getpos base_boxspawn);
-				_fobbox setpos (getpos base_boxspawn);
-				_fobbox setdir 215;
-			};
-
-			//[_fobbox, 3000 ] remoteExec ["F_setMass"];
+			_fobbox = FOB_box_typename createVehicle (getposATL base_boxspawn);
+			_fobbox setposATL (getposATL base_boxspawn);
+			_fobbox setdir getDir base_boxspawn;
+			
+			sleep 1;
+			
+			_fobbox enableSimulationGlobal true;
+			_fobbox allowDamage true;
+			clearItemCargoGlobal _fobbox;
+			clearBackpackCargoGlobal _fobbox;
+			clearMagazineCargoGlobal _fobbox;
+			clearWeaponCargoGlobal _fobbox;
+			[ [_fobbox, 1000 ] , "F_setMass" ] call BIS_fnc_MP;
 
 			sleep 3;
 
