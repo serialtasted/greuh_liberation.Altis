@@ -596,6 +596,18 @@ while { true } do {
 		{
 			_fobpos = _x;
 			
+			_nextbuildings = [ _fobpos nearobjects (GRLIB_fob_range * 2), {
+				( ((typeof _x) in _classnames_to_save) && !(_x in vehicles) ) &&
+				( alive _x ) &&
+				( speed _x < 5 ) &&
+				( isNull  attachedTo _x ) &&
+				( ( (getPos _x) select 2 ) < 30 ) &&
+				( getObjectType _x >= 8 ) &&
+				( count(_x getVariable ["truePos", []]) > 0 )
+			} ] call BIS_fnc_conditionalSelect;
+
+			_all_buildings = _all_buildings + _nextbuildings;
+			
 			{
 				_nextgroup = _x;
 				if (  side _nextgroup == GRLIB_side_friendly ) then {
@@ -634,8 +646,8 @@ while { true } do {
 			
 		} foreach GRLIB_all_fobs;
 				
-		_nextbuildings = [ allMissionObjects "", {
-			( ((typeof _x) in _classnames_to_save) && !((typeof _x) in AmmoFactory_allclasses) ) &&
+		_nextvehicles = [ vehicles, {
+			( ((typeof _x) in _classnames_to_save) ) &&
 			( alive _x ) &&
 			( speed _x < 5 ) &&
 			( isNull  attachedTo _x ) &&
@@ -644,7 +656,7 @@ while { true } do {
 			( count(_x getVariable ["truePos", []]) > 0 )
 		} ] call BIS_fnc_conditionalSelect;
 		
-		_all_buildings = _all_buildings + _nextbuildings;
+		_all_buildings = _all_buildings + _nextvehicles;
 		
 		{
 			_building = _x;

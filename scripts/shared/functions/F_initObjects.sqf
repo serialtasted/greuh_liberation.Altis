@@ -33,7 +33,6 @@ _defaultColor = "Olive";
 if ( GRLIB_worldType == "desert" ) then { _defaultColor = "Desert" };
 
 if ( _vehicle isKindOf "Land" ) then {
-							
 	switch (_classname) do {
 		case "C_Offroad_01_repair_F": { 
 			[
@@ -63,12 +62,59 @@ if ( _vehicle isKindOf "Land" ) then {
 				]
 			] call BIS_fnc_initVehicle;
 		};
+		case "C_Van_02_service_F": { 
+			[
+				_vehicle,
+				nil,
+				[
+					"ladder_hide", 0,
+					"spare_tyre_holder_hide", 0,
+					"spare_tyre_hide", 0,
+					"reflective_tape_hide", 0,
+					"roof_rack_hide", 0,
+					"LED_lights_hide", 0,
+					"sidesteps_hide", 0,
+					"front_protective_frame_hide", 0,
+					"beacon_front_hide", 0,
+					"beacon_rear_hide", 0
+				]
+			] call BIS_fnc_initVehicle;
+		};
+		case "C_Van_02_medevac_F": { 
+			[
+				_vehicle,
+				nil,
+				[
+					"reflective_tape_hide", 0,
+					"LED_lights_hide", 0,
+					"sidesteps_hide", 0,
+					"beacon_front_hide", 0,
+					"beacon_rear_hide", 0
+				]
+			] call BIS_fnc_initVehicle;
+		};
 		default {
 			[
 				_vehicle,
 				[_defaultColor,1], 
 				true
 			] call BIS_fnc_initVehicle;
+		};
+	};
+	
+	if ( _classname == "C_Van_02_transport_F" || _classname == "C_Van_02_service_F" || _classname == "C_Van_02_vehicle_F" ) then {
+		if ( _defaultColor == "Olive" ) then {
+			[_vehicle,[0,"res\tex\orangevan_woodland_co.paa"]] remoteExec ["setObjectTexture",0,true]
+		} else {
+			[_vehicle,[0,"res\tex\orangevan_desert_co.paa"]] remoteExec ["setObjectTexture",0,true];
+		};
+	};
+	
+	if ( _classname == "C_Van_02_medevac_F" ) then {
+		if ( _defaultColor == "Olive" ) then {
+			[_vehicle,[0,"res\tex\orangevan_medical_woodland_co.paa"]] remoteExec ["setObjectTexture",0,true]
+		} else {
+			[_vehicle,[0,"res\tex\orangevan_medical_desert_co.paa"]] remoteExec ["setObjectTexture",0,true];
 		};
 	};
 };

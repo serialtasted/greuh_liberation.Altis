@@ -116,21 +116,21 @@ TAA_Repairman_Actions =
 	add1Exist = true;
 	add10Exist = true;
 	
-	add1 = player addAction ["Check Vehicle", "scripts\misc\repair\TAA_repair_handle_action.sqf", ["action_check"], 10, true, true, "", "call TAA_vehicle_statute"];
+	add1 = player addAction ["<t color='#FFFF00'>-- CHECK VEHICLE</t> <img size='2' image='res\ui_wrench.paa'/>", "scripts\misc\repair\TAA_repair_handle_action.sqf", ["action_check"], -900, true, true, "", "call TAA_vehicle_statute"];
 	
-	add10 = player addAction ["Check Aircraft", "scripts\misc\repair\TAA_repair_handle_action.sqf", ["action_check_air"], 10, true, true, "", "call TAA_Air_statute"];
+	add10 = player addAction ["<t color='#FFFF00'>-- CHECK AIRCRAFT</t> <img size='2' image='res\ui_wrench.paa'/>", "scripts\misc\repair\TAA_repair_handle_action.sqf", ["action_check_air"], -900, true, true, "", "call TAA_Air_statute"];
 	
 	while { true } do 
 	{
 		private ["_vehicle","_detection","_detectionair"];
 		_vehicle = ["B_MRAP_01_F"];
-		_detection = nearestObjects [player, ["Car","Truck","Tank"], 5];
-		_detectionair = nearestObjects [player, ["Air"], 5];
+		_detection = nearestObjects [player, ["Car","Truck","Tank"], 3];
+		_detectionair = nearestObjects [player, ["Air"], 3];
 		if (count _detection > 0 && vehicle player == player && Player_class in Class_allowed) then
 		 {    
 
         	if(!add1Exist) then {
-				add1 = player addAction ["Check Vehicle", "scripts\misc\repair\TAA_repair_handle_action.sqf", ["action_check"], 10, true, true, "", "call TAA_vehicle_statute"];
+				add1 = player addAction ["<t color='#FFFF00'>-- CHECK VEHICLE</t> <img size='2' image='res\ui_wrench.paa'/>", "scripts\misc\repair\TAA_repair_handle_action.sqf", ["action_check"], -900, true, true, "", "call TAA_vehicle_statute"];
 				add1Exist = true;
 			};
 		}
@@ -147,7 +147,7 @@ TAA_Repairman_Actions =
 		if (count _detectionair > 0 && vehicle player == player && Player_class in Class_allowed) then
 		{    
 			if(!add10Exist) then {
-				add10 = player addAction ["Check Aircraft", "scripts\misc\repair\TAA_repair_handle_action.sqf", ["action_check_air"], 10, true, true, "", "call TAA_Air_statute"];
+				add10 = player addAction ["<t color='#FFFF00'>-- CHECK AIRCRAFT</t> <img size='2' image='res\ui_wrench.paa'/>", "scripts\misc\repair\TAA_repair_handle_action.sqf", ["action_check_air"], -900, true, true, "", "call TAA_Air_statute"];
 				add10Exist = true;
 			};
 		}
