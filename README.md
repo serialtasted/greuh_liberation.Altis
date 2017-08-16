@@ -25,36 +25,54 @@ I have done a lot of work on this mission trying to fill some realistic gaps tha
 * Weapons and items restrictions for each class,
 * Player persistency (position, direction, stand, ace medical status, class, loadout),
 * Better object handling when placing. You can place lighter objects on top of buildings,
-* Ammo Factories to produce resources,
-* Pushback sript for planes by Jack Ost,
 * Integrated [TAA] Realistic Repair by [TAA]Jérôme with ACE 3 repair system,
 * Integrated and heavly modified version of TFAR radio handler script by SENSEI,
 * Pre-made squads with radio settings,
+* Ambient combat increases chance of enemy encounters outside of the AO,
+* More intense reinforcements for both sides,
+* Enemy IEDS on the roads,
 * And way more things!! Seriously, there's a lot of changes on this version.
 
 ## Addon dependencies
 
 * ACE 3
-* ATLAS LHD
-* USS Nimitz
-* FHQ Accessories
-* JNS Skycranes
-* MRT Accessory Functions
-* MELB
-* RH Pistols
-* RHS AFRF and USF
+* FFAA Spanish Forces
+* Project OPFOR
+* RHS AFRF // USF // GREF
 * Task Force Radio
-* United States Air Force
+* TFW Radios
 
 ## Recommended addons
 
+* Advanced Rappeling
+* Advanced Urban Rappeling
+* Advanced Towing
+* Advanced Sling Loading
+* ASR AI3
 * Burnes LCAC
 * FFAAV Spanish Forces
+* F-16 Fighting Falcon
 * F/A-18 Super Hornet
-* Lesh Tow
-* Kimi's Helo HUD
-* Advanced Towing
-* Vcom AI
+
+## Map Compatibility (dependencies)
+
+### Altis
+* Nothing more
+
+### Chernarus // Chernarus Summer
+* CUP Terrains
+* Open Chernarus Project
+
+### Lythium
+* Jbad
+* Lythium Map from FFAA Team
+
+### Takistan
+* CUP Terrains
+* TF47 Desert Vehicle Pack  
+
+### Tanoa
+* Nothing more
 
 ## Links
 
