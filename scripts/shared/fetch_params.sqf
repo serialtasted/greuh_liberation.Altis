@@ -25,7 +25,7 @@ if ( isMultiplayer ) then {
 	GRLIB_weather_param = ["Weather",3] call bis_fnc_getParamValue;
 	GRLIB_shorter_nights = ["ShorterNights",0] call bis_fnc_getParamValue;
 	GRLIB_ammo_bounties = ["AmmoBounties",0] call bis_fnc_getParamValue;
-	GRLIB_civ_penalties = ["CivPenalties",0] call bis_fnc_getParamValue;
+	GRLIB_civ_penalties = ((["CivPenalties",0] call bis_fnc_getParamValue) / 100);
 	GRLIB_remote_sensors = ["DisableRemoteSensors",0] call bis_fnc_getParamValue;
 	GRLIB_blufor_defenders = [ "BluforDefenders",1] call bis_fnc_getParamValue;
  	GRLIB_autodanger = [ "Autodanger",0] call bis_fnc_getParamValue;
@@ -85,7 +85,6 @@ if ( GRLIB_passive_income == 1 ) then { GRLIB_passive_income = true } else { GRL
 if ( GRLIB_permissions_param == 1 ) then { GRLIB_permissions_param = true } else { GRLIB_permissions_param = false };
 if ( GRLIB_shorter_nights == 1 ) then { GRLIB_shorter_nights = true } else { GRLIB_shorter_nights = false };
 if ( GRLIB_ammo_bounties == 1 ) then { GRLIB_ammo_bounties = true } else { GRLIB_ammo_bounties = false };
-if ( GRLIB_civ_penalties == 1 ) then { GRLIB_civ_penalties = true } else { GRLIB_civ_penalties = false };
 if ( GRLIB_param_resetelite == 1 ) then { GRLIB_param_resetelite = true } else { GRLIB_param_resetelite = false };
 if ( GRLIB_blufor_defenders == 1 ) then { GRLIB_blufor_defenders = true } else { GRLIB_blufor_defenders = false };
 if ( GRLIB_autodanger == 1 ) then { GRLIB_autodanger = true } else { GRLIB_autodanger = false };

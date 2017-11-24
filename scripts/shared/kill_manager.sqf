@@ -1,8 +1,10 @@
-params [ "_unit", "_killer" ];
-private [ "_nearby_bigtown" ];
+params [ "_unit" ];
+private [ "_nearby_bigtown", "_killer" ];
+
+_killer = _unit getVariable ["ace_medical_lastDamageSource", objNull];
 
 if ( isServer ) then {
-
+	
 	please_recalculate = true;
 
 	if ( isNil "infantry_weight" ) then { infantry_weight = 33 };
@@ -48,11 +50,13 @@ if ( isServer ) then {
 	if ( _unit isKindOf "Man" ) then {
 		if ( side (group _unit) == GRLIB_side_civilian ) then {
 			stats_civilians_killed = stats_civilians_killed + 1;
-			if ( isPlayer _killer ) then {
+			if ( ( isPlayer _killer || _killer getVariable ["isBomber", false] ) && !(_unit getVariable ["isBomber", false]) ) then {
 				stats_civilians_killed_by_players = stats_civilians_killed_by_players + 1;
 
-				if ( GRLIB_civ_penalties ) then {
-					resources_ammo = resources_ammo - GRLIB_civ_killing_penalty;
+				if ( GRLIB_civ_penalties > 0 ) then {
+					resources_ammo = resources_ammo - round(random( GRLIB_civ_killing_penalty * GRLIB_civ_penalties ));
+					civ_aggression = civ_aggression + round(random( (GRLIB_civ_killing_penalty * 0.75) * GRLIB_civ_penalties ));
+					if ( civ_aggression > 100.0 && GRLIB_difficulty_modifier < 2 ) then { civ_aggression = 100.0 };
 					[ [ name _unit, GRLIB_civ_killing_penalty, _killer ] , "remote_call_civ_penalty" ] call BIS_fnc_MP;
 				};
 			};

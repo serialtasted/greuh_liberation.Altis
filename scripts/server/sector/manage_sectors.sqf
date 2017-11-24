@@ -30,7 +30,7 @@ while { GRLIB_endgame == 0 } do {
 		};
 		sleep 0.25;
 
-	} foreach ( sectors_allSectors - blufor_sectors );
+	} foreach ( sectors_allSectors /*- blufor_sectors*/ );
 
 	diag_log format [ "Full sector scan at %1, active sectors: %2", time, active_sectors ];
 

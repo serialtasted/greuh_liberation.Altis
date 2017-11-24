@@ -106,7 +106,7 @@ if ( (!(_sector in blufor_sectors)) &&  ( ( [ getmarkerpos _sector , [ _opforcou
 		};
 		if((random 100) > 66) then { _vehtospawn pushback ( [] call F_getAdaptiveVehicle ); };
 		if((random 100) > 33) then { _vehtospawn pushback (militia_vehicles call BIS_fnc_selectRandom); };
-		_spawncivs = false;
+		_spawncivs = true;
 		_building_ai_max = round ((floor (18 + (round (combat_readiness / 10 )))) * _popfactor);
 		_building_range = 100;
 		_iedcount = (floor (random 3)) * GRLIB_difficulty_modifier;
@@ -264,6 +264,17 @@ if ( (!(_sector in blufor_sectors)) &&  ( ( [ getmarkerpos _sector , [ _opforcou
 		sleep 5;
 	};
 } else {
+	_civs = [ _sectorpos nearEntities ["Man", GRLIB_capture_size], { (side _x) == GRLIB_side_civilian  } ] call BIS_fnc_conditionalSelect;
+	if ( (_sector in blufor_sectors) && ( count(_civs) < 5) ) then {
+		if ( _sector in sectors_bigtown ) then { _spawncivs = true };
+		if ( _sector in sectors_capture ) then { _spawncivs = true };
+		if ( _sector in sectors_factory ) then { _spawncivs = true };
+	
+		if ( _spawncivs && GRLIB_civilian_activity > 0) then {
+			_managed_units = _managed_units + ( [ _sector ] call F_spawnCivilians );
+		};
+	};
+	
 	sleep 40;
 	active_sectors = active_sectors - [ _sector ]; publicVariable "active_sectors";
 	diag_log format [ "Sector %2 checkpoint S at %1", time, _sector ];

@@ -19,6 +19,7 @@ player_isunconscious = false;
 player_team = "PTr_alpha";
 player_stance = "";
 player_damage = [0,0,0,0,0,0];
+player_hasearplugs = false;
 
 _damageHead = 0;
 _damageBody = 0;
@@ -54,7 +55,6 @@ if ( !isNil "greuh_liberation_client" ) then {
 	player_stance = greuh_liberation_client select 6;
 	player_damage = greuh_liberation_client select 7;
 	
-	player_hasearplugs = false;
 	if ( count greuh_liberation_savegame > 8 ) then {
 		player_hasearplugs = greuh_liberation_client select 8;
 	};

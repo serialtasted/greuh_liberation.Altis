@@ -73,9 +73,9 @@ class Civilians{
 };
 class CivPenalties{
  	title = $STR_CIV_PENALTIES;
- 	values[] = {1,0};
- 	texts[] = { $STR_PARAMS_ENABLED, $STR_PARAMS_DISABLED };
- 	default = 1;
+ 	values[] = { 0, 25, 50, 75, 100, 125, 150, 200, 300 };
+ 	texts[] = { $STR_PARAMS_DISABLED, "x0.25", "x0.5", "x0.75", "x1", "x1.25","x1.5","x2","x3" };
+ 	default = 150;
 };
 class TeamkillPenalty{
 	title = $STR_PARAM_TEAMKILL_PENALTY;

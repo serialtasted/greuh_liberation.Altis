@@ -59,10 +59,19 @@ while { true } do {
 			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (101)) ctrlSetText format [ "%1/%2", (floor resources_infantry),infantry_cap ];
 			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (102)) ctrlSetText format [ "%1", (floor resources_ammo) ];
 			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (103)) ctrlSetText format [ "%1/%2", (floor resources_fuel),fuel_cap ];
-			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (104)) ctrlSetText format [ "%1/%2", unitcap,([] call F_localCap) ];
+			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (104)) ctrlSetText format [ "%1%2", round(civ_aggression),"%" ]; //[ "%1/%2", unitcap,([] call F_localCap) ];
 			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (105)) ctrlSetText format [ "%1%2", round(combat_readiness),"%" ];
 			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (106)) ctrlSetText format [ "%1", round(resources_intel) ];
 
+			_color_civ_aggression = [0.8,0.8,0.8,1];
+			if ( civ_aggression >= 25 ) then { _color_civ_aggression = [0.8,0.8,0,1] };
+			if ( civ_aggression >= 50 ) then { _color_civ_aggression = [0.8,0.6,0,1] };
+			if ( civ_aggression >= 75 ) then { _color_civ_aggression = [0.8,0.3,0,1] };
+			if ( civ_aggression >= 100 ) then { _color_civ_aggression = [0.8,0,0,1] };
+
+			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (104)) ctrlSetTextColor _color_civ_aggression;
+			((uiNamespace getVariable 'GUI_OVERLAY') displayCtrl (134)) ctrlSetTextColor _color_civ_aggression;
+			
 			_color_readiness = [0.8,0.8,0.8,1];
 			if ( combat_readiness >= 25 ) then { _color_readiness = [0.8,0.8,0,1] };
 			if ( combat_readiness >= 50 ) then { _color_readiness = [0.8,0.6,0,1] };

@@ -136,7 +136,9 @@ air_vehicles = [
 	["RHS_A10",4,700,85],
 	["FIR_F16C",4,650,75],
 	["FIR_F16D",4,650,75],
-	["B_Plane_Fighter_01_F",4,800,90],
+	["JS_JC_FA18E",4,800,75],
+	["JS_JC_FA18F",4,800,75],
+	["B_Plane_Fighter_01_Stealth_F",4,900,90],
 	["ffaa_et_searcherIII",1,50,35],
 	["ffaa_reaper_gbu",2,160,35],
 	["ffaa_reaper_maverick",2,160,35],
@@ -452,7 +454,7 @@ civilian_vehicles = [
 
 // Elite vehicles that should be unlocked through military base capture.
 elite_vehicles = [
-	"B_Plane_Fighter_01_F",
+	"B_Plane_Fighter_01_Stealth_F",
 	"ffaa_reaper_gbu",
 	"ffaa_reaper_maverick",
 	"B_UAV_05_F",

@@ -70,6 +70,7 @@ wait_to_spawn_sector = compileFinal preprocessFileLineNumbers "scripts\server\se
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\save_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\spawn_radio_towers.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\spawn_wrecks.sqf";
+[] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\minefield_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\ied_manager.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\synchronise_vars.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\game\zeus_synchro.sqf";
@@ -79,7 +80,7 @@ wait_to_spawn_sector = compileFinal preprocessFileLineNumbers "scripts\server\se
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\patrols\civilian_patrols.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\patrols\manage_patrols.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\patrols\reinforcements_resetter.sqf";
-[] spawn compileFinal preprocessFileLineNumbers "scripts\server\patrols\ambient_patrols.sqf";
+//[] spawn compileFinal preprocessFileLineNumbers "scripts\server\patrols\ambient_patrols.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\resources\manage_resources.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\resources\recalculate_resources.sqf";
 [] spawn compileFinal preprocessFileLineNumbers "scripts\server\resources\recalculate_timer.sqf";

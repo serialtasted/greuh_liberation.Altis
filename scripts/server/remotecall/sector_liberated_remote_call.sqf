@@ -28,7 +28,8 @@ if (isServer) then {
 	if ( GRLIB_passive_income ) then {
  		resources_ammo = resources_ammo + (floor (random 20));
  	};
-
+	
+	civ_aggression = civ_aggression - (_combat_readiness_increase * 0.75);
 	combat_readiness = combat_readiness + _combat_readiness_increase;
 	if ( combat_readiness > 100.0 && GRLIB_difficulty_modifier <= 2.0 ) then { combat_readiness = 100.0 };
 	stats_readiness_earned = stats_readiness_earned + _combat_readiness_increase;
@@ -49,8 +50,6 @@ if (isServer) then {
 	};
 	
 	if ( GRLIB_blufor_defenders && GRLIB_delay_allow_defenders ) then {
-		//[markerpos _liberated_sector, false, GRLIB_side_friendly, 3, false, true, _liberated_sector, "random", 1400, true, false, 6, "default", [false,false,true,false], nil, "this addMPEventHandler ['MPKilled', {_this spawn kill_manager}]", 2, false] spawn F_LVreinforcementChopper;
-		
 		_rValue = 1;
 		if ( (random combat_readiness) > (20 + (30 / GRLIB_csat_aggressivity) ) ) then {
 			_rvalue = 3;

@@ -211,6 +211,7 @@ class RscTitles
 		text = "res\ui_fuel.paa";
 	  };
 	  class PictureCap : GenericPicture69 {
+		idc = 134;
 		y = (0.4 + ( ICONE_SPACY * 3 ) ) * safezoneH + safezoneY;
 		text = "\a3\Ui_F_Curator\Data\Displays\RscDisplayCurator\modeGroups_ca.paa";
 	  };
@@ -240,6 +241,7 @@ class RscTitles
 		colorText[] = {0,0,0,0.7};
 	  };
 	  class PictureCapShadow : PictureCap {
+		idc = -1;
 		y = (0.4 + SHADOW_Y + ( ICONE_SPACY * 3 ) ) * safezoneH + safezoneY;
 		x = (0.985 + SHADOW_X) * safezoneW + safezoneX;
 		colorText[] = {0,0,0,0.7};

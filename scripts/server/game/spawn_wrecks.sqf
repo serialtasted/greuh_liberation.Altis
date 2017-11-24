@@ -117,12 +117,12 @@ while {(count _roadsArray) > 0} do {
 				if(isMultiplayer)then{
 					_trig setTriggerStatements[
 						"{vehicle _x in thisList && speed vehicle _x>5}count playableUnits>0",
-						"{if((typeOf _x)in iedAmmo)then{[_x]call iedAct;};}forEach nearestObjects[thisTrigger,[],10];",
+						"{if((typeOf _x)in iedAmmo)then{[_x]call iedAct;};}forEach nearestObjects[thisTrigger,[],25];",
 						"deleteVehicle thisTrigger"];
 				}else{
 					_trig setTriggerStatements[
 						"{vehicle _x in thisList && isPlayer vehicle _x && speed vehicle _x>5}count allUnits>0",
-						"{if((typeOf _x)in iedAmmo)then{[_x]call iedAct;};}forEach nearestObjects[thisTrigger,[],10];",
+						"{if((typeOf _x)in iedAmmo)then{[_x]call iedAct;};}forEach nearestObjects[thisTrigger,[],25];",
 						"deleteVehicle thisTrigger"];
 				};
 				

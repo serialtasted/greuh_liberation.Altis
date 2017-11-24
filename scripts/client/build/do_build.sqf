@@ -484,8 +484,23 @@ while { true } do {
 									_vehicle landAt -1;
 									[_vehicle] spawn {
 										_vehicle = _this select 0;
+										
+										waitUntil { _vehicle distance2D ussfreedom < 300 || isTouchingGround _vehicle };
+										
+										_vel = velocity _vehicle;
+										_dir = 0;
+										if ( (direction ussfreedom) > 180 && (direction ussfreedom) < 360 ) then { _dir = (direction ussfreedom) - 120 }
+										else { _dir = (direction ussfreedom) + 120 };
+										_speed = 5;
+										_vehicle setVelocity [
+											(_vel select 0) - (sin _dir * _speed), 
+											(_vel select 1) - (cos _dir * _speed), 
+											(_vel select 2)
+										];
+										
 										waitUntil { isTouchingGround _vehicle };
-										sleep 2;
+										
+										sleep 1.5;
 										_vehicle setVelocity [0,0,0];
 									};
 								};

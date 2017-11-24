@@ -69,9 +69,9 @@ F_openArmoury = compileFinal preprocessFileLineNumbers "scripts\shared\functions
 F_applyColorCorrection = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_applyColorCorrection.sqf";
 F_mortarAttack = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_mortarAttack.sqf";
 F_sectorManipulation = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_sectorManipulation.sqf";
+F_suicideBomber = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_suicideBomber.sqf";
 
 // LV FUNCTIONS
 F_LVambientCombat = compileFinal preprocessFileLineNumbers "LV\ambientCombat.sqf";
 F_LVheliParadrop = compileFinal preprocessFileLineNumbers "LV\heliParadrop.sqf";
 F_LVmilitarize = compileFinal preprocessFileLineNumbers "LV\militarize.sqf";
-F_LVreinforcementChopper = compileFinal preprocessFileLineNumbers "LV\reinforcementChopper.sqf";

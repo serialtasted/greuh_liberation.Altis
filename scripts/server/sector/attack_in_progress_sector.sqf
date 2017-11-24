@@ -24,7 +24,20 @@ if ( GRLIB_blufor_defenders ) then {
 	if ( combat_readiness >= 60 ) then { _force = 7 * floor(count blufor_sectors / 10) };
 	if ( combat_readiness >= 95 ) then { _force = 9 * floor(count blufor_sectors / 10) };
 	if ( combat_readiness >= 70 && ((count blufor_sectors / (count sectors_factory + count sectors_military + count sectors_tower)) * 100) >= 50 ) then { _useair = true };
-	[markerpos _sector, GRLIB_side_friendly, 15, [true,false], [true,false,_useair], false, [3,_force], [0, floor(_force/2)], "default", nil, "this addMPEventHandler ['MPKilled', {_this spawn kill_manager}]", 1] spawn F_LVmilitarize;
+	[
+		markerpos _sector,
+		GRLIB_side_friendly,
+		15,
+		[true,false],
+		[true,false,_useair],
+		false,
+		[3,_force],
+		[0, floor(_force/2)],
+		"default",
+		nil,
+		"this addMPEventHandler ['MPKilled', {_this spawn kill_manager}]",
+		1
+	] spawn F_LVmilitarize;
 };
 
 sleep 60;

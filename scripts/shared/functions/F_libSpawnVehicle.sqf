@@ -21,7 +21,7 @@ if ( _precise_position ) then {
 };
 
 _newvehicle = objNull;
-if ( _classname in opfor_choppers ) then {
+if ( _classname in opfor_choppers || _classname == BLU_ParaHeli || _classname == OPF_ParaHeli || _classname == IND_ParaHeli ) then {
 	_newvehicle = createVehicle [_classname, _spawnpos, [], 0, 'FLY'];
 	_newvehicle flyInHeight (100 + (random 200));
 } else {

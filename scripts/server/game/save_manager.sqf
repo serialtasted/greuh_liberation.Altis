@@ -24,6 +24,7 @@ GRLIB_all_fobs = [];
 buildings_to_save= [];
 mines_to_save = [];
 combat_readiness = 0;
+civ_aggression = 0;
 saved_ammo_res = 0;
 _recycled_ammo_res = 0;
 stats_opfor_soldiers_killed = 0;
@@ -84,14 +85,15 @@ greuh_liberation_savegame = profileNamespace getVariable GRLIB_save_key;
 
 if ( !isNil "greuh_liberation_savegame" ) then {
 
-	blufor_sectors = greuh_liberation_savegame select 0;
-	GRLIB_all_fobs = greuh_liberation_savegame select 1;
-	buildings_to_save = greuh_liberation_savegame select 2;
-	time_of_day = greuh_liberation_savegame select 3;
-	combat_readiness = greuh_liberation_savegame select 4;
-	date_year = greuh_liberation_savegame select 5;
-	date_month = greuh_liberation_savegame select 6;
-	date_day = greuh_liberation_savegame select 7;
+	if ( count greuh_liberation_savegame > 0 ) then { blufor_sectors = greuh_liberation_savegame select 0 };
+	if ( count greuh_liberation_savegame > 1 ) then { GRLIB_all_fobs = greuh_liberation_savegame select 1 };
+	if ( count greuh_liberation_savegame > 2 ) then { buildings_to_save = greuh_liberation_savegame select 2 };
+	if ( count greuh_liberation_savegame > 3 ) then { time_of_day = greuh_liberation_savegame select 3 };
+	if ( count greuh_liberation_savegame > 4 ) then { combat_readiness = greuh_liberation_savegame select 4 };
+	if ( count greuh_liberation_savegame > 18 ) then { civ_aggression = greuh_liberation_savegame select 18 };
+	if ( count greuh_liberation_savegame > 5 ) then { date_year = greuh_liberation_savegame select 5 };
+	if ( count greuh_liberation_savegame > 6 ) then { date_month = greuh_liberation_savegame select 6 };
+	if ( count greuh_liberation_savegame > 7 ) then { date_day = greuh_liberation_savegame select 7 };
 
 	if ( "capture_13_1_2_26_25" in blufor_sectors ) then { // Patching Molos Airfield which was a town instead of a factory
 		blufor_sectors = blufor_sectors - [ "capture_13_1_2_26_25" ];
@@ -817,8 +819,31 @@ while { true } do {
 		_stats pushback stats_fobs_lost;
 		_stats pushback stats_readiness_earned;
 
-		greuh_liberation_savegame = [ blufor_sectors, GRLIB_all_fobs, buildings_to_save, time_of_day,round combat_readiness, date select 0, date select 1, date select 2, round resources_ammo, _stats,
-		[ round infantry_weight, round armor_weight, round air_weight ], GRLIB_vehicle_to_military_base_links, GRLIB_permissions, ai_groups, resources_intel, GRLIB_player_scores, mines_to_save, (missionNamespace getVariable ["specops_mode", 0]) ];
+		greuh_liberation_savegame = [ 
+			blufor_sectors,
+			GRLIB_all_fobs,
+			buildings_to_save,
+			time_of_day,
+			round combat_readiness,
+			date select 0,
+			date select 1,
+			date select 2,
+			round resources_ammo,
+			_stats,
+			[
+				round infantry_weight,
+				round armor_weight,
+				round air_weight
+			],
+			GRLIB_vehicle_to_military_base_links,
+			GRLIB_permissions,
+			ai_groups,
+			resources_intel,
+			GRLIB_player_scores,
+			mines_to_save,
+			(missionNamespace getVariable ["specops_mode", 0]),
+			round civ_aggression
+		];
 
 		profileNamespace setVariable [ GRLIB_save_key, greuh_liberation_savegame ];
 		saveProfileNamespace;

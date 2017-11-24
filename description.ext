@@ -20,15 +20,17 @@ joinUnassigned = 0;										// 0 = players forced into role on join
 showUAVFeed = 1;										// Enables/Disables the UAV Feed. Zeus-related.
 enableDebugConsole = 1;
 allowFunctionsLog = 0;
+briefing = 0;
+debriefing = 0;
 
 showCompass = true;
 showWatch = true;
 showGPS = false;
 showMap = true;
 showRadio = false;
-debriefing = true;
 
 //------------------------- Respawn
+
 Respawn = 3;											// 0 = none. 1 = bird. 2 = instant where died. 3 = base or respawn_west marker. 4 = respawn with team, or bird. 5 = into AI or bird.
 RespawnDelay = 15;										// Delay prior to respawn
 RespawnButton = 0;
