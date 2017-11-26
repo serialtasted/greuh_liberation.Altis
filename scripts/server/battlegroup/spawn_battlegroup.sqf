@@ -23,8 +23,8 @@ if ( _spawn_marker != "" ) then {
 
 	_selected_opfor_battlegroup = [];
 	_target_size = GRLIB_battlegroup_size * ([] call F_adaptiveOpforFactor) * (sqrt GRLIB_csat_aggressivity);
-	if ( _target_size >= 10 ) then { _target_size = 10 };
-	if ( combat_readiness < 60 ) then { _target_size = round (_target_size * 0.65) };
+	if ( _target_size >= 8 ) then { _target_size = 8 };
+	if ( combat_readiness < 60 ) then { _target_size = round (_target_size * 0.45) };
 	while { count _selected_opfor_battlegroup < _target_size } do {
 		_selected_opfor_battlegroup pushback (_vehicle_pool call BIS_fnc_selectRandom);
 	};
@@ -56,7 +56,7 @@ if ( _spawn_marker != "" ) then {
 		
 		for "_i" from 0 to _randomInt do {
 			diag_log format["# HELIPARADROP"];
-			[_target_pos, GRLIB_side_enemy, true, false, ((_target_pos distance2D _spawn_pos) + random [100,300,600]), _target_pos getDir _spawn_pos, true, 250, round(random[300,450,600]), 6, 0.2, 130, false, false, false, true, (_this select 0), false, "default", nil, nil, 1, false] spawn F_LVheliParadrop;
+			[_target_pos, GRLIB_side_enemy, true, false, ((_target_pos distance2D _spawn_pos) + random [100,300,600]), _target_pos getDir _spawn_pos, true, 250, 200, 6, 0.2, 60, false, false, false, true, (_this select 0), false, "default", nil, nil, 1, false] spawn F_LVheliParadrop;
 			sleep 4;
 		};
 	};

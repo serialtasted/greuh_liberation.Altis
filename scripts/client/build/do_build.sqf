@@ -478,10 +478,11 @@ while { true } do {
 							if ( _vehicle isKindOf "Plane" && !((typeOf _vehicle) in uavs) ) then {
 								
 								_vehicle land "LAND";
-								if ( _airportid != 99 ) then {
+								if ( _airportid < 100 ) then {
 									_vehicle landAt _airportid;
 								} else {
-									_vehicle landAt -1;
+									_dynamicAirport = (allAirports select 1) select (_airportid - 100);
+									_vehicle landAt _dynamicAirport;
 									[_vehicle] spawn {
 										_vehicle = _this select 0;
 										
@@ -507,7 +508,7 @@ while { true } do {
 								
 								_airportname = "";
 								switch (_airportid) do {
-									case 99: {_airportname = "USS Freedom"};
+									case 100: {_airportname = "USS Freedom"};
 									default {
 										_nearest_sector = [2000, (getMarkerPos _airportmarker)] call F_getNearestSector;
 										if ( _nearest_sector != "" ) then { _airportname = (markertext _nearest_sector) };

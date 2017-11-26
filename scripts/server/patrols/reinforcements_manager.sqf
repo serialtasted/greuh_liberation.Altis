@@ -37,7 +37,7 @@ if ( combat_readiness > 15 ) then {
 				
 				_randomInt = round(random _rValue);
 				for "_i" from 0 to _randomInt do {
-					[markerpos _targetsector, GRLIB_side_enemy, true, false, 1400, "random", true, 250, round(random[300,450,600]), 6, 0.2, 130, false, false, false, true, _targetsector, false, "default", nil, "this addMPEventHandler ['MPKilled', {_this spawn kill_manager}]", 1, false] spawn F_LVheliParadrop;
+					[markerpos _targetsector, GRLIB_side_enemy, true, false, 1400, "random", true, 250, 200, 6, 0.2, 60, false, false, false, true, _targetsector, false, "default", nil, "this addMPEventHandler ['MPKilled', {_this spawn kill_manager}]", 1, false] spawn F_LVheliParadrop;
 				};
 				stats_reinforcements_called = stats_reinforcements_called + 1;
 			};

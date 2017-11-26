@@ -29,9 +29,12 @@ if (isServer) then {
  		resources_ammo = resources_ammo + (floor (random 20));
  	};
 	
-	civ_aggression = civ_aggression - (_combat_readiness_increase * 0.75);
+	civ_aggression = civ_aggression - (_combat_readiness_increase * 0.20);
+	if ( civ_aggression < 0 ) then { civ_aggression = 0 };
+	
 	combat_readiness = combat_readiness + _combat_readiness_increase;
 	if ( combat_readiness > 100.0 && GRLIB_difficulty_modifier <= 2.0 ) then { combat_readiness = 100.0 };
+	
 	stats_readiness_earned = stats_readiness_earned + _combat_readiness_increase;
 	[_liberated_sector, 0] remoteExec ["remote_call_sector"];
 
@@ -56,8 +59,8 @@ if (isServer) then {
 		};
 		
 		_randomInt = round(random _rValue);
-		for "_i" from 0 to _randomInt do {
-			[markerpos _liberated_sector, GRLIB_side_friendly, true, false, 1400, "random", true, 250, 200, 6, 0.2, 130, false, false, false, true, _liberated_sector, false, "default", nil, "this addMPEventHandler ['MPKilled', {_this spawn kill_manager}]", 1, false] spawn F_LVheliParadrop;
+		for "_i" from 1 to _randomInt do {
+			[markerpos _liberated_sector, GRLIB_side_friendly, true, false, 1400, "random", true, 250, 200, 6, 0.2, 80, false, false, false, true, _liberated_sector, false, "default", nil, "this addMPEventHandler ['MPKilled', {_this spawn kill_manager}]", 1, false] spawn F_LVheliParadrop;
 		};
 		
 		[] spawn {

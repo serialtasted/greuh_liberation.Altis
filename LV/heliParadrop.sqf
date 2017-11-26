@@ -62,7 +62,7 @@ private ["_mp","_grp","_heliType","_men","_grp2","_center","_man1","_man2","_lan
 _doorHandling = true;
 //
 
-_landingSpot = if (count _this > 0) then {_this select 0};
+_landingSpot = if (count _this > 0) then {(_this select 0) getPos [ random 600, random 360 ]};
 _side = if (count _this > 1) then {_this select 1}else{EAST};
 _allowDamage = if (count _this > 2) then {_this select 2}else{true};
 _captive = if (count _this > 3) then {_this select 3}else{false};
@@ -320,7 +320,11 @@ if(_patrol)then{
 		};
 	}else{
 		if(_target in allMapMarkers)then{ /////TARGET is single Marker
-			{ _x doMove getMarkerPos _target; } forEach units _grp2;
+			if ( side _grp2 == GRLIB_side_enemy ) then {
+				[_grp2, _target, "SAD", "COMBAT", "RED", "NORMAL"] spawn F_cyclePatrol;
+			} else {
+				[_grp2, _target] spawn F_cyclePatrol;
+			};
 		}else{
 				{ ////TARGET is single Unit/Object
 					_x setVariable ["target0",_target,false];

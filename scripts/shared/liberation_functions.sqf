@@ -70,6 +70,7 @@ F_applyColorCorrection = compileFinal preprocessFileLineNumbers "scripts\shared\
 F_mortarAttack = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_mortarAttack.sqf";
 F_sectorManipulation = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_sectorManipulation.sqf";
 F_suicideBomber = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_suicideBomber.sqf";
+F_cyclePatrol = compileFinal preprocessFileLineNumbers "scripts\shared\functions\F_cyclePatrol.sqf";
 
 // LV FUNCTIONS
 F_LVambientCombat = compileFinal preprocessFileLineNumbers "LV\ambientCombat.sqf";
